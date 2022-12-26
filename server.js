@@ -2,8 +2,9 @@ var express = require("express");
 var exphbs =require('express-handlebars')
 var path=require("path");
 var app = express();
-http = require('http')
-var connect = require('./db')
+http = require('http');
+var dotenv = require("dotenv").config();
+var connect = require('./db');
 
 
 
