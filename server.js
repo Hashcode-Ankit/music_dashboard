@@ -3,6 +3,8 @@ var exphbs =require('express-handlebars')
 var path=require("path");
 var app = express();
 http = require('http')
+var connect = require('./db')
+
 
 
 // adding assets to use css and html
@@ -46,6 +48,10 @@ res.render(path.join(__dirname,"/views/tables.hbs"))
 app.get("/you-tube-req", async function(req,res){
 res.render(path.join(__dirname,"/views/overview.hbs"))
 });
+
+// db connection
+connect.connectDb()
+connect.initialize()
 
 // listening on 8080 
 // TODO: Add to listen on different port passed as env var
