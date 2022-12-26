@@ -1,9 +1,11 @@
 // DB Interactions CRUD
 
+
 const Sequelize = require('sequelize');
 
-var sequelize = new Sequelize('lgvgdkwm','lgvgdkwm','xYf3IfZ9q1ibCxxU4jaesoLg0mIJV_tv',{
-    host: 'rosie.db.elephantsql.com',
+
+var sequelize = new Sequelize(process.env.database,process.env.user,process.env.password,{
+    host: process.env.host,
     dialect: 'postgres',
     port: 5432,
     dialectOptions: {
@@ -20,7 +22,7 @@ const connectDb = async ()=>{
         console.log('Connection has established successfully');
     })
     .catch((err)=>{
-        console.log(err);
+        console.log("Postgres connection failed :",err);
     })
 }
 
@@ -37,7 +39,7 @@ var Album = sequelize.define('Album', {
         allowNull:false,
     },
     draft:{
-        type:Sequelize.STRING
+        type:Sequelize.BOOLEAN
     },
     imageUrl:{
         type:Sequelize.STRING,
@@ -81,84 +83,89 @@ var Album = sequelize.define('Album', {
         required:true,
     },
     producerCatalogueNumber:{
-        type:Sequelize.INTEGER,
+        type:Sequelize.STRING,
         required:true,
+    },
+    songs:{
+        type:Sequelize.ARRAY(Sequelize.INTEGER),
+        defaultValue:[],
     }
 })
 
 
 async function initialize(){
     return await sequelize.sync().then(()=> {
-        console.log("Connected")
+        console.log("Postgres Database Successfully Connected");
     }).catch(()=> {
-        reject("Unable to Sync to the Database")
+        console.log("Unable to Connect with Postgres Database check username and password");
     });
 }
 
 
-//get all songs 
-async function getAllSongs(){
+//get all Albums 
+async function getAllAlbums(){
     return await Album.findAll()
     .catch((err)=>{
-        console.log(err)
+        console.log("unable to get songs from postgres",err)
     })
 }
 
 
-//get a song
-async function getSong(songId){
+//get an Album
+async function getAlbum(albumId){
     return await Album.findAll(
         {
             where:{
-                id:songId
+                id:albumId
             }
         }
     ).catch((err)=>{
-        console.log(err)
+        console.log("Unable to get a album",err)
     })
 }
 
 
-// create a song 
-async function addSong(){
+// create an album
+async function addAlbum(){
     return await Album.create({
-    }).then((song)=>{
-        console.log("Successfully added")
+    }).then((album)=>{
+        console.log("album added successfully")
     }).catch((err)=>{
-        console.log(err)
+        console.log("Unable to add album ",err)
     })    
 }
 
-//update a song
-async function updateSong(songId, updateInfo ){
+//update an Album
+async function updateAlbum(albumId, updateInfo ){
     return await Album.update({updateInfo},
         {
-        where: { id: songId }
+        where: { id: albumId }
         }
     ).then((data)=>{
-        console.log(`Successfully updated ${songId}`)
+        console.log(`Successfully updated ${albumId}`)
     }).catch((err)=>{
-        console.log(err)
+        console.log("Unable to update album",err)
     })
 }
 
-//delete a song
-async function deleteSong(songId){
+//delete an Album
+async function deleteAlbum(albumId){
     return await Album.destroy({
         where:{
-            id:songId,
+            id:albumId,
         }
-    }).then((song)=>{
-        console.log(`deleted successfully ${songId}`)
+    }).then((album)=>{
+        console.log(`deleted successfully ${albumId}`)
     }).catch((err)=>{
-        console.log(err)
+        console.log("Unable to delete the album",err)
     })    
 }
 
-// getAllSongs()
-// deleteSong()
-// getSong()
-// updateSong()
+// getAllAlbums()
+// deleteAlbum()
+// getAlbum()
+// updateAlbum()
 
 
-module.exports = {connectDb,initialize,addSong,getAllSongs,deleteSong,updateSong,getSong}
+module.exports = {connectDb,initialize,addAlbum,getAllAlbums,deleteAlbum,updateAlbum,getAlbum}
+
