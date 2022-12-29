@@ -95,11 +95,12 @@ var Album = sequelize.define('Album', {
 
 async function initialize(){
     return await sequelize.sync().then(()=> {
-        console.log("Postgres Database Successfully Connected");
+        console.log("Postgres Database Successfully initialized");
     }).catch(()=> {
-        console.log("Unable to Connect with Postgres Database check username and password");
+        console.log("Unable to initialize Postgres Database check username and password");
     });
 }
+
 
 
 //get all Albums 
@@ -142,9 +143,9 @@ async function updateAlbum(albumId, updateInfo ){
         where: { id: albumId }
         }
     ).then((data)=>{
-        console.log(`Successfully updated ${albumId}`)
+        console.log(`album Successfully updated with ${albumId}`)
     }).catch((err)=>{
-        console.log("Unable to update album",err)
+        console.log("Unable to update album id :",err,albumId)
     })
 }
 
@@ -155,9 +156,9 @@ async function deleteAlbum(albumId){
             id:albumId,
         }
     }).then((album)=>{
-        console.log(`deleted successfully ${albumId}`)
+        console.log(`album deleted successfully ${albumId}`)
     }).catch((err)=>{
-        console.log("Unable to delete the album",err)
+        console.log("Unable to delete the album id :",err,albumId)
     })    
 }
 
@@ -168,4 +169,3 @@ async function deleteAlbum(albumId){
 
 
 module.exports = {connectDb,initialize,addAlbum,getAllAlbums,deleteAlbum,updateAlbum,getAlbum}
-
