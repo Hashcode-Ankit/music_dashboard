@@ -3,10 +3,7 @@ var exphbs =require('express-handlebars')
 var path=require("path");
 var app = express();
 http = require('http');
-var dotenv = require("dotenv").config();
-var connect = require('./db');
-
-
+const api = require('./api');
 
 // adding assets to use css and html
 app.use(express.static(__dirname + '/assets'));
@@ -50,11 +47,19 @@ app.get("/you-tube-req", async function(req,res){
 res.render(path.join(__dirname,"/views/overview.hbs"))
 });
 
-// db connection
-connect.connectDb()
-connect.initialize()
+
 
 // listening on 8080 
 // TODO: Add to listen on different port passed as env var
-app.listen(8080)
-console.log("server is listening at port 8080")
+api.connectWithDB().then((info)=>{
+  console.info(info)
+  api.initializeDatabase().then(()=>{
+    app.listen(8080)
+    console.log("server is listening at port 8080")
+  }).catch((err)=>{
+    console.error("err:",err)
+  })
+}).catch((err)=>{
+  console.error("err",err)
+})
+

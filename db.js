@@ -1,10 +1,11 @@
-// DB Interactions CRUD
+// DB Interactions CRUD returns promises only and file exposed to api only 
 
+const { info } = require('console');
 const Sequelize = require('sequelize');
 
 
-var sequelize = new Sequelize(process.env.database,process.env.user,process.env.password,{
-    host: process.env.host,
+var sq = new Sequelize("lgvgdkwm","lgvgdkwm","xYf3IfZ9q1ibCxxU4jaesoLg0mIJV_tv",{
+    host: "rosie.db.elephantsql.com",
     dialect: 'postgres',
     port: 5432,
     dialectOptions: {
@@ -17,30 +18,31 @@ var sequelize = new Sequelize(process.env.database,process.env.user,process.env.
 
 //Db Connection
 const connectDb = async ()=>{
-    return await sequelize
-    .authenticate()
-    .then(()=>{
-        console.log('Connection has established successfully');
-    })
-    .catch((err)=>{
-        console.log("Postgres connection failed :",err);
-    })
+    return await sq.authenticate()
 }
 
+
 // Album model
-var Album = sequelize.define('Album', {
+var Album = sq.define('Album', {
     id:{
         type:Sequelize.INTEGER,
         allowNull:false,
         unique:true,
         primaryKey:true,
     },
-    ReleaseTitle:{
+    userID:{
+        type:Sequelize.INTEGER,
+        allowNull:false,
+    },
+    releaseTitle:{
         type:Sequelize.STRING,
         allowNull:false,
     },
     draft:{
-        type:Sequelize.BOOLEAN
+        type:Sequelize.BOOLEAN,
+    },
+    approved:{
+        type:Sequelize.BOOLEAN,
     },
     imageUrl:{
         type:Sequelize.STRING,
@@ -90,10 +92,13 @@ var Album = sequelize.define('Album', {
     songs:{
         type:Sequelize.ARRAY(Sequelize.INTEGER),
         defaultValue:[],
+    },
+    stores:{
+        type:Sequelize.ARRAY(Sequelize.INTEGER),
+        defaultValue:[],
     }
 })
-
-
+// After connecting  and defining models initialize the db 
 //Label model
 var Label = sequelize.define('Label',{
     title:{
@@ -110,20 +115,22 @@ var Label = sequelize.define('Label',{
 
 
 async function initialize(){
-    return await sequelize.sync().then(()=> {
-        console.log("Postgres Database Successfully initialized");
-    }).catch(()=> {
-        console.log("Unable to initialize Postgres Database check username and password");
-    });
-}
-
-
-
+    return new Promise((resolve,reject)=>{
+     setTimeout(()=>{
+         sq.sync({ force: true }).then(()=> {
+            resolve("Postgres Database Successfully initialized");
+         }).catch((err)=> {
+             reject("Unable to initialize Postgres Database check schema of tables",err)
+         });   
+     },3000)
+     
+ })
+ }
 // get all Albums 
 async function getAllAlbums(){
     return await Album.findAll()
     .catch((err)=>{
-        console.log("unable to get songs from postgres",err)
+       return Error("unable to get songs from postgres",err)
     })
 }
 
