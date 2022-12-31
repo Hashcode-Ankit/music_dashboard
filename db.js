@@ -1,6 +1,5 @@
 // DB Interactions CRUD
 
-
 const Sequelize = require('sequelize');
 
 
@@ -13,6 +12,8 @@ var sequelize = new Sequelize(process.env.database,process.env.user,process.env.
     },
     query: { raw: true }
 });
+
+
 
 //Db Connection
 const connectDb = async ()=>{
@@ -93,6 +94,21 @@ var Album = sequelize.define('Album', {
 })
 
 
+//Label model
+var Label = sequelize.define('Label',{
+    title:{
+        type:Sequelize.STRING,
+        unique:true,
+    },
+    youtubeLink:{
+        type:Sequelize.STRING,
+    },
+    noObjectionFile:{
+        type:Sequelize.STRING
+    } 
+})
+
+
 async function initialize(){
     return await sequelize.sync().then(()=> {
         console.log("Postgres Database Successfully initialized");
@@ -103,13 +119,14 @@ async function initialize(){
 
 
 
-//get all Albums 
+// get all Albums 
 async function getAllAlbums(){
     return await Album.findAll()
     .catch((err)=>{
         console.log("unable to get songs from postgres",err)
     })
 }
+
 
 
 //get an Album
@@ -162,10 +179,80 @@ async function deleteAlbum(albumId){
     })    
 }
 
-// getAllAlbums()
-// deleteAlbum()
-// getAlbum()
-// updateAlbum()
+//create a label
+const addLabel = async (req,res)=>{
+    const label = await Label.create(req.body);
+    res.status(200).json({label})
+    .then(()=>{
+        console.log("Label added Successfully");
+    })
+    .catch((err)=>{
+        console.log("Unable to add the label :", err)
+    })
+}
 
 
-module.exports = {connectDb,initialize,addAlbum,getAllAlbums,deleteAlbum,updateAlbum,getAlbum}
+//get all labels
+const getAllLabels = async (req,res)=>{
+    const labels = await Label.findAll()
+    res.status(200).json({labels})
+    .catch((err)=>{
+        console.log("Unable to get labels from postgress",err)
+    })
+}
+
+
+//get a label
+const getLabel = async (req,res)=>{
+    const label  = await Label.find({
+        where:{
+            title:req.body.title,
+        }
+    })
+    res.status(200).json({label})
+    .catch((err)=>{
+        console.log("Unable to get a label",err)
+    })
+}
+
+//update a label
+const updateLabel = async (req,res)=>{
+    const label = await Label.update({
+        where:{
+            title:req.body.title
+        }
+    }, req.body)
+    if(!label){
+        res.status(404).json({msg:`No label found with title ${req.body.title}`})
+    }
+    res.status(200).json({" updatedLabel ":label})
+    .then((data)=>{
+        console.log("label Successfully updated ")
+    }).catch((err)=>{
+        console.log("Unable to update label:",err)
+    })
+}
+
+//delete a label
+const deleteLabel = async (req,res)=>{
+    const label = await Label.destroy({
+        where:{
+            title:req.body.title,
+        }
+    })
+    if(!label){
+        res.status(404).json({msg:`No label found with title ${req.body.title}`})
+    }
+    res.status(200).json({msg:"Label deleted successfully"})
+    .then((label)=>{
+        console.log(`label deleted successfully with title ${req.body.title}`)
+    }).catch((err)=>{
+        console.log("Unable to delete the label :",err)
+    })  
+}
+
+
+
+
+
+module.exports = {connectDb,initialize,addAlbum,getAllAlbums,deleteAlbum,updateAlbum,getAlbum,addLabel,getAllLabels,getLabel,updateLabel,deleteLabel}
