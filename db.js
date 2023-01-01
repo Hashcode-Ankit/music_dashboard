@@ -31,7 +31,7 @@ var Album = sq.define('Album', {
         primaryKey:true,
     },
     userID:{
-        type:Sequelize.INTEGER,
+        type:Sequelize.STRING,
         allowNull:false,
     },
     releaseTitle:{
@@ -98,21 +98,34 @@ var Album = sq.define('Album', {
         defaultValue:[],
     }
 })
-// After connecting  and defining models initialize the db 
 //Label model
-var Label = sequelize.define('Label',{
+var Label = sq.define('Label',{
+    id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: Sequelize.INTEGER
+      },
     title:{
         type:Sequelize.STRING,
         unique:true,
     },
+    userID:{
+        type:Sequelize.STRING,
+        allowNull:false,
+    },
     youtubeLink:{
         type:Sequelize.STRING,
+    },
+    approved:{
+        type:Sequelize.BOOLEAN,
     },
     noObjectionFile:{
         type:Sequelize.STRING
     } 
 })
 
+// After connecting  and defining models initialize the db 
 
 async function initialize(){
     return new Promise((resolve,reject)=>{
@@ -126,6 +139,7 @@ async function initialize(){
      
  })
  }
+
 // get all Albums 
 async function getAllAlbums(){
     return await Album.findAll()
@@ -133,8 +147,6 @@ async function getAllAlbums(){
        return Error("unable to get songs from postgres",err)
     })
 }
-
-
 
 //get an Album
 async function getAlbum(albumId){
@@ -151,9 +163,8 @@ async function getAlbum(albumId){
 
 
 // create an album
-async function addAlbum(){
-    return await Album.create({
-    }).then((album)=>{
+async function addAlbum(album){
+    return await Album.create(album).then(()=>{
         console.log("album added successfully")
     }).catch((err)=>{
         console.log("Unable to add album ",err)
@@ -187,27 +198,19 @@ async function deleteAlbum(albumId){
 }
 
 //create a label
-const addLabel = async (req,res)=>{
-    const label = await Label.create(req.body);
-    res.status(200).json({label})
-    .then(()=>{
-        console.log("Label added Successfully");
-    })
-    .catch((err)=>{
-        console.log("Unable to add the label :", err)
-    })
+async function addLabelForUser(labelData){
+    return Label.create(labelData)
 }
 
 
 //get all labels
-const getAllLabels = async (req,res)=>{
-    const labels = await Label.findAll()
-    res.status(200).json({labels})
-    .catch((err)=>{
-        console.log("Unable to get labels from postgress",err)
+async function getAllLabels(userdID){
+    return Label.findAll({ 
+        where:{
+            userID:userdID,
+        }
     })
 }
-
 
 //get a label
 const getLabel = async (req,res)=>{
@@ -262,4 +265,4 @@ const deleteLabel = async (req,res)=>{
 
 
 
-module.exports = {connectDb,initialize,addAlbum,getAllAlbums,deleteAlbum,updateAlbum,getAlbum,addLabel,getAllLabels,getLabel,updateLabel,deleteLabel}
+module.exports = {connectDb,initialize,addAlbum,getAllAlbums,deleteAlbum,updateAlbum,getAlbum,addLabelForUser,getAllLabels,getLabel,updateLabel,deleteLabel}
