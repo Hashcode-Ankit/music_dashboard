@@ -259,11 +259,6 @@ function addLabel(labelData){
     }) 
 }
 
-//add label for user
-function addLabelForUser(){
-
-}
-
 //get all labels
 function getAllLabels(userID){
     return new Promise((resolve,reject)=>{
@@ -401,4 +396,4 @@ function deleteArtist(artistId){
 }
 
 
-module.exports = {connectDb,initialize,addAlbum,getAllAlbums,deleteAlbum,updateAlbum,getAlbum,addLabelForUser,addLabel,getAllLabels,getLabel,updateLabel,deleteLabel,getAllArtists,getArtist,addArtist,updateArtist,deleteArtist}
+module.exports = {connectDb,initialize,addAlbum,getAllAlbums,deleteAlbum,updateAlbum,getAlbum,addLabel,getAllLabels,getLabel,updateLabel,deleteLabel,getAllArtists,getArtist,addArtist,updateArtist,deleteArtist}

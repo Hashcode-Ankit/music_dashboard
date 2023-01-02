@@ -62,7 +62,7 @@ function getDraftAlbumsForUser(userID){
         .then(function(data){
             let albums = [];
             for(let i=0;i<data.length;i++){
-                if(data.draft===false){
+                if(!data.draft){
                     albums.push(data[i]);
                 }
             }
@@ -85,7 +85,7 @@ function getNonApprovedAlbums(userID){
         .then(function(data){
             let albums = [];
             for(let i=0;i<data.length;i++){
-                if(data.approved===false){
+                if(!data.approved){
                     albums.push(data[i]);
                 }
             }
