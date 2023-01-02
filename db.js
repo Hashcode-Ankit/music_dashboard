@@ -100,7 +100,7 @@ var Album = sq.define('Album', {
 })
 // After connecting  and defining models initialize the db 
 //Label model
-var Label = sequelize.define('Label',{
+var Label = sq.define('Label',{
     title:{
         type:Sequelize.STRING,
         unique:true,
@@ -114,7 +114,37 @@ var Label = sequelize.define('Label',{
 })
 
 
-async function initialize(){
+//Artist model
+var Artist = sq.define('Artist',{
+    id:{
+        type:Sequelize.INTEGER,
+        primaryKey:true
+    },
+    name:{
+        type:Sequelize.STRING,
+        allowNull:false,
+    },
+    instagramId:{
+        type:Sequelize.STRING,
+    },
+    spotifyId:{
+        type:Sequelize.STRING,
+    },
+    appleId:{
+        type:Sequelize.INTEGER,
+    },
+    facebookUrl:{
+        type:Sequelize.STRING,
+    },
+    wynkId:{
+        type:Sequelize.INTEGER,
+    },
+    action:{
+        type:Sequelize.STRING
+    }
+})
+
+function initialize(){
     return new Promise((resolve,reject)=>{
      setTimeout(()=>{
          sq.sync({ force: true }).then(()=> {
@@ -126,140 +156,231 @@ async function initialize(){
      
  })
  }
+
+
 // get all Albums 
-async function getAllAlbums(){
-    return await Album.findAll()
-    .catch((err)=>{
-       return Error("unable to get songs from postgres",err)
+function getAllAlbums(userID){
+    return new Promise((resolve,reject)=>{
+        Album.findAll({
+            where:{
+                userID:userID,
+            }
+        }).then(function(data){
+            resolve(data);
+        }).catch(function(error){
+            reject(Error("Unable to get songs from postgres :",error))
+        })
     })
 }
 
 
 
 //get an Album
-async function getAlbum(albumId){
-    return await Album.findAll(
-        {
+function getAlbum(albumId){
+    return new Promise((resolve,reject)=>{
+        Album.findAll({
             where:{
-                id:albumId
+                id:albumId,
             }
-        }
-    ).catch((err)=>{
-        console.log("Unable to get a album",err)
+        }).then(function(data){
+          resolve(data) ;
+       }).catch(function(error){
+          reject(Error("Unable to get a album :",error))
+      });
     })
 }
 
 
 // create an album
-async function addAlbum(){
-    return await Album.create({
-    }).then((album)=>{
-        console.log("album added successfully")
-    }).catch((err)=>{
-        console.log("Unable to add album ",err)
-    })    
+function addAlbum(albumData){
+    return new Promise((resolve,reject)=>{
+        Album.create({albumData})
+        .then(function(){
+            resolve("album added successfully")
+        }).catch(function(error){
+            reject("Unable to add album :",error)
+        })
+    })  
 }
 
 //update an Album
-async function updateAlbum(albumId, updateInfo ){
-    return await Album.update({updateInfo},
-        {
-        where: { id: albumId }
-        }
-    ).then((data)=>{
-        console.log(`album Successfully updated with ${albumId}`)
-    }).catch((err)=>{
-        console.log("Unable to update album id :",err,albumId)
+function updateAlbum(albumId, updateInfo ){
+    return new Promise((resolve,reject)=>{
+        Album.update({updateInfo},
+            {
+                where: { 
+                    id: albumId 
+                }
+            }
+        ).then(function(){
+            resolve(`album Successfully updated with ${albumId}`)
+        }).catch(function(error){
+            reject("Unable to update album :",error)
+        })
     })
 }
 
 //delete an Album
-async function deleteAlbum(albumId){
-    return await Album.destroy({
-        where:{
-            id:albumId,
-        }
-    }).then((album)=>{
-        console.log(`album deleted successfully ${albumId}`)
-    }).catch((err)=>{
-        console.log("Unable to delete the album id :",err,albumId)
-    })    
+function deleteAlbum(albumId){ 
+    return new Promise((resolve,reject)=>{
+        Album.destroy({
+            where:{
+                id:albumId,
+            }
+        }).then(()=>{
+            resolve(`album deleted successfully ${albumId}`)
+        }).catch((error)=>{
+            reject("Unable to delete the album :",error)
+        })
+    })  
 }
 
+
 //create a label
-const addLabel = async (req,res)=>{
-    const label = await Label.create(req.body);
-    res.status(200).json({label})
-    .then(()=>{
-        console.log("Label added Successfully");
-    })
-    .catch((err)=>{
-        console.log("Unable to add the label :", err)
-    })
+function addLabel(labelData){
+    return new Promise((resolve,reject)=>{
+        Label.create({labelData})
+        .then(()=>{
+            resolve("label added successfully")
+        }).catch((error)=>{
+            reject("Unable to add label :",error)
+        })
+    }) 
 }
 
 
 //get all labels
-const getAllLabels = async (req,res)=>{
-    const labels = await Label.findAll()
-    res.status(200).json({labels})
-    .catch((err)=>{
-        console.log("Unable to get labels from postgress",err)
+function getAllLabels(){
+    return new Promise((resolve,reject)=>{
+        Label.findAll().then(function(data){
+            resolve(data);
+        }).catch((error)=>{
+            reject(Error("Unable to get Labels from postgres",error))
+        })
     })
 }
 
 
 //get a label
-const getLabel = async (req,res)=>{
-    const label  = await Label.find({
-        where:{
-            title:req.body.title,
-        }
-    })
-    res.status(200).json({label})
-    .catch((err)=>{
-        console.log("Unable to get a label",err)
+function getLabel(labelTitle){
+    return new Promise((resolve,reject)=>{
+        Label.findAll({
+            where:{
+                title:labelTitle,
+            }
+        }).then(function(data){
+          resolve(data) ;
+       }).catch(function(error){
+          reject(Error("Unable to get a label :",error))
+      });
     })
 }
 
 //update a label
-const updateLabel = async (req,res)=>{
-    const label = await Label.update({
-        where:{
-            title:req.body.title
-        }
-    }, req.body)
-    if(!label){
-        res.status(404).json({msg:`No label found with title ${req.body.title}`})
-    }
-    res.status(200).json({" updatedLabel ":label})
-    .then((data)=>{
-        console.log("label Successfully updated ")
-    }).catch((err)=>{
-        console.log("Unable to update label:",err)
+function updateLabel(labelTitle, updateInfo ){
+    return new Promise((resolve,reject)=>{
+        Album.update({updateInfo},
+            {
+                where: { 
+                    title:labelTitle,
+                }
+            }
+        ).then(function(){
+            resolve(`label Successfully updated with title ${labelTitle}`)
+        }).catch(function(error){
+            reject("Unable to update label :",error)
+        })
     })
 }
 
+
 //delete a label
-const deleteLabel = async (req,res)=>{
-    const label = await Label.destroy({
-        where:{
-            title:req.body.title,
-        }
+function deleteLabel(labelTitle){ 
+    return new Promise((resolve,reject)=>{
+        Album.destroy({
+            where:{
+                title:labelTitle,
+            }
+        }).then(()=>{
+            resolve(`label deleted successfully with title ${labelTitle}`)
+        }).catch((error)=>{
+            reject("Unable to delete the label :",error)
+        })
+    })  
+}
+
+//get all artists
+function getAllArtists(){
+    return new Promise((resolve,reject)=>{
+        Artist.findAll().then(function(data){
+            resolve(data);
+        }).catch(function(error){
+            reject(Error("Unable to get artists from postgres :",error))
+        })
     })
-    if(!label){
-        res.status(404).json({msg:`No label found with title ${req.body.title}`})
-    }
-    res.status(200).json({msg:"Label deleted successfully"})
-    .then((label)=>{
-        console.log(`label deleted successfully with title ${req.body.title}`)
-    }).catch((err)=>{
-        console.log("Unable to delete the label :",err)
+}
+
+
+//get a artist
+function getArtist(artistId){
+    return new Promise((resolve,reject)=>{
+        Label.findAll({
+            where:{
+                id:artistId,
+            }
+        }).then(function(data){
+          resolve(data) ;
+       }).catch(function(error){
+          reject(Error("Unable to get an artist :",error))
+      });
+    })
+}
+
+
+//create an artist
+function addArtist(artistData){
+    return new Promise((resolve,reject)=>{
+        Label.create({artistData})
+        .then(()=>{
+            resolve("artist added successfully")
+        }).catch((error)=>{
+            reject("Unable to add artist :",error)
+        })
+    }) 
+}
+
+
+//update an artist
+function updateArtist(artistId, updateInfo ){
+    return new Promise((resolve,reject)=>{
+        Album.update({updateInfo},
+            {
+                where: { 
+                    id:artistId,
+                }
+            }
+        ).then(function(){
+            resolve(`artist Successfully updated with id ${artistId}`)
+        }).catch(function(error){
+            reject("Unable to update an artist :",error)
+        })
+    })
+}
+
+//delete an artist
+function deleteArtist(artistId){ 
+    return new Promise((resolve,reject)=>{
+        Album.destroy({
+            where:{
+                id:artistId,
+            }
+        }).then(()=>{
+            resolve(`artist Successfully updated with id ${artistId}`)
+        }).catch((error)=>{
+            reject("Unable to delete an artist :",error)
+        })
     })  
 }
 
 
-
-
-
-module.exports = {connectDb,initialize,addAlbum,getAllAlbums,deleteAlbum,updateAlbum,getAlbum,addLabel,getAllLabels,getLabel,updateLabel,deleteLabel}
+module.exports = {connectDb,initialize,addAlbum,getAllAlbums,deleteAlbum,updateAlbum,getAlbum,addLabel,getAllLabels,getLabel,updateLabel,deleteLabel,getAllArtists,getArtist,addArtist,updateArtist,deleteArtist}
