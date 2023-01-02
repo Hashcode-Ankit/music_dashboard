@@ -25,6 +25,7 @@
     <script src="../js/charts-pie.js" defer></script>
   </head>
   <body>
+ {{#if session.user}}
     <div
       class="flex h-screen bg-gray-50 dark:bg-gray-900"
       :class="{ 'overflow-hidden': isSideMenuOpen }"
@@ -255,8 +256,8 @@
                   <li
                     class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                   >
-                    <a class="w-full" href="pages/create-account.html">
-                      Create account
+                    <a class="w-full" href="#">
+                      Watch Tutorial
                     </a>
                   </li>
                   <li
@@ -284,8 +285,7 @@
             <button
               class="flex items-center justify-between w-full px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
             >
-              Create account
-              <span class="ml-2" aria-hidden="true">+</span>
+             Watch Tutorial
             </button>
           </div>
         </div>
@@ -536,8 +536,8 @@
                   <li
                     class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                   >
-                    <a class="w-full" href="pages/create-account.html">
-                      Create account
+                    <a class="w-full" href="#">
+                      Watch Tutorial
                     </a>
                   </li>
                   <li
@@ -565,8 +565,7 @@
             <button
               class="flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
             >
-              Create account
-              <span class="ml-2" aria-hidden="true">+</span>
+              Watch Tutorial
             </button>
           </div>
         </div>
@@ -740,7 +739,7 @@
                 >
                   <img
                     class="object-cover w-8 h-8 rounded-full"
-                    src="https://images.unsplash.com/photo-1502378735452-bc7d86632805?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&s=aa3a807e1bbdfd4364d1f449eaa96d82"
+                    src="../img/user.png"
                     alt=""
                     aria-hidden="true"
                   />
@@ -803,7 +802,7 @@
                     <li class="flex">
                       <a
                         class="inline-flex items-center w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200"
-                        href="#"
+                        href="/logout"
                       >
                         <svg
                           class="w-4 h-4 mr-3"
@@ -832,5 +831,8 @@
           {{{body}}}
       </div>
     </div>
+   {{else}}
+      {{{body}}}
+    {{/if}} 
   </body>
 </html>

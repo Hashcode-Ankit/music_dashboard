@@ -31,7 +31,7 @@ var Album = sq.define('Album', {
         primaryKey:true,
     },
     userID:{
-        type:Sequelize.INTEGER,
+        type:Sequelize.STRING,
         allowNull:false,
     },
     releaseTitle:{
@@ -98,27 +98,41 @@ var Album = sq.define('Album', {
         defaultValue:[],
     }
 })
-// After connecting  and defining models initialize the db 
 //Label model
 var Label = sq.define('Label',{
+    id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: Sequelize.INTEGER
+      },
     title:{
         type:Sequelize.STRING,
         unique:true,
     },
+    userID:{
+        type:Sequelize.STRING,
+        allowNull:false,
+    },
     youtubeLink:{
         type:Sequelize.STRING,
+    },
+    approved:{
+        type:Sequelize.BOOLEAN,
     },
     noObjectionFile:{
         type:Sequelize.STRING
     } 
 })
 
+// After connecting  and defining models initialize the db 
 
 //Artist model
 var Artist = sq.define('Artist',{
     id:{
         type:Sequelize.INTEGER,
-        primaryKey:true
+        primaryKey:true,
+        allowNull: false,
     },
     name:{
         type:Sequelize.STRING,
@@ -157,7 +171,6 @@ function initialize(){
  })
  }
 
-
 // get all Albums 
 function getAllAlbums(userID){
     return new Promise((resolve,reject)=>{
@@ -172,8 +185,6 @@ function getAllAlbums(userID){
         })
     })
 }
-
-
 
 //get an Album
 function getAlbum(albumId){
@@ -248,11 +259,19 @@ function addLabel(labelData){
     }) 
 }
 
+//add label for user
+function addLabelForUser(){
+
+}
 
 //get all labels
-function getAllLabels(){
+function getAllLabels(userID){
     return new Promise((resolve,reject)=>{
-        Label.findAll().then(function(data){
+        Label.findAll({
+            where:{
+                id:userID
+            }
+        }).then(function(data){
             resolve(data);
         }).catch((error)=>{
             reject(Error("Unable to get Labels from postgres",error))
@@ -260,13 +279,12 @@ function getAllLabels(){
     })
 }
 
-
 //get a label
-function getLabel(labelTitle){
+function getLabel(labelId){
     return new Promise((resolve,reject)=>{
         Label.findAll({
             where:{
-                title:labelTitle,
+                id:labelId,
             }
         }).then(function(data){
           resolve(data) ;
@@ -277,16 +295,16 @@ function getLabel(labelTitle){
 }
 
 //update a label
-function updateLabel(labelTitle, updateInfo ){
+function updateLabel(labelId, updateInfo ){
     return new Promise((resolve,reject)=>{
         Album.update({updateInfo},
             {
                 where: { 
-                    title:labelTitle,
+                    id:labelId,
                 }
             }
         ).then(function(){
-            resolve(`label Successfully updated with title ${labelTitle}`)
+            resolve(`label Successfully updated with id ${labelId}`)
         }).catch(function(error){
             reject("Unable to update label :",error)
         })
@@ -295,14 +313,14 @@ function updateLabel(labelTitle, updateInfo ){
 
 
 //delete a label
-function deleteLabel(labelTitle){ 
+function deleteLabel(labelId){ 
     return new Promise((resolve,reject)=>{
         Album.destroy({
             where:{
-                title:labelTitle,
+                id:labelId,
             }
         }).then(()=>{
-            resolve(`label deleted successfully with title ${labelTitle}`)
+            resolve(`label deleted successfully with id ${labelId}`)
         }).catch((error)=>{
             reject("Unable to delete the label :",error)
         })
@@ -383,4 +401,4 @@ function deleteArtist(artistId){
 }
 
 
-module.exports = {connectDb,initialize,addAlbum,getAllAlbums,deleteAlbum,updateAlbum,getAlbum,addLabel,getAllLabels,getLabel,updateLabel,deleteLabel,getAllArtists,getArtist,addArtist,updateArtist,deleteArtist}
+module.exports = {connectDb,initialize,addAlbum,getAllAlbums,deleteAlbum,updateAlbum,getAlbum,addLabelForUser,addLabel,getAllLabels,getLabel,updateLabel,deleteLabel,getAllArtists,getArtist,addArtist,updateArtist,deleteArtist}

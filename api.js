@@ -1,27 +1,32 @@
 // API's to the Frontend
 const db = require('./db');
-
+const mongo = require('./mongo');
 
 // db connections
 function connectWithDB(){
     return db.connectDb()
 }
+
+
 function initializeDatabase(){
-    return db.initialize()
+   return new Promise((resolve, reject) => {
+      db.initialize().then(()=>{
+        mongo.initialize().then(()=>{
+            resolve("connected")
+        }).catch((err)=>{
+            reject("failed with err:",err)
+        })
+      }).catch((err)=>{
+        reject("failed with err:",err)
+      })
+   })
 }
 
 
 // APIS return promises
 
 function getAllAlbumsForUser(userID){
-    return new Promise((resolve,reject)=>{
-         db.getAllAlbums(userID)
-        .then(function(data){
-          resolve(data) ;
-       }).catch(function(error){
-          reject(Error(`Unable to get albums for userId :${userID}`,error))
-      });
-    })
+    return db.getAllAlbums(userID)
 }
 
 function getAllSongsForAlbum(albumID){
@@ -30,22 +35,25 @@ function getAllSongsForAlbum(albumID){
         .then(function(data){
             resolve(data.songs) ;
          }).catch(function(error){
-            reject(Error("Unable to get a album :",error))
+            reject(Error("Unable to get songs from album :",error))
         });
     })
 }
+
 function authenticateUser(username,password){
 
 }
 function getAllLabelsForUser(userID){
-    return new Promise((resolve,reject)=>{
-        Label.findAll()
-        .then(function(data){
-            resolve(data);
-        }).catch((error)=>{
-            reject(Error("Unable to get Labels from postgres",error))
-        })
-    })
+    return db.getAllLabels(userID)
+}
+function addLabelForUserWithID(labelData,userID){
+        label ={
+            "title" : labelData.title,
+            "userID":userID,
+            "youtubeLink":labelData.youtube,
+            "noObjectionFile":labelData.filename
+        }
+        return db.addLabelForUser(label)
 }
 // run the query to get all albums which are mentioned draft = false and related to userID
 function getDraftAlbumsForUser(userID){
@@ -65,9 +73,6 @@ function getDraftAlbumsForUser(userID){
     })
 }
 function getNews(){
-
-}
-function registerUser(username,password,email,contactInfo){
 
 }
 function getPaymentInfoForUserID(userID){
@@ -90,6 +95,7 @@ function getNonApprovedAlbums(userID){
         })
     })
 }
+
 function getPrimaryArtistForUserID(userID){
     return new Promise((resolve,reject)=>{
         db.getAlbum(userID)
@@ -109,46 +115,65 @@ function editUserInfo(){
 function deleteUser(){
 
 }
-function editAlbum(){
-    return new Promise((resolve,reject)=>{
-        db.updateAlbum()
-        .then(function(){
-            resolve(`album Successfully updated with ${albumId}`)
-        }).catch(function(error){
-            reject("Unable to update album :",error)
-        })
-    })
+function editAlbum(updatedAlbum){
+    return db.updateAlbum(updatedAlbum)
 }
 function deleteAblum(albumId){
-    return new Promise((resolve,reject)=>{
-        db.deleteAlbum(albumId)
-        .then(()=>{
-            resolve(`album deleted successfully ${albumId}`)
-        }).catch((error)=>{
-            reject("Unable to delete the album :",error)
-        })
-    })
+    return db.deleteAlbum(albumId)
 }
-function deleteLabel(labelTitle){
-    return new Promise((resolve,reject)=>{
-        db.deleteLabel(labelTitle)
-        .then(()=>{
-            resolve(`label deleted successfully with title ${labelTitle}`)
-        }).catch((error)=>{
-            reject("Unable to delete the label :",error)
-        })
-    }) 
+function deleteLabel(labelId){
+    return db.deleteLabel(labelId) 
 }
 function albumApproved(albumID){
     return new Promise((resolve,reject)=>{
         db.getAlbum(albumID)
         .then((data)=>{
-            resolve(data)
+            if(data.approved){
+                resolve(data)
+            }
+        }).catch((error)=>{
+            reject(Error("Album is not approved :",error))
         })
     })
 }
 // draft = false store for albumID
 function removeDraft(albumID){
-    
+    return new Promise((resolve,reject)=>{
+        db.getAlbum(albumID)
+        .then((data)=>{
+            if(data.draft){
+                data.draft=false
+            }
+            resolve()
+        }).catch((error)=>{
+            reject(Error("Unable to remove draft",error))
+        })
+    })
 }
-module.exports = {connectWithDB,initializeDatabase,getAllAlbumsForUser,getAllSongsForAlbum}
+// register 
+function registerUser(userData){
+    return new Promise((resolve, reject) => {
+        if(userData.pass1 != userData.pass2){
+            reject("Password does not match");
+        }
+        mongo.userExist(userData).then(()=>{
+            userToStore = {
+                "email":userData.email,
+                "password":userData.pass1,
+                "contact":userData.mobile
+             }
+            mongo.registerUser(userToStore).then(()=>{
+                resolve()
+                }).catch((err)=>{
+                    reject(err)
+                })
+        }).catch(()=>{
+           reject("user already exist or choose different email")
+        })
+    })
+}
+// login
+function login(userData){
+    return mongo.loginUser(userData)
+}
+module.exports = {connectWithDB,initializeDatabase,getAllAlbumsForUser,getAllSongsForAlbum,getDraftAlbumsForUser,getNonApprovedAlbums,getPrimaryArtistForUserID,registerUser,editAlbum,deleteAblum,deleteLabel,albumApproved,removeDraft,login,addLabelForUserWithID,getAllLabelsForUser}
