@@ -6,6 +6,8 @@ const mongo = require('./mongo');
 function connectWithDB(){
     return db.connectDb()
 }
+
+
 function initializeDatabase(){
    return new Promise((resolve, reject) => {
       db.initialize().then(()=>{
@@ -24,11 +26,20 @@ function initializeDatabase(){
 // APIS return promises
 
 function getAllAlbumsForUser(userID){
-
+    return db.getAllAlbums(userID)
 }
+
 function getAllSongsForAlbum(albumID){
-
+    return new Promise((resolve,reject)=>{
+        db.getAlbum(albumID)
+        .then(function(data){
+            resolve(data.songs) ;
+         }).catch(function(error){
+            reject(Error("Unable to get songs from album :",error))
+        });
+    })
 }
+
 function authenticateUser(username,password){
 
 }
@@ -46,7 +57,20 @@ function addLabelForUserWithID(labelData,userID){
 }
 // run the query to get all albums which are mentioned draft = false and related to userID
 function getDraftAlbumsForUser(userID){
-
+    return new Promise((resolve,reject)=>{
+        db.getAllAlbums(userID)
+        .then(function(data){
+            let albums = [];
+            for(let i=0;i<data.length;i++){
+                if(!data.draft){
+                    albums.push(data[i]);
+                }
+            }
+            resolve(albums)
+        }).catch((error)=>{
+            reject(Error("Unable to get albums from postgres",error))
+        })
+    })
 }
 function getNews(){
 
@@ -56,10 +80,31 @@ function getPaymentInfoForUserID(userID){
 }
 // run the query to get all albums which are mentioned approved = false and related to userID
 function getNonApprovedAlbums(userID){
-
+    return new Promise((resolve,reject)=>{
+        db.getAllAlbums(userID)
+        .then(function(data){
+            let albums = [];
+            for(let i=0;i<data.length;i++){
+                if(!data.approved){
+                    albums.push(data[i]);
+                }
+            }
+            resolve(albums)
+        }).catch((error)=>{
+            reject(Error("Unable to get albums from postgres",error))
+        })
+    })
 }
-function getPrimaryArtistForUserID(userID){
 
+function getPrimaryArtistForUserID(userID){
+    return new Promise((resolve,reject)=>{
+        db.getAlbum(userID)
+        .then((data)=>{
+            resolve(data.primaryArtistName)
+        }).catch((error)=>{
+            reject(Error("Unable to get primary artist from postgres", error))
+        })
+    })
 }
 function getUserInfo(userID){
   
@@ -70,21 +115,40 @@ function editUserInfo(){
 function deleteUser(){
 
 }
-function editAlbum(){
-
+function editAlbum(updatedAlbum){
+    return db.updateAlbum(updatedAlbum)
 }
-function deleteAblum(){
-
+function deleteAblum(albumId){
+    return db.deleteAlbum(albumId)
 }
-function deleteLabel(){
-
+function deleteLabel(labelId){
+    return db.deleteLabel(labelId) 
 }
 function albumApproved(albumID){
-
+    return new Promise((resolve,reject)=>{
+        db.getAlbum(albumID)
+        .then((data)=>{
+            if(data.approved){
+                resolve(data)
+            }
+        }).catch((error)=>{
+            reject(Error("Album is not approved :",error))
+        })
+    })
 }
 // draft = false store for albumID
 function removeDraft(albumID){
-    
+    return new Promise((resolve,reject)=>{
+        db.getAlbum(albumID)
+        .then((data)=>{
+            if(data.draft){
+                data.draft=false
+            }
+            resolve()
+        }).catch((error)=>{
+            reject(Error("Unable to remove draft",error))
+        })
+    })
 }
 // register 
 function registerUser(userData){
@@ -112,4 +176,4 @@ function registerUser(userData){
 function login(userData){
     return mongo.loginUser(userData)
 }
-module.exports = {connectWithDB,initializeDatabase,getAllAlbumsForUser,registerUser,login,addLabelForUserWithID,getAllLabelsForUser}
+module.exports = {connectWithDB,initializeDatabase,getAllAlbumsForUser,getAllSongsForAlbum,getDraftAlbumsForUser,getNonApprovedAlbums,getPrimaryArtistForUserID,registerUser,editAlbum,deleteAblum,deleteLabel,albumApproved,removeDraft,login,addLabelForUserWithID,getAllLabelsForUser}
