@@ -1,0 +1,986 @@
+<style>
+  main h1 {
+    text-align: center;
+  }
+
+  main h2 {
+    margin: 0;
+  }
+ main .err{
+    color: red;
+    margin: 10px;
+ }
+  main #multi-step-form-container {
+    margin-top: 1rem;
+  }
+
+  main .text-center {
+    text-align: center;
+  }
+
+  main .mx-auto {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  main .pl-0 {
+    padding-left: 0;
+  }
+
+  main .button {
+    padding: 0.7rem 1.5rem;
+    border: 1px solid #7e3af2;
+    background-color: #7e3af2;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  main .submit-btn {
+    border: 1px solid #7e3af2;
+    background-color: #7e3af2;
+  }
+
+  main .d-none {
+    display: none;
+  }
+
+  main .form-step {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    padding-inline: 1rem;
+  }
+
+  main .font-normal {
+    font-weight: normal;
+  }
+
+  main ul.form-stepper {
+    counter-reset: section;
+    margin-bottom: 1rem;
+  }
+
+  main ul.form-stepper .form-stepper-circle {
+    position: relative;
+  }
+
+  main ul.form-stepper .form-stepper-circle span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateY(-50%) translateX(-50%);
+  }
+
+  main .form-stepper-horizontal {
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+  }
+
+  main ul.form-stepper>li:not(:last-of-type) {
+    margin-bottom: 0.625rem;
+    -webkit-transition: margin-bottom 0.4s;
+    -o-transition: margin-bottom 0.4s;
+    transition: margin-bottom 0.4s;
+  }
+
+  main .form-stepper-horizontal>li:not(:last-of-type) {
+    margin-bottom: 0 !important;
+  }
+
+  main .form-stepper-horizontal li {
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    -webkit-box-align: start;
+    -ms-flex-align: start;
+    align-items: start;
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+  }
+
+  main .form-stepper-horizontal li:not(:last-child):after {
+    position: relative;
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    height: 1px;
+    content: "";
+    top: 32%;
+  }
+
+  main .form-stepper-horizontal li:after {
+    background-color: #dee2e6;
+  }
+
+  main .form-stepper-horizontal li.form-stepper-completed:after {
+    background-color: #7e3af2;
+  }
+
+  main .form-stepper-horizontal li:last-child {
+    flex: unset;
+  }
+
+  main .margin {
+    margin: 10px;
+  }
+
+  main ul.form-stepper li a .form-stepper-circle {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    margin-right: 0;
+    line-height: 1.7rem;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.38);
+    border-radius: 50%;
+  }
+
+  main .form-stepper .form-stepper-active .form-stepper-circle {
+    background-color: #bcadd5;
+    color: #fff;
+  }
+
+  main .form-stepper .form-stepper-active .label {
+    color: black;
+  }
+
+  main .form-stepper .form-stepper-active .form-stepper-circle:hover {
+    background-color: #bcadd5;
+    color: #fff !important;
+  }
+
+  main .form-stepper .form-stepper-unfinished .form-stepper-circle {
+    background-color: #f8f7ff;
+  }
+
+  main .form-stepper .form-stepper-completed .form-stepper-circle {
+    background-color: #7e3af2 !important;
+    color: #fff;
+  }
+
+  main .form-stepper .form-stepper-completed .label {
+    color: #7e3af2 !important;
+  }
+
+  main .form-stepper .form-stepper-completed .form-stepper-circle:hover {
+    background-color: #7e3af2 !important;
+    color: #fff !important;
+  }
+
+  main .form-stepper .form-stepper-active span.text-muted {
+    color: #fff !important;
+  }
+
+  main .form-stepper .form-stepper-completed span.text-muted {
+    color: #fff !important;
+  }
+
+  main .form-stepper .label {
+    font-size: 1rem;
+    margin-top: 0.5rem;
+  }
+
+  .form-stepper a {
+    cursor: default;
+  }
+
+  main input {
+    padding-inline: 10px;
+    height: 40px;
+    width: 100%;
+    font-size: 17px;
+    font-family: Raleway;
+    border: 1px solid #a789da;
+    border-radius: 5px;
+    margin-bottom: 10px;
+  }
+
+  main label {
+    margin-bottom: 10px;
+    font-family: sans-serif;
+    font-size: 1rem;
+  }
+
+  main input.invalid {
+    background-color: #ae87f2;
+  }
+
+  main select {
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+    padding: 2px 5px;
+  }
+
+  main canvas {
+    height: 100px;
+    width: 130;
+    border-style: solid;
+    border-width: 1px;
+    border-color: black;
+  }
+
+  main #myInput {
+    background-image: url('/css/searchicon.png');
+    background-position: 10px 10px;
+    background-repeat: no-repeat;
+    width: 100%;
+    font-size: 16px;
+    padding: 12px 20px 12px 40px;
+    border: 1px solid #ddd;
+    margin-bottom: 12px;
+  }
+
+  main .table {
+    border-collapse: collapse;
+    width: 100%;
+    border: 1px solid #ddd;
+    font-size: 18px;
+  }
+
+  main .table th,
+  #myTable td {
+    text-align: left;
+    padding: 12px;
+    text-align: center;
+  }
+
+  main .table tr {
+    border-bottom: 1px solid #ddd;
+
+  }
+
+  main .table tr.header,
+  .table tr:hover {
+    background-color: #f1f1f1;
+  }
+
+  main td {
+    padding: 8px 16px;
+    border: 1px solid #ccc;
+    text-align: center;
+  }
+
+  main .ActionDiv {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  @media only screen and (min-width: 1000px) {
+    main .container {
+      padding-inline: 10px;
+
+      display: table;
+      table-layout: fixed;
+      width: 100%;
+
+
+    }
+
+    main .item {
+      /* float:left; */
+      display: table-cell;
+      vertical-align: middle;
+      padding-inline: 10px;
+    }
+  }
+
+  main .avatar {
+    vertical-align: middle;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+  }
+
+  main .column {
+    float: left;
+    width: 50%;
+    padding: 5px;
+  }
+
+  /* Clearfix (clear floats) */
+  main .row::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+</style>
+
+<main class="h-full pb-16 overflow-y-auto">
+  <div class="container px-6 mx-auto grid">
+    <!-- multistep form -->
+    <div>
+      <div id="multi-step-form-container">
+        <!-- Form Steps / Progress Bar -->
+        <ul class="form-stepper form-stepper-horizontal text-center mx-auto pl-0">
+          <!-- Step 1 -->
+          <li class="form-stepper-active text-center form-stepper-list" step="1">
+            <a class="mx-2">
+              <span class="form-stepper-circle">
+                <span>1</span>
+              </span>
+              <div class="label">Release</div>
+            </a>
+          </li>
+          <!-- Step 2 -->
+          <li class="form-stepper-unfinished text-center form-stepper-list" step="2">
+            <a class="mx-2">
+              <span class="form-stepper-circle text-muted">
+                <span>2</span>
+              </span>
+              <div class="label text-muted">Upload Assets</div>
+            </a>
+          </li>
+          <!-- Step 3 -->
+          <li class="form-stepper-unfinished text-center form-stepper-list" step="3">
+            <a class="mx-2">
+              <span class="form-stepper-circle text-muted">
+                <span>3</span>
+              </span>
+              <div class="label text-muted">Release Date</div>
+            </a>
+          </li>
+          <!-- Step 4 -->
+          <li class="form-stepper-unfinished text-center form-stepper-list" step="4">
+            <a class="mx-2">
+              <span class="form-stepper-circle text-muted">
+                <span>4</span>
+              </span>
+              <div class="label text-muted">Store</div>
+            </a>
+          </li>
+        </ul>
+
+        <!-- Step 1 Content -->
+        <section id="step-1" class="form-step">
+          <h1 id="errorShow"></h1>
+          <h4 class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300"
+            style="font-size: 20px;text-align:center;margin-top: 21px;">
+            &#127911; Release
+          </h4>
+          <!-- Step 1 input fields -->
+          <div class="mt-3">
+
+            <div class="container">
+
+              <div class="item">
+                <canvas id="canv1"></canvas>
+                <p style="width: 195px;">
+                  Upload Album Thumbnail:
+                  <input style="border:none;width: 260px;" type="file" multiple="false" accept="image/*" id="finput"
+                    name="thumbnail" onchange="upload()">
+                </p>
+
+                <label for="checkbox">Various Artist/Compilation</label><br />
+                <input type="checkbox" name="checkbox" value="yes"></input>
+                </p>
+
+              </div>
+
+              <div class="item">
+
+                <label for="">Album Title</label>
+                <input placeholder="ABC Track" type="" name="release-title" oninput="this.className = ''">
+                <label>Version/Subtitle </label><input placeholder="Version/Subtitle" type="version_subtitle"
+                  name="version" oninput="this.className = ''">
+                <label>Primary Artist </label><input placeholder="" type="" name="primary_artist"
+                  oninput="this.className = ''">
+                <label>Actor </label><input style="margin-bottom: 29px;" placeholder="Featuring" type="" name="actor"
+                  oninput="this.className = ''">
+
+                <p>
+
+              </div>
+            </div>
+
+            <div class="container">
+
+              <div class="item">
+
+                <label for="pet-select">Genre : </label>
+                <select name="genre" id="pet-select">
+                  <option value="">--Select Genre--</option>
+                  <option value="dog">Dog</option>
+                  <option value="cat">Cat</option>
+                </select>
+                <br>
+                <label for="pet-select">SubGenre : </label>
+                <select name="subgenre" id="pet-select">
+                  <option value="">--Select SubGenre--</option>
+                  <option value="dog">Dog</option>
+                  <option value="cat">Cat</option>
+                </select>
+                <br>
+                <label for="pet-select">Lable Name : </label>
+                <select name="lable_name" id="pet-select">
+                  <option value="">--Select Lable Name--</option>
+                  <option value="dog">Dog</option>
+                  <option value="cat">Cat</option>
+                </select> <br>
+                <label for="pet-select">Format : </label>
+                <select name="format" id="pet-select">
+                  <option value="">--Single--</option>
+                  <option value="dog">Dog</option>
+                  <option value="cat">Cat</option>
+                </select> <br>
+                <label for="pet-select">Production Year : </label>
+                <select name="production_year" id="pet-select">
+                  <option value="">--2022--</option>
+                  <option value="dog">Dog</option>
+                  <option value="cat">Cat</option>
+                </select> <br>
+                <label>Producer Catalogue Number</label>
+                <input placeholder="Producer Catalogue Number" type="" name="producer_catalogue_number"
+                  oninput="this.className = ''">
+              </div>
+
+              <div class="item">
+
+                <label>Phisical/Original release date </label><input placeholder="Version/Subtitle" type="date"
+                  name="physical_release_date" oninput="this.className = ''" required>
+                <label>Line1 </label><input placeholder="Line" type="" name="line1" oninput="this.className = ''">
+                <label>Line2 </label><input placeholder="Line" type="" name="line2" oninput="this.className = ''">
+                <label>UPC/EAN</label><input placeholder="UPC/EAN" type="" name="upc" oninput="this.className = ''">
+
+              </div>
+
+            </div>
+
+          </div>
+          <div class="mt-3" style="display: flex;
+        justify-content:end">
+            <button class="button btn-navigate-form-step margin" type="button" step_number="2">Save And Next</button>
+          </div>
+        </section>
+
+        <!-- Step 2 Content, default hidden on page load. -->
+        <section id="step-2" class="form-step d-none">
+          <h1 id="errorShow"></h1>
+          <h4 class="text-lg font-semibold text-gray-600 dark:text-gray-300"
+            style="font-size: 20px;text-align:center;margin-top: 21px;">
+            &#127911; Upload Assets
+          </h4>
+          <!-- Step 2 input fields -->
+          <div class="mt-3">
+            <div>
+              <p @click="openModal" style="width: 158px;"
+                class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+                Launch Uploader
+              </p>
+            </div>
+            <!-- Modal backdrop. This what you want to place close to the closing body tag -->
+            <div x-show="isModalOpen" x-transition:enter="transition ease-out duration-150"
+              x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+              x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100"
+              x-transition:leave-end="opacity-0"
+              class="fixed inset-0 z-30 flex items-end bg-black bg-opacity-50 sm:items-center sm:justify-center">
+              <!-- Modal -->
+              <div x-show="isModalOpen" x-transition:enter="transition ease-out duration-150"
+                x-transition:enter-start="opacity-0 transform translate-y-1/2" x-transition:enter-end="opacity-100"
+                x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100"
+                x-transition:leave-end="opacity-0  transform translate-y-1/2" @click.away="closeModal"
+                @keydown.escape="closeModal"
+                class="w-full px-6 py-4 overflow-hidden bg-white rounded-t-lg dark:bg-gray-800 sm:rounded-lg sm:m-4 sm:max-w-xl"
+                role="dialog" id="modal">
+                <!-- Remove header if you don't want a close icon. Use modal body to place modal tile. -->
+                <header class="flex justify-end">
+                  <p class="inline-flex items-center justify-center w-6 h-6 text-gray-400 transition-colors duration-150 rounded dark:hover:text-gray-200 hover: hover:text-gray-700"
+                    aria-label="close" @click="closeModal">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" role="img" aria-hidden="true">
+                      <path
+                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                        clip-rule="evenodd" fill-rule="evenodd"></path>
+                    </svg>
+                  </p>
+                </header>
+                <!-- Modal body -->
+                <div class="mb-6">
+                  <!-- Modal title -->
+                  <p class="mb-2 text-lg font-semibold text-gray-700 dark:text-gray-300">
+                    Upload Assets
+                  </p>
+                  <!-- Modal description -->
+                  <div id="target" style="margin-top: 10px;overflow-y: scroll; height:330px;">
+                  </div>
+                  <p style="text-align: right;margin: 10px;">
+                    <span style="width: 52px;text-align: center;margin-right:10px;"
+                      class="px-4 py-2 mb-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+                      id="addmore">
+                      <b>&plus;</b></span>
+                    <span style="width: 52px;text-align: center;" align="right"
+                      class="px-4 py-2 mb-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+                      id="remove">
+                      <b>&minus; </b>
+                    </span>
+                  </p>
+                </div>
+                <footer
+                  class="flex flex-col items-center justify-end px-6 py-3 -mx-6 -mb-4 space-y-4 sm:space-y-0 sm:space-x-6 sm:flex-row bg-gray-50 dark:bg-gray-800">
+                  <p @click="closeModal"
+                    class="w-full px-5 py-3 text-sm font-medium leading-5 text-white text-gray-700 transition-colors duration-150 border border-gray-300 rounded-lg dark:text-gray-400 sm:px-4 sm:py-2 sm:w-auto active:bg-transparent hover:border-gray-500 focus:border-gray-500 active:text-gray-500 focus:outline-none focus:shadow-outline-gray">
+                    Cancel
+                  </p>
+                  <p onclick="updateTable();" @click="closeModal"
+                    class="w-full px-5 py-3 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg sm:w-auto sm:px-4 sm:py-2 active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+                    Done
+                  </p>
+                </footer>
+              </div>
+            </div>
+            <!-- End of modal backdrop -->
+
+            {{!-- table --}}
+
+            <div class="container grid px-6 mx-auto">
+              <div class="w-full mb-8 overflow-hidden rounded-lg shadow-xs">
+                <div class="w-full overflow-x-auto">
+                  <table id="myTable" class="table" style="margin:5 0px">
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-3" style="display: flex;
+        justify-content: space-between;">
+              <button class="button btn-navigate-form-step" type="button" step_number="1">Prev</button>
+              <button class="button btn-navigate-form-step" type="button" step_number="3">Next</button>
+            </div>
+        </section>
+        <!-- Step 3 Content, default hidden on page load. -->
+        <section id="step-3" class="form-step d-none">
+          <h1 id="errorShow"></h1>
+          <h4 class="text-lg font-semibold text-gray-600 dark:text-gray-300"
+            style="font-size: 20px;text-align:center;margin-top: 21px;">
+            &#127911; Select Main Release Date
+          </h4>
+          <!-- Step 2 input fields -->
+          <div class="mt-3">
+            <label>Select Main release date </label><input placeholder="Version/Subtitle" type="date"
+              name="main_release_date" oninput="this.className = ''" required>
+          </div>
+          <div class="mt-3" style="display: flex;
+        justify-content: space-between;">
+            <button class="button btn-navigate-form-step" type="button" step_number="2">Prev</button>
+            <button class="button btn-navigate-form-step" type="button" step_number="4">Next</button>
+          </div>
+        </section>
+        <!-- Step 4 Content, default hidden on page load. -->
+        <section id="step-4" class="form-step d-none">
+          <h1 id="errorShow"></h1>
+          <h4 class="text-lg font-semibold text-gray-600 dark:text-gray-300"
+            style="font-size: 20px;text-align:center;margin-top: 21px;">
+            Select Companies To Store
+          </h4>
+          <!-- Step 4 input fields -->
+          <div class="mt-3">
+            <input type="button" onclick=' ()' style="width: 110px;background:#7e3af2;color:white;"
+              value="Select All" />
+            <input type="button" onclick='deSelect()' style="width: 110px;background:#7e3af2;color:white;"
+              value="Deselect All" />
+            <div class="row">
+              <div class="column" style="width: 33.33%;">
+                <div class="column">
+                  <img
+                    src="https://w7.pngwing.com/pngs/831/542/png-transparent-sony-music-logo-music-industry-production-companies-sony-company-text-music-video.png"
+                    alt="Snow" style="width:100%">
+                  <input type="checkbox" id="s1" class="lg" value="Sony1">
+                </div>
+                <div class="column">
+                  <img
+                    src="https://w7.pngwing.com/pngs/831/542/png-transparent-sony-music-logo-music-industry-production-companies-sony-company-text-music-video.png"
+                    alt="Snow" style="width:100%">
+                  <input type="checkbox" id="s2" class="lg" value="Sony2">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mt-3" style="display: flex;
+        justify-content: space-between;">
+            <button class="button btn-navigate-form-step" type="button" step_number="3">Prev</button>
+            <span @click="openModal" style="width: 86px;height: 40px;" onclick="preview();"
+              class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+              Preview
+            </span>
+            <!-- Modal backdrop. This what you want to place close to the closing body tag -->
+            <div x-show="isModalOpen" x-transition:enter="transition ease-out duration-150"
+              x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+              x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100"
+              x-transition:leave-end="opacity-0"
+              class="fixed inset-0 z-30 flex items-end bg-black bg-opacity-50 sm:items-center sm:justify-center">
+              <!-- Modal -->
+              <div x-show="isModalOpen" x-transition:enter="transition ease-out duration-150"
+                x-transition:enter-start="opacity-0 transform translate-y-1/2" x-transition:enter-end="opacity-100"
+                x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100"
+                x-transition:leave-end="opacity-0  transform translate-y-1/2" @click.away="closeModal"
+                @keydown.escape="closeModal"
+                class="w-full px-6 py-4 overflow-hidden bg-white rounded-t-lg dark:bg-gray-800 sm:rounded-lg sm:m-4 sm:max-w-xl"
+                role="dialog" id="modal">
+                <!-- Remove header if you don't want a close icon. Use modal body to place modal tile. -->
+                <header class="flex justify-end">
+                  <p class="inline-flex items-center justify-center w-6 h-6 text-gray-400 transition-colors duration-150 rounded dark:hover:text-gray-200 hover: hover:text-gray-700"
+                    aria-label="close" @click="closeModal">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" role="img" aria-hidden="true">
+                      <path
+                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                        clip-rule="evenodd" fill-rule="evenodd"></path>
+                    </svg>
+                  </p>
+                </header>
+                <!-- Modal body -->
+                <div class="mb-6">
+                  <!-- Modal title -->
+                  <p class="mb-2 text-lg font-semibold text-gray-700 dark:text-gray-300">
+                    Preview
+                  </p>
+                  <!-- Modal description -->
+                  <div id="preview" style="margin-top: 10px;overflow-y: scroll; height:70%">
+                  </div>
+                </div>
+                <footer
+                  class="flex flex-col items-center justify-end px-6 py-3 -mx-6 -mb-4 space-y-4 sm:space-y-0 sm:space-x-6 sm:flex-row bg-gray-50 dark:bg-gray-800">
+                  <p @click="closeModal"
+                    class="w-full px-5 py-3 text-sm font-medium leading-5 text-white text-gray-700 transition-colors duration-150 border border-gray-300 rounded-lg dark:text-gray-400 sm:px-4 sm:py-2 sm:w-auto active:bg-transparent hover:border-gray-500 focus:border-gray-500 active:text-gray-500 focus:outline-none focus:shadow-outline-gray">
+                    Cancel
+                  </p>
+                  <button @click="closeModal"
+                    class="button submit-btn w-full px-5 py-3 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg sm:w-auto sm:px-4 sm:py-2 active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+                    type="submit">Save</button>
+                </footer>
+              </div>
+            </div>
+          </div>
+        </section>
+        </form>
+      </div>
+    </div>
+  </div>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+  <script src="https://www.dukelearntoprogram.com/course1/common/js/image/SimpleImage.js"></script>
+  <script>
+    var songID = 1;
+    var id = 1;
+    var labelsMapForUser;
+    var isAlbumSaved = false;
+    $(document).ready(function () {
+      // jQuery methods go here...
+      $('#addmore').click(function () {
+        document.getElementById('target').innerHTML += `<input placeholder="" type="file" id=${songID} style="height:52px"name="song${songID}" oninput="this.className = ''">`;
+        songID = songID + 1;
+      });
+      $('#remove').click(function () {
+        if (songID > 2) {
+          document.getElementById(songID - 1).remove();
+          songID = songID - 1;
+        }
+      });
+    });
+    // don't touch logic
+
+      return 
+    function getAndVerifyAlbumValues(){
+        let albumValues = {
+        title : $('input[name="release-title"]').val(),
+        subTitle : $('input[name="version"]').val(),
+        albumImage : $('input[name="thumbnail"]').val(),
+        primaryArtist : $('input[name="primary_artist"]').val(),
+        actor : $('input[name="actor"]').val(),
+        genre : $('input[name="genre"]').val(),
+        subGenre : $('input[name="subgenre"]').val(),
+        labelID  :$('input[name="lable_name"]').val(),
+        format : $('input[name="format"]').val(),
+        originalReleaseDate : $('input[name="physical_release_date"]').val(),
+        various_artist : $('input[type="checkbox"]:checked').val()
+      }
+      return albumValues
+    }
+    const  saveAlbumData=async(albumData)=>{
+      let savedAlbumID = ""
+      const formData = new FormData();
+      for(const key in albumData){
+            formData.append(key, albumData[key]);         
+          } 
+      await fetch('/album-manage/addAlbum', {
+        method: 'POST',
+        body: formData
+      }).then(response => {
+            data = response.json()
+            savedAlbumID = data[albumID]
+        }).then(data => {
+          console.log('Successfully saved album:', data);
+        }).catch((error) => {
+          console.error(error)
+          return ""
+        });
+     
+    }
+    const navigateToFormStep = (stepNumber) => {
+      albumID = ""
+      // Check if data got saved if not not change the page 
+      // TODO: If data already saved then update by checking savedAlbumID
+      if(stepNumber == 2 && isAlbumSaved == false){
+          albumData = getAndVerifyAlbumValues()
+          let missingData = false
+          let text = `<p class ="err">Missing Fiels :`
+          for(const key in albumData){
+            console.log(key," : ",albumData[key])
+              if(albumData[key]==""){
+                  missingData = true
+                  text = text + `${key}, `
+              }
+          } 
+          if(missingData) {
+              document.getElementById("errorShow").innerHTML = text+`<p>`
+              return 
+          }else{
+            document.getElementById("errorShow").innerHTML =``
+          }
+          let savedAlbumID = saveAlbumData(albumData)
+          if(savedAlbumID == "" ){
+            return 
+          }else{
+            document.getElementById("errorShow").innerHTML = ``
+            isAlbumSaved = true
+          }
+      }
+      document.querySelectorAll(".form-step").forEach((formStepElement) => {
+        formStepElement.classList.add("d-none");
+      });
+      document.querySelectorAll(".form-stepper-list").forEach((formStepHeader) => {
+        formStepHeader.classList.add("form-stepper-unfinished");
+        formStepHeader.classList.remove("form-stepper-active", "form-stepper-completed");
+      });
+
+      document.querySelector("#step-" + stepNumber).classList.remove("d-none");
+
+      const formStepCircle = document.querySelector('li[step="' + stepNumber + '"]');
+
+      formStepCircle.classList.remove("form-stepper-unfinished", "form-stepper-completed");
+      formStepCircle.classList.add("form-stepper-active");
+
+      for (let index = 0; index < stepNumber; index++) {
+
+        const formStepCircle = document.querySelector('li[step="' + index + '"]');
+
+        if (formStepCircle) {
+ 
+          formStepCircle.classList.remove("form-stepper-unfinished", "form-stepper-active");
+          formStepCircle.classList.add("form-stepper-completed");
+        }
+      }
+    };
+
+    document.querySelectorAll(".btn-navigate-form-step").forEach((formNavigationBtn) => {
+      console.log("called with step ")
+      formNavigationBtn.addEventListener("click", () => {
+        const stepNumber = parseInt(formNavigationBtn.getAttribute("step_number"));
+
+        navigateToFormStep(stepNumber);
+      });
+    });
+
+    //script for image Uploader
+    function upload() {
+      var imgcanvas = document.getElementById("canv1");
+      var fileinput = document.getElementById("finput");
+      var image = new SimpleImage(fileinput);
+      image.drawTo(imgcanvas);
+
+    }
+    function priviewimg() {
+      var imgcanvas2 = document.getElementById("canv2");
+      var fileinput = document.getElementById("finput");
+      var image = new SimpleImage(fileinput);
+      image.drawTo(imgcanvas2);
+    }
+
+    //for company selection
+    function getCheckboxValue() {
+      var lang1 = document.getElementById("s1");
+      var lang2 = document.getElementById("s2");
+      var result = " ";
+      if (lang1.checked == true) {
+        var lg1 = document.getElementById("s1").value;
+        result += lg1 + " ";
+      }
+      if (lang2.checked == true) {
+        var lg2 = document.getElementById("s2").value;
+        result += lg2 + " ";
+      }
+
+      return document.getElementById("result").innerHTML = "You have selected " + result + " Companies to Release";
+    }
+    //for select all button
+    function selects() {
+      var ele = document.getElementsByClassName('lg');
+      for (var i = 0; i < ele.length; i++) {
+        if (ele[i].type == 'checkbox')
+          ele[i].checked = true;
+      }
+    }
+    function deSelect() {
+      var ele = document.getElementsByClassName('lg');
+      for (var i = 0; i < ele.length; i++) {
+        if (ele[i].type == 'checkbox')
+          ele[i].checked = false;
+
+      }
+    }
+
+
+    function updateTable() {
+      var i;
+      document.getElementById('myTable').innerHTML = `
+    <table class="w-full whitespace-no-wrap">
+          <thead>
+            <tr
+              class="header text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
+              <th class="px-4 py-3">Id</th>
+              <th class="px-4 py-3">File Information</th>
+              <th class="px-4 py-3">Upload</th>
+              <th class="px-4 py-3">Type</th>
+              <th class="px-4 py-3">Action</th>
+            </tr>
+          </thead>
+          <tbody id="myTable" class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
+            
+          </tbody>
+        </table>
+    `;
+      for (i = 1; i <= songID; i++) {
+        var fileName = $('#' + i).val().split('\\').pop();
+        var extension = $('#' + i).val().split('.').pop();
+        fileName = fileName.substr(0, fileName.length - extension.length - 1);
+        document.getElementById('myTable').innerHTML += `
+       <tr id="row${i} class="text-gray-700 dark:text-gray-400">
+              <td class="px-4 py-3">
+                   ${i}
+              </td>
+              <td class="px-4 py-3 text-sm">
+                ${fileName}
+              </td>
+              <td class="px-4 py-3 text-xs">
+                <span
+                  class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
+                  Approved
+                </span>
+              </td>
+              <td class="px-4 py-3 text-sm">
+                ${extension}
+              </td>
+              <td class="px-4 py-3">
+                <div class="ActionDiv flex items-center space-x-4 text-sm">
+                  <button
+                    class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                    aria-label="Edit">
+                    <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
+                      <path
+                        d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z">
+                      </path>
+                    </svg>
+                  </button>
+                  <button
+                    class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                    aria-label="Delete">
+                    <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd"
+                        d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+                        clip-rule="evenodd"></path>
+                    </svg>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            
+       `;
+
+      }
+    };
+    function preview() {
+      let name = $('input[name="release-title"]').val();
+      let version = $('input[name="version"]').val();
+      let thumbnail = $('input[name="thumbnail"]').val();
+      let primary_artist = $('input[name="primary_artist"]').val();
+      let actor = $('input[name="actor"]').val();
+      let various_artist = $('input[type="checkbox"]:checked').val();
+      if (various_artist != "yes") { various_artist = "No" };
+      let genre = $('select[name="genre"]').children("option:selected").val();
+      let subgenre = $('select[name="subgenre"]').children("option:selected").val();
+      let lable_name = $('select[name="lable_name"]').children("option:selected").val();
+      let format = $('select[name="format"]').children("option:selected").val();
+      let physical_release_date = $('input[name="physical_release_date"]').val();
+      let line1 = $('input[name="line1"]').val();
+      let line2 = $('input[name="line2"]').val();
+      let production_year = $('select[name="production_year"]').children("option:selected").val();
+      let upc = $('input[name="upc"]').val();
+      let producer_catalogue_number = $('input[name="producer_catalogue_number"]').val();
+      let main_release_date = $('input[name="main_release_date"]').val();
+
+      document.getElementById('preview').innerHTML = `
+
+<br>
+  <div class="container" style="background: #ded2f1;
+    font-weight: bold;    word-wrap: break-word;">
+<div class="item" style="text-align:left;">
+
+     <label for="">Name:${name}</label><br>
+  
+  <label>Version/Subtitle : ${version} </label>
+ <canvas id= "canv2"></canvas>
+      <label>Album Thumbnail</label><br>
+  <p>Primary Artist : ${primary_artist}</p>
+  <label>Actor : ${actor}</label><br>
+  <label style="margin-top:3px;">Various Artist/Compilation : ${various_artist}</label>
+ </div>
+
+  <div class="item"style="text-align:left;">
+  <label>Genre : ${genre}</label>
+  <br>
+  <label for="pet-select">SubGenre : ${subgenre}</label>
+  <br> 
+<label for="pet-select">Lable Name : ${lable_name} </label><br>
+<label for="pet-select">Format : ${format} </label><br> 
+<label>Phisical/Original Release Date : ${physical_release_date}</label><br>
+<label>Line1 : ${line1} </label><br>
+<label>Line2 : ${line2}</label><br>
+<label for="pet-select">Production Year : ${production_year}</label><br>
+<label>UPC/EAN : ${upc}</label><br>
+<label>Producer Catalogue Number : ${producer_catalogue_number}</label>
+</div>
+</div>
+<p class="mt-6 px-3 text-lg font-semibold text-gray-700 dark:text-gray-300">
+        Uploaded Assets
+      </p>
+<br>
+   <div class="container grid px-6 mx-auto">
+<div class="w-full mb-8 overflow-hidden rounded-lg shadow-xs">
+<div class="w-full overflow-x-auto">
+<table id="myTable2" class = "table" style="margin:5 0px">
+</table>
+</div>
+</div>
+  </div> 
+<p class="mt-3 px-3 text-lg font-semibold text-gray-700 dark:text-gray-300">
+        Main Release Date : ${main_release_date}
+      </p>
+<br>
+
+<h4 id= "result" style="color:#7e3af2;"></h4>
+
+
+  `
+      document.getElementById('myTable2').innerHTML = document.getElementById('myTable').innerHTML;
+      getCheckboxValue();//for companies selection
+      priviewimg();
+
+    }        
+  </script>
+</main>

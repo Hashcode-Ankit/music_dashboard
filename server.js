@@ -17,7 +17,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(clientSessions({
   cookieName: "session", // this is the object name that will be added to 'req'
   secret: "dashboard_user_details", // this should be a long un-guessable string.
-  duration: 2 * 60 * 1000, // duration of the session in milliseconds (2 minutes)
+  duration: 30 * 60 * 1000, // duration of the session in milliseconds (2 minutes)
   activeDuration: 1000 * 60 // the session will be extended by this many ms each request (1 minute)
 }));
 // setup a 'route' to listen on the default url path (http://localhost)
@@ -25,12 +25,30 @@ app.use(express.static('public'));
 
 // to store label nda files
 const ndaStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    // Choose the destination based on data in the request
+    const destination =`uploads/nda/${req.session.user.email}/Label-${req.body.title}/`;
+    if (!fs.existsSync(destination)) {
+      fs.mkdirSync(destination, { recursive: true, mode: 0o777},(err)=>{
+        if(err) return cb(err,null);
+      });
+    }
+    cb(null, destination);
+  },
+  filename: (req, file, cb) => {
+    // You can also set the filename here
+    cb(null, file.originalname);
+  },
+});
+
+// storing album images
+const albumImageStorage = multer.diskStorage({
   
   destination: (req, file, cb) => {
     // Choose the destination based on data in the request
-    const destination = "./nda/"+req.session.user.email+"/"+req.body.title+"/";
+    const destination = `uploads/albums/${req.session.user.email}/${req.body.title}/`;
     if (!fs.existsSync(destination)) {
-      fs.mkdirSync(destination, { recursive: true });
+      fs.mkdirSync(destination, { recursive: true, mode: 0o777 });
     }
     cb(null, destination);
   },
@@ -69,7 +87,25 @@ res.render(path.join(__dirname,"/views/overview.hbs"))
 });
 // new release page 
 app.get("/new-release", ensureLogin, async function(req,res){
-res.render(path.join(__dirname,"/views/forms.hbs"))
+res.render(path.join(__dirname,"/views/new-release.hbs"))
+});
+app.post("/album-manage/addAlbum", ensureLogin, multer({ albumImageStorage }).single('albumImage'), async function(req,res){
+  console.log("got file here ",req.file)
+  req.body.imageUrl = `./uploads/albums/${req.session.user.email}/${req.body.title}/`
+  req.body.userID = req.session.user.userID
+  api.saveAlbum(req.body).then((albumID)=>{
+    console.log("saved album with id : ",albumID)
+    res.status(200).json({ albumID: albumID.id });
+  }).catch((err)=>{
+    console.log("Error saving album data",err)
+    res.status(503).json({ error: err });
+  })
+});
+//updateAlbum
+app.put("/album-manage/updateAlbum:id", ensureLogin, async function(req,res){
+  const albumID = req.params.id;
+  api.updateAlbum(albumID,req.body)
+  res.status(201).json({ success: true });
 });
 // music catalog page
 app.get("/music-catalog",ensureLogin, async function(req,res){
@@ -77,23 +113,37 @@ res.render(path.join(__dirname,"/views/label-manage.hbs"))
 });
 // label management page
 app.get("/label-manage", ensureLogin, async function(req,res){
-  api.getAllLabelsForUser(req.session.user.userID).then((labelData)=>{
+  api.getAllLabelsForUserIDForUser(req.session.user.userID).then((labelData)=>{
         res.render(path.join(__dirname,"/views/label-manage.hbs"),{label:labelData})         
     }).catch((err)=>{
       res.render(path.join(__dirname,"/views/label-manage.hbs"),{errorMessage:"Unable to fetch Label for user "+req.session.user.email+err})         
     })
 });
 app.post("/label-manage", ensureLogin, multer({ ndaStorage }).single('nda'), async function(req,res){
-  req.body.filename = "./nda/"+req.session.user.email+"/"+req.body.title+"/"+req.file.originalname;
+  req.body.filename = `uploads/nda/${req.session.user.email}/${req.body.title}/${req.file.originalname}`
   api.addLabelForUserWithID(req.body,req.session.user.userID).then(()=>{
      res.redirect('/label-manage')
   }).catch((err)=>{
-    res.render(path.join(__dirname,"/views/label-manage.hbs"),{errorMessage:"Unable to save label "+req.body.title})         
+    res.render(path.join(__dirname,"/views/label-manage.hbs"),{errorMessage:"Unable to save label "+req.body.title +" "+err})         
+  })
+});
+app.post("/delete-label/:id", ensureLogin, async function(req,res){
+  api.deleteLabel(req.body,req.session.user.userID).then(()=>{
+     res.redirect('/label-manage')
+  }).catch((err)=>{
+    res.render(path.join(__dirname,"/views/label-manage.hbs"),{errorMessage:"Unable to delete label try again!"})         
   })
 });
 // artist management page
 app.get("/artist-manage", ensureLogin, async function(req,res){
 res.render(path.join(__dirname,"/views/buttons.hbs"))
+});
+app.post("/artist-manage/update", ensureLogin, async function(req,res){
+  api.updateArtist(req.body,req.session.user.userID).then(()=>{
+     res.redirect('/artist-manage')
+  }).catch((err)=>{
+    res.render(path.join(__dirname,"/views/artist-manage.hbs"),{errorMessage:"Unable to Update Artist "})         
+  })
 });
 // finance management page
 app.get("/finance-manage", ensureLogin,  async function(req,res){

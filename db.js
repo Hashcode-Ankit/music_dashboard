@@ -26,17 +26,21 @@ const connectDb = async ()=>{
 var Album = sq.define('Album', {
     id:{
         type:Sequelize.INTEGER,
-        allowNull:false,
         unique:true,
+        autoIncrement: true,
         primaryKey:true,
     },
     userID:{
         type:Sequelize.STRING,
         allowNull:false,
     },
-    releaseTitle:{
+    title:{
         type:Sequelize.STRING,
         allowNull:false,
+    },
+    subTitle:{
+        type:Sequelize.STRING,
+        allowNull:true,
     },
     draft:{
         type:Sequelize.BOOLEAN,
@@ -47,7 +51,7 @@ var Album = sq.define('Album', {
     imageUrl:{
         type:Sequelize.STRING,
     },
-    primaryArtistName:{
+    primaryArtist:{
         type:Sequelize.STRING,
         allowNull:false,
     },
@@ -58,7 +62,7 @@ var Album = sq.define('Album', {
         type:Sequelize.STRING,
         allowNull:false,
     },
-    subgenre:{
+    subGenre:{
         type:Sequelize.STRING,
     },
     labelName:{
@@ -75,15 +79,12 @@ var Album = sq.define('Album', {
     },
     publisherCopyright:{
         type:Sequelize.STRING,
-        allowNull:false,
     },
     copyright:{
         type:Sequelize.STRING,
-        required:true,
     },
     productionYear:{
         type:Sequelize.INTEGER,
-        required:true,
     },
     producerCatalogueNumber:{
         type:Sequelize.STRING,
@@ -101,14 +102,13 @@ var Album = sq.define('Album', {
 //Label model
 var Label = sq.define('Label',{
     id: {
-        allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        unique:true,
       },
     title:{
         type:Sequelize.STRING,
-        unique:true,
     },
     userID:{
         type:Sequelize.STRING,
@@ -131,8 +131,8 @@ var Label = sq.define('Label',{
 var Artist = sq.define('Artist',{
     id:{
         type:Sequelize.INTEGER,
+        autoIncrement: true,
         primaryKey:true,
-        allowNull: false,
     },
     name:{
         type:Sequelize.STRING,
@@ -204,14 +204,8 @@ function getAlbum(albumId){
 
 // create an album
 function addAlbum(albumData){
-    return new Promise((resolve,reject)=>{
-        Album.create({albumData})
-        .then(function(){
-            resolve("album added successfully")
-        }).catch(function(error){
-            reject("Unable to add album :",error)
-        })
-    })  
+    console.log(albumData)
+    return Album.create(albumData) 
 }
 
 //update an Album
@@ -250,26 +244,25 @@ function deleteAlbum(albumId){
 //create a label
 function addLabel(labelData){
     return new Promise((resolve,reject)=>{
-        Label.create({labelData})
-        .then(()=>{
+        Label.create(labelData).then(()=>{
             resolve("label added successfully")
         }).catch((error)=>{
-            reject("Unable to add label :",error)
+            reject("Unable to add label :"+error)
         })
     }) 
 }
 
 //get all labels
-function getAllLabels(userID){
+function getAllLabelsForUserID(userID){
     return new Promise((resolve,reject)=>{
         Label.findAll({
             where:{
-                id:userID
+                userID:userID
             }
         }).then(function(data){
             resolve(data);
         }).catch((error)=>{
-            reject(Error("Unable to get Labels from postgres",error))
+            reject(Error("Unable to get Labels from postgres"+error))
         })
     })
 }
@@ -308,11 +301,12 @@ function updateLabel(labelId, updateInfo ){
 
 
 //delete a label
-function deleteLabel(labelId){ 
+function deleteLabel(labelId,userID){ 
     return new Promise((resolve,reject)=>{
         Album.destroy({
             where:{
-                id:labelId,
+                userID: userID,
+                id: labelId,
             }
         }).then(()=>{
             resolve(`label deleted successfully with id ${labelId}`)
@@ -396,4 +390,4 @@ function deleteArtist(artistId){
 }
 
 
-module.exports = {connectDb,initialize,addAlbum,getAllAlbums,deleteAlbum,updateAlbum,getAlbum,addLabel,getAllLabels,getLabel,updateLabel,deleteLabel,getAllArtists,getArtist,addArtist,updateArtist,deleteArtist}
+module.exports = {connectDb,initialize,addAlbum,getAllAlbums,deleteAlbum,updateAlbum,getAlbum,addLabel,getAllLabelsForUserID,getLabel,updateLabel,deleteLabel,getAllArtists,getArtist,addArtist,updateArtist,deleteArtist}

@@ -43,17 +43,17 @@ function getAllSongsForAlbum(albumID){
 function authenticateUser(username,password){
 
 }
-function getAllLabelsForUser(userID){
-    return db.getAllLabels(userID)
+function getAllLabelsForUserIDForUser(userID){
+    return db.getAllLabelsForUserID(userID)
 }
 function addLabelForUserWithID(labelData,userID){
-        label ={
+        label = {
             "title" : labelData.title,
             "userID":userID,
             "youtubeLink":labelData.youtube,
             "noObjectionFile":labelData.filename
         }
-        return db.addLabelForUser(label)
+        return db.addLabel(label)
 }
 // run the query to get all albums which are mentioned draft = false and related to userID
 function getDraftAlbumsForUser(userID){
@@ -114,6 +114,30 @@ function editUserInfo(){
 }
 function deleteUser(){
 
+}
+function saveAlbum(albumData){
+    album = {
+        "title":albumData.title,
+        "subTitle":albumData.subTitle,
+        "imageUrl":albumData.imageUrl,
+        "primaryArtist":albumData.primaryArtist,
+        "actor":albumData.actor,
+        "genre":albumData.genre,
+        "subGenre":albumData.subGenre,
+        "format":albumData.format,
+        "labelName":albumData.labelID,
+        "originalReleaseDate":albumData.originalReleaseDate,
+        "userID":albumData.userID,
+        "approved":false,
+        "draft" : true
+    }
+       return new Promise((resolve, reject) => {
+        db.addAlbum(album).then((savedAlbumData)=>{
+            resolve(savedAlbumData.id)
+        }).catch((err)=>{
+            reject(err)
+        })
+       })
 }
 function editAlbum(updatedAlbum){
     return db.updateAlbum(updatedAlbum)
@@ -176,4 +200,4 @@ function registerUser(userData){
 function login(userData){
     return mongo.loginUser(userData)
 }
-module.exports = {connectWithDB,initializeDatabase,getAllAlbumsForUser,getAllSongsForAlbum,getDraftAlbumsForUser,getNonApprovedAlbums,getPrimaryArtistForUserID,registerUser,editAlbum,deleteAblum,deleteLabel,albumApproved,removeDraft,login,addLabelForUserWithID,getAllLabelsForUser}
+module.exports = {connectWithDB,initializeDatabase,getAllAlbumsForUser,getAllSongsForAlbum,getDraftAlbumsForUser,getNonApprovedAlbums,getPrimaryArtistForUserID,registerUser,editAlbum,deleteAblum,deleteLabel,albumApproved,removeDraft,login,addLabelForUserWithID,getAllLabelsForUserIDForUser,saveAlbum}
