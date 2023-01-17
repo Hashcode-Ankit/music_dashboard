@@ -302,58 +302,33 @@ function updateLabel(labelId, updateInfo ){
 
 //delete a label
 function deleteLabel(labelId,userID){ 
-    return new Promise((resolve,reject)=>{
-        Album.destroy({
+    return Album.destroy({
             where:{
                 userID: userID,
                 id: labelId,
             }
-        }).then(()=>{
-            resolve(`label deleted successfully with id ${labelId}`)
-        }).catch((error)=>{
-            reject("Unable to delete the label :",error)
         })
-    })  
 }
 
 //get all artists
 function getAllArtists(){
-    return new Promise((resolve,reject)=>{
-        Artist.findAll().then(function(data){
-            resolve(data);
-        }).catch(function(error){
-            reject(Error("Unable to get artists from postgres :",error))
-        })
-    })
+    return Artist.findAll()
 }
 
 
 //get a artist
 function getArtist(artistId){
-    return new Promise((resolve,reject)=>{
-        Label.findAll({
+    return  Label.findAll({
             where:{
                 id:artistId,
             }
-        }).then(function(data){
-          resolve(data) ;
-       }).catch(function(error){
-          reject(Error("Unable to get an artist :",error))
-      });
-    })
+        })
 }
 
 
 //create an artist
 function addArtist(artistData){
-    return new Promise((resolve,reject)=>{
-        Label.create({artistData})
-        .then(()=>{
-            resolve("artist added successfully")
-        }).catch((error)=>{
-            reject("Unable to add artist :",error)
-        })
-    }) 
+    return Artist.Create()
 }
 
 

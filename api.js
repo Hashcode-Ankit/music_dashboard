@@ -131,6 +131,7 @@ function saveAlbum(albumData){
         "approved":false,
         "draft" : true
     }
+    // Todo Create Artist with the name and userID
        return new Promise((resolve, reject) => {
         db.addAlbum(album).then((savedAlbumData)=>{
             resolve(savedAlbumData.id)
