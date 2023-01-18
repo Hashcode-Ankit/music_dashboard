@@ -11,17 +11,21 @@ function connectWithDB(){
 function initializeDatabase(){
    return new Promise((resolve, reject) => {
       db.initialize().then(()=>{
-        mongo.initialize().then(()=>{
-            resolve("connected")
-        }).catch((err)=>{
-            reject("failed with err:",err)
-        })
+        resolve("db initialized")
       }).catch((err)=>{
         reject("failed with err:",err)
       })
    })
 }
-
+function connectMongoDB(){
+  return new Promise((resolve, reject) => {
+    mongo.initialize().then(()=>{
+        resolve("connected")
+    }).catch((err)=>{
+        reject("failed with err:",err)
+    })
+  })  
+}
 
 // APIS return promises
 
@@ -201,4 +205,4 @@ function registerUser(userData){
 function login(userData){
     return mongo.loginUser(userData)
 }
-module.exports = {connectWithDB,initializeDatabase,getAllAlbumsForUser,getAllSongsForAlbum,getDraftAlbumsForUser,getNonApprovedAlbums,getPrimaryArtistForUserID,registerUser,editAlbum,deleteAblum,deleteLabel,albumApproved,removeDraft,login,addLabelForUserWithID,getAllLabelsForUserIDForUser,saveAlbum}
+module.exports = {connectWithDB,initializeDatabase,getAllAlbumsForUser,getAllSongsForAlbum,getDraftAlbumsForUser,getNonApprovedAlbums,getPrimaryArtistForUserID,registerUser,editAlbum,deleteAblum,deleteLabel,albumApproved,removeDraft,login,addLabelForUserWithID,getAllLabelsForUserIDForUser,saveAlbum,connectMongoDB}

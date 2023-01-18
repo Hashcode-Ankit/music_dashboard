@@ -529,6 +529,7 @@
               &#127911; Upload Assets
             </h4>
             <!-- Step 2 input fields -->
+            <h1 id ="errorShow2"style="color:red"></h1>
             <div class="mt-3">
               <div>
                 <p @click="openModal" style="width: 158px;"
@@ -569,7 +570,7 @@
                     </p>
                     <!-- Modal description -->
                     <div id="target" style="margin-top: 10px;overflow-y: scroll; height:330px;">
-                      <input placeholder="" type="file" id="1" style="height:52px" name="song1"
+                      <input placeholder="" type="file" id="1" style="height:52px" name="song1" accept=".mp3,audio/*"
                         oninput="this.className = ''">
                     </div>
                     <p style="text-align: right;margin: 10px;">
@@ -737,10 +738,11 @@
     var songn = 2;
     var id = 1;
     var isAlbumSaved =false
+    var isSongsDataSaved = false
     $(document).ready(function () {
       // jQuery methods go here...
       $('#addmore').click(function () {
-        document.getElementById('target').innerHTML += `<input placeholder="" type="file" id=${songn} style="height:52px"name="song${songn}" oninput="this.className = ''">`;
+        document.getElementById('target').innerHTML += `<input placeholder="" type="file" id=${songn} style="height:52px"name="song${songn}" accept=".mp3,audio/*" oninput="this.className = ''">`;
         songn = songn + 1;
       });
       $('#remove').click(function () {
@@ -750,7 +752,53 @@
         }
       });
     });
+    function getAndVerifySongsData() {
+      let s;
+      let songsData = [];
+        for(s=1;s<songn;s++){
+         //Gettin song file
+        var fileSelect = document.getElementById(s);
+        var files = fileSelect.files;
+        var file = files[0];
+        
+        let song = {
+        songFile: file,
+        writer: $(`input[name="t${s}writer"]`).val(),
+        composer: $(`input[name="t${s}composer"]`).val(),
+        musicDirector: $(`input[name="t${s}music_director"]`).val(),
+        producer: $(`input[name="t${s}producer"]`).val(),
+        isrc: $(`input[name="t${s}isrc_admin"]`).val(),
+        parentalAdvisory : $(`input[name="t${s}parental_advisory"]`).val(),
+        trackLanguage :$(`input[name="t${s}track_language"]`).val(),
+        addTrackLyrics : $(`input[name="t${s}track_lyrics"]`).val(),
+        tiktokPreview : $(`input[name="t${s}tiktok_preview"]`).val(),
+        primaryTrack:$(`input[name="t${s}key_track"]`).val(),
+      }   
+      songsData.push(song);
+      }
+      return songsData
+    }
 
+ const saveSongsData = async (songsData) => {
+      let savedSongsDataID = ""
+      const formData = new FormData();
+      for (const key in songsData) {
+        formData.append(key, songsData[key]);
+      }
+      await fetch('/album-manage/addSongsData', {
+        method: 'POST',
+        body: formData
+      }).then(response => {
+        data = response.json()
+        savedSongsDataID = data[songsDataID]
+      }).then(data => {
+        console.log('Successfully saved SongsData:', data);
+      }).catch((error) => {
+        console.error(error)
+        return ""
+      });
+      return savedSongsDataID
+    }
    
     function getAndVerifyAlbumValues() {
       let albumValues = {
@@ -780,28 +828,28 @@
       }).then(response => {
         data = response.json()
         savedAlbumID = data[albumID]
-      }).then(data => {
-        console.log('Successfully saved album:', data);
+        console.log("response data",data)
+      }).then(() => {
+        console.log('Successfully saved album');
       }).catch((error) => {
         console.error(error)
         return ""
       });
       return savedAlbumID
     }
-    const navigateToFormStep = (stepNumber) => {
+    const navigateToFormStep = async(stepNumber) => {
       albumID = ""
       // Check if data got saved if not not change the page 
       // TODO: If data already saved then update by checking savedAlbumID
       if (stepNumber == 2 && isAlbumSaved == false) {
         albumData = getAndVerifyAlbumValues()
         let missingData = false
-        let text = `<p class ="err">Missing Fiels :`
+        let text = `<p class ="err">Missing Fields :`
         for (const key in albumData) {
-          console.log(key, " : ", albumData[key])
           if (albumData[key] == "") {
-            missingData = true
             text = text + `${key}, `
-          }
+            missingData = true
+         }
         }
         if (missingData) {
           document.getElementById("errorShow").innerHTML = text + `<p>`
@@ -809,14 +857,48 @@
         } else {
           document.getElementById("errorShow").innerHTML = ``
         }
-        let savedAlbumID = saveAlbumData(albumData)
+        let savedAlbumID = await saveAlbumData(albumData)
         if (savedAlbumID == "") {
           return
         } else {
           document.getElementById("errorShow").innerHTML = ``
           isAlbumSaved = true
+          console.log("savedAlbumID: hash-",savedAlbumID)
         }
+      }      
+
+      // checking for second page
+
+       if (stepNumber == 3 && isSongsDataSaved == false) {
+        songsData = getAndVerifySongsData()
+        let missingData = false
+        let text = `<p class ="err">File or MataData Fields Missing! Please Fill Or Remove song by Uploader! `
+        let s;
+        for(s=0;s<songn-1;s++){
+          for (const key in songsData[s]) {
+          console.log(key, " : ", songsData[s][key])
+          if (songsData[s][key] == "") {
+            missingData = true
+         }
+        }  
+        
+        if (missingData) {
+          document.getElementById("errorShow2").innerHTML = text + `<p>`
+          return
+        } else {
+          document.getElementById("errorShow2").innerHTML = ``
+        }
+        let savedSongsDataID = saveSongsData(songsData[s])
+        if (savedSongsDataID == "") {
+          return
+        } else {
+          document.getElementById("errorShow2").innerHTML = ``
+          isSongsDataSaved = true
+        }
+      }       
+       text = text + `${key}, `
       }
+     
       document.querySelectorAll(".form-step").forEach((formStepElement) => {
         formStepElement.classList.add("d-none");
       });
@@ -997,7 +1079,7 @@
               <th class="px-4 py-3">Id</th>
               <th class="px-4 py-3">File Name</th>
               <th class="px-4 py-3">Type</th>
-              <th class="px-4 py-3">Action</th>
+              <th class="px-4 py-3">Add MataData <span class="required">*</span></th>
             </tr>
           </thead>
           <tbody id="myTable" class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
@@ -1011,7 +1093,7 @@
         try {
           fileName = $('#' + i).val().split('\\').pop();
           extension = $('#' + i).val().split('.').pop();
-          fileName = fileName.substr(0, fileName.length - extension.length - 1);
+          fileName = fileName.substr(0, 50);
         }
         catch {
           fileName = "Not Uploaded!";
@@ -1028,7 +1110,7 @@
                    ${i}
               </td>
               <td class="px-4 py-3 text-sm">
-                ${fileName}
+                ${fileName}...
               </td>
       
               <td class="px-4 py-3 text-sm">
@@ -1041,6 +1123,7 @@
                     onclick="togglePopup(${i})"
                     class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                     aria-label="Edit">
+                    add
                     <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
                       <path
                         d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z">
@@ -1055,7 +1138,7 @@
             Done
         </div>
         <p class="mb-2 text-lg font-semibold text-gray-700 dark:text-gray-300">
-        Songs Metadata
+        Song Metadata
       </p>
   
        <div style="margin-top: 10px;overflow-y: scroll; height:90%;"> 
@@ -1063,7 +1146,7 @@
   <label>Writer <span class="required">*</span></label><input style="width:70%;"placeholder="Writer" type="text" id="t${i}writer" name="t${i}writer" oninput="this.className = ''"required>
   </div>    
   <div class="inputwrap">
-  <label>Composer </label><input style="width:70%;"placeholder="Composer" type="text" id="t${i}composer" name="t${i}composer" oninput="this.className = ''">
+  <label>Composer <span class="required">*</span></label><input style="width:70%;"placeholder="Composer" type="text" id="t${i}composer" name="t${i}composer" oninput="this.className = ''">
   </div> 
   <div class="inputwrap">
   <label>Music Director <span class="required">*</span></label><input style="width:70%;"placeholder="Music Director" type="text" id="t${i}music_director" name="t${i}music_director" oninput="this.className = ''"required>
@@ -1083,10 +1166,10 @@
   <label>Track Language <span class="required">*</span></label><input style="width:70%;"placeholder="Track Language" type="text" id="t${i}track_language" name="t${i}track_language" oninput="this.className = ''"required>
   </div> 
   <div class="inputwrap">
-  <label>Add track Lyrics</label><input style="width:70%;"placeholder="Add track Lyrics" type="text" id="t${i}track_lyrics" name="t${i}track_lyrics" oninput="this.className = ''">
+  <label>Add track Lyrics <span class="required">*</span></label><input style="width:70%;"placeholder="Add track Lyrics" type="text" id="t${i}track_lyrics" name="t${i}track_lyrics" oninput="this.className = ''">
   </div> 
 <div class="inputwrap">
-  <label style="width: 30%;">Tiktok Preview Starts in Seconds </label><input style="width:70%;"placeholder="" type="text" id="t${i}tiktok_preview" name="t${i}tiktok_preview" oninput="this.className = ''">
+  <label style="width: 30%;">Tiktok Preview Starts in Seconds <span class="required">*</span></label><input style="width:70%;"placeholder="" type="text" id="t${i}tiktok_preview" name="t${i}tiktok_preview" oninput="this.className = ''">
   </div> 
  <div class="inputwrap">
   <label style="width: 30%;">Is this track considered a key track for the release <span class="required">*</span></label><input style="width:70%;"placeholder="" type="text" id=name="t${i}key_track" name="t${i}key_track" oninput="this.className = ''"required>

@@ -95,7 +95,7 @@ app.post("/album-manage/addAlbum", ensureLogin, multer({ albumImageStorage }).si
   req.body.userID = req.session.user.userID
   api.saveAlbum(req.body).then((albumID)=>{
     console.log("saved album with id : ",albumID)
-    res.status(200).json({ albumID: albumID.id });
+    res.status(200).json({ albumID: albumID });
   }).catch((err)=>{
     console.log("Error saving album data",err)
     res.status(503).json({ error: err });
@@ -198,13 +198,21 @@ app.get('/logout',function(req,res){
 app.get('*', function (req, res) {
   res.render(path.join(__dirname,"/views/404.hbs"))
 })
-
-api.connectWithDB().then(()=>{
+const initialzation = process.argv[2];
+if(initialzation=="true"){
   api.initializeDatabase().then(()=>{
+  console.log("database initialized")
+  }).catch(()=>{
+   console.log("unable to initiliaze db")
+  })
+}
+api.connectWithDB().then(()=>{
+  api.connectMongoDB().then(()=>{
+    console.log("Mongo Db Connected")
     app.listen(HTTP_PORT)
     console.log("server is listening at port 8080")
   }).catch((err)=>{
-    console.error("err:",err)
+    console.log("Mongo Db Connection ERR :",err)
   })
 }).catch((err)=>{
   console.error("err",err)
