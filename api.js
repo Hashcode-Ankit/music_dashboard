@@ -119,6 +119,7 @@ function editUserInfo(){
 function deleteUser(){
 
 }
+
 function saveAlbum(albumData){
     album = {
         "title":albumData.title,
@@ -144,15 +145,27 @@ function saveAlbum(albumData){
         })
        })
 }
+
+function saveArtist(artistData){
+    const data = db.getArtist(artistData);
+    if(data===''){
+        return db.addArtist(artistData)
+    }
+    return db.updateArtist(data)
+}
+
 function editAlbum(updatedAlbum){
     return db.updateAlbum(updatedAlbum)
 }
+
 function deleteAblum(albumId){
     return db.deleteAlbum(albumId)
 }
+
 function deleteLabel(labelId){
     return db.deleteLabel(labelId) 
 }
+
 function albumApproved(albumID){
     return new Promise((resolve,reject)=>{
         db.getAlbum(albumID)
@@ -165,6 +178,7 @@ function albumApproved(albumID){
         })
     })
 }
+
 // draft = false store for albumID
 function removeDraft(albumID){
     return new Promise((resolve,reject)=>{
@@ -179,6 +193,7 @@ function removeDraft(albumID){
         })
     })
 }
+
 // register 
 function registerUser(userData){
     return new Promise((resolve, reject) => {
@@ -205,4 +220,4 @@ function registerUser(userData){
 function login(userData){
     return mongo.loginUser(userData)
 }
-module.exports = {connectWithDB,initializeDatabase,getAllAlbumsForUser,getAllSongsForAlbum,getDraftAlbumsForUser,getNonApprovedAlbums,getPrimaryArtistForUserID,registerUser,editAlbum,deleteAblum,deleteLabel,albumApproved,removeDraft,login,addLabelForUserWithID,getAllLabelsForUserIDForUser,saveAlbum,connectMongoDB}
+module.exports = {connectWithDB,initializeDatabase,getAllAlbumsForUser,getAllSongsForAlbum,getDraftAlbumsForUser,getNonApprovedAlbums,getPrimaryArtistForUserID,registerUser,editAlbum,deleteAblum,deleteLabel,albumApproved,removeDraft,login,addLabelForUserWithID,saveArtist,getAllLabelsForUserIDForUser,saveAlbum,connectMongoDB}
