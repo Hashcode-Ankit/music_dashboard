@@ -138,6 +138,10 @@ var Artist = sq.define('Artist', {
         type: Sequelize.STRING,
         allowNull: false,
     },
+    userID: {
+        type: Sequelize.STRING,
+        allowNull: false,
+    },
     instagramId: {
         type: Sequelize.STRING,
     },
@@ -149,12 +153,6 @@ var Artist = sq.define('Artist', {
     },
     facebookUrl: {
         type: Sequelize.STRING,
-    },
-    wynkId: {
-        type: Sequelize.INTEGER,
-    },
-    action: {
-        type: Sequelize.STRING
     }
 })
 
@@ -252,8 +250,10 @@ function deleteLabel(labelId, userID) {
 }
 
 //get all artists
-function getAllArtists() {
-    return Artist.findAll()
+function getArtistForUser(userID) {
+    return Artist.findAll({
+        where: { userID: userID }
+    })
 }
 
 
@@ -294,4 +294,4 @@ function deleteArtist(artistId) {
 }
 
 
-module.exports = { connectDb, initialize, addAlbum, getAllAlbums, deleteAlbum, updateAlbum, getAlbum, addLabel, getAllLabelsForUserID, getLabel, updateLabel, deleteLabel, getAllArtists, getArtist, addArtist, updateArtist, deleteArtist }
+module.exports = { connectDb, initialize, addAlbum, getAllAlbums, deleteAlbum, updateAlbum, getAlbum, addLabel, getAllLabelsForUserID, getLabel, updateLabel, deleteLabel, getArtist, addArtist, updateArtist, deleteArtist, getArtistForUser}

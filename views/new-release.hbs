@@ -369,7 +369,7 @@
     padding: 4 21px;
   }
 
-  .required {
+  . {
     color: red;
   }
 </style>
@@ -449,8 +449,8 @@
                   <input placeholder="ABC Track" type="" name="title" oninput="this.className = ''">
                   <label>Version/Subtitle </label><input placeholder="Version/Subtitle" type="version_subtitle"
                     name="version" oninput="this.className = ''">
-                  <label>Primary Artist <span class="required">*</span></label><input placeholder="" type=""
-                    name="primary_artist" oninput="this.className = ''" required>
+                  <label>Primary Artist <span class="">*</span></label><input placeholder="" type=""
+                    name="primary_artist" oninput="this.className = ''" >
 
                   <p>
 
@@ -462,8 +462,8 @@
                 <div class="item">
                   <label>Actor </label><input style="margin-bottom: 29px;" placeholder="Featuring" type="" name="actor"
                     oninput="this.className = ''">
-                  <label style="margin-right: 42px;" for="pet-select">Genre <span class="required">*</span></label>
-                  <select name="genre" id="pet-select" required>
+                  <label style="margin-right: 42px;" for="pet-select">Genre <span class="">*</span></label>
+                  <select name="genre" id="pet-select" >
                     <option value="">--Select Genre--</option>
                     <option value="dog">Dog</option>
                     <option value="cat">Cat</option>
@@ -476,37 +476,37 @@
                     <option value="cat">Cat</option>
                   </select>
                   <br>
-                  <label for="pet-select">Lable Name <span class="required">*</span></label>
-                  <select name="lable_name" id="pet-select" required>
+                  <label for="pet-select">Lable Name <span class="">*</span></label>
+                  <select name="lable_name" id="pet-select" >
                     <option value="">--Select Lable Name--</option>
                     <option value="dog">Dog</option>
                     <option value="cat">Cat</option>
                   </select> <br>
-                  <label for="pet-select" style="margin-right: 35px;">Format <span class="required">*</span></label>
-                  <select name="format" id="pet-select" required>
+                  <label for="pet-select" style="margin-right: 35px;">Format <span class="">*</span></label>
+                  <select name="format" id="pet-select" >
                     <option value="">--Single--</option>
                     <option value="dog">Dog</option>
                     <option value="cat">Cat</option>
                   </select> <br>
 
-                  <label>Producer Catalogue Number <span class="required">*</span></label>
+                  <label>Producer Catalogue Number <span class="">*</span></label>
                   <input placeholder="Producer Catalogue Number" type="" name="producer_catalogue_number"
-                    oninput="this.className = ''" required>
+                    oninput="this.className = ''" >
                 </div>
 
                 <div class="item">
 
-                  <label>Phisical/Original release date <span class="required">*</span></label><input
+                  <label>Phisical/Original release date <span class="">*</span></label><input
                     placeholder="Version/Subtitle" type="date" name="physical_release_date"
-                    oninput="this.className = ''" required>
-                  <label>Line1 <span class="required">*</span></label><input placeholder="Line" type="" name="line1"
-                    oninput="this.className = ''" required>
-                  <label>Line2 <span class="required">*</span></label><input placeholder="Line" type="" name="line2"
-                    oninput="this.className = ''" required>
-                  <label>UPC/EAN <span class="required">*</span></label><input placeholder="UPC/EAN" type="" name="upc"
-                    oninput="this.className = ''" required>
-                  <label for="pet-select">Production Year <span class="required">*</span></label>
-                  <select name="production_year" id="pet-select" required>
+                    oninput="this.className = ''" >
+                  <label>Line1 <span class="">*</span></label><input placeholder="Line" type="" name="line1"
+                    oninput="this.className = ''" >
+                  <label>Line2 <span class="">*</span></label><input placeholder="Line" type="" name="line2"
+                    oninput="this.className = ''" >
+                  <label>UPC/EAN <span class="">*</span></label><input placeholder="UPC/EAN" type="" name="upc"
+                    oninput="this.className = ''" >
+                  <label for="pet-select">Production Year <span class="">*</span></label>
+                  <select name="production_year" id="pet-select" >
                     <option value="">--2022--</option>
                     <option value="dog">Dog</option>
                     <option value="cat">Cat</option>
@@ -625,9 +625,9 @@
             </h4>
             <!-- Step 2 input fields -->
             <div class="mt-3">
-              <label>Select Main release date <span class="required">*</span></label><input
+              <label>Select Main release date <span class="">*</span></label><input
                 placeholder="Version/Subtitle" type="date" name="main_release_date" oninput="this.className = ''"
-                required>
+                >
             </div>
             <div class="mt-3" style="display: flex;
         justify-content: space-between;">
@@ -1079,7 +1079,7 @@
               <th class="px-4 py-3">Id</th>
               <th class="px-4 py-3">File Name</th>
               <th class="px-4 py-3">Type</th>
-              <th class="px-4 py-3">Add MataData <span class="required">*</span></th>
+              <th class="px-4 py-3">Add MataData <span class="">*</span></th>
             </tr>
           </thead>
           <tbody id="myTable" class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
@@ -1143,36 +1143,36 @@
   
        <div style="margin-top: 10px;overflow-y: scroll; height:90%;"> 
   <div class="inputwrap">
-  <label>Writer <span class="required">*</span></label><input style="width:70%;"placeholder="Writer" type="text" id="t${i}writer" name="t${i}writer" oninput="this.className = ''"required>
+  <label>Writer <span class="">*</span></label><input style="width:70%;"placeholder="Writer" type="text" id="t${i}writer" name="t${i}writer" oninput="this.className = ''">
   </div>    
   <div class="inputwrap">
-  <label>Composer <span class="required">*</span></label><input style="width:70%;"placeholder="Composer" type="text" id="t${i}composer" name="t${i}composer" oninput="this.className = ''">
+  <label>Composer <span class="">*</span></label><input style="width:70%;"placeholder="Composer" type="text" id="t${i}composer" name="t${i}composer" oninput="this.className = ''">
   </div> 
   <div class="inputwrap">
-  <label>Music Director <span class="required">*</span></label><input style="width:70%;"placeholder="Music Director" type="text" id="t${i}music_director" name="t${i}music_director" oninput="this.className = ''"required>
+  <label>Music Director <span class="">*</span></label><input style="width:70%;"placeholder="Music Director" type="text" id="t${i}music_director" name="t${i}music_director" oninput="this.className = ''">
   </div> 
   <div class="inputwrap">
-  <label>Producer <span class="required">*</span></label><input style="width:70%;"placeholder="Producer" type="text" id = "t${i}producer" name="t${i}producer" oninput="this.className = ''"required>
+  <label>Producer <span class="">*</span></label><input style="width:70%;"placeholder="Producer" type="text" id = "t${i}producer" name="t${i}producer" oninput="this.className = ''">
   </div> 
   <div class="inputwrap">
-  <label>ISRC  (Admin) <span class="required">*</span></label><input style="width:70%;"placeholder="ISRC  (Admin)" type="text" id="t${i}isrc_admin" name="t${i}isrc_admin" name="t${i}isrc_admin" oninput="this.className = ''"required>
+  <label>ISRC  (Admin) <span class="">*</span></label><input style="width:70%;"placeholder="ISRC  (Admin)" type="text" id="t${i}isrc_admin" name="t${i}isrc_admin" name="t${i}isrc_admin" oninput="this.className = ''">
   </div> 
  
   <div class="inputwrap">
-  <label>Parental advisory <span class="required">*</span></label><input style="width:70%;"placeholder="Parental Advisory" type="text" id="t${i}parental_advisory" name="t${i}parental_advisory" oninput="this.className = ''"required>
+  <label>Parental advisory <span class="">*</span></label><input style="width:70%;"placeholder="Parental Advisory" type="text" id="t${i}parental_advisory" name="t${i}parental_advisory" oninput="this.className = ''">
   </div> 
   
   <div class="inputwrap">
-  <label>Track Language <span class="required">*</span></label><input style="width:70%;"placeholder="Track Language" type="text" id="t${i}track_language" name="t${i}track_language" oninput="this.className = ''"required>
+  <label>Track Language <span class="">*</span></label><input style="width:70%;"placeholder="Track Language" type="text" id="t${i}track_language" name="t${i}track_language" oninput="this.className = ''">
   </div> 
   <div class="inputwrap">
-  <label>Add track Lyrics <span class="required">*</span></label><input style="width:70%;"placeholder="Add track Lyrics" type="text" id="t${i}track_lyrics" name="t${i}track_lyrics" oninput="this.className = ''">
+  <label>Add track Lyrics <span class="">*</span></label><input style="width:70%;"placeholder="Add track Lyrics" type="text" id="t${i}track_lyrics" name="t${i}track_lyrics" oninput="this.className = ''">
   </div> 
 <div class="inputwrap">
-  <label style="width: 30%;">Tiktok Preview Starts in Seconds <span class="required">*</span></label><input style="width:70%;"placeholder="" type="text" id="t${i}tiktok_preview" name="t${i}tiktok_preview" oninput="this.className = ''">
+  <label style="width: 30%;">Tiktok Preview Starts in Seconds <span class="">*</span></label><input style="width:70%;"placeholder="" type="text" id="t${i}tiktok_preview" name="t${i}tiktok_preview" oninput="this.className = ''">
   </div> 
  <div class="inputwrap">
-  <label style="width: 30%;">Is this track considered a key track for the release <span class="required">*</span></label><input style="width:70%;"placeholder="" type="text" id=name="t${i}key_track" name="t${i}key_track" oninput="this.className = ''"required>
+  <label style="width: 30%;">Is this track considered a key track for the release <span class="">*</span></label><input style="width:70%;"placeholder="" type="text" id=name="t${i}key_track" name="t${i}key_track" oninput="this.className = ''">
   </div> 
 </div>
     </div>

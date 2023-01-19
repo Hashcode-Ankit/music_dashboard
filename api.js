@@ -136,24 +136,31 @@ function saveAlbum(albumData){
         "approved":false,
         "draft" : true
     }
-    // Todo Create Artist with the name and userID
-       return new Promise((resolve, reject) => {
-        db.addAlbum(album).then((savedAlbumData)=>{
-            resolve(savedAlbumData.id)
+    
+    return new Promise((resolve, reject) => {
+        saveArtist(albumData.primaryArtist,albumData.userID).then(()=>{
+            db.addAlbum(album).then((savedAlbumData)=>{
+                resolve(savedAlbumData.id)
+            }).catch((err)=>{
+                reject(err)
+            }) 
         }).catch((err)=>{
             reject(err)
         })
-       })
+    })
 }
 
-function saveArtist(artistData){
-    const data = db.getArtist(artistData);
-    if(data===''){
-        return db.addArtist(artistData)
+function saveArtist(artistName,userID){
+    artist = {
+        "name":artistName,
+        "userID":userID
     }
-    return db.updateArtist(data)
+    return db.addArtist(artist)
+    
 }
-
+function getAllArtistsWithUserID(userID){
+    return db.getArtistForUser(userID)
+}
 function editAlbum(updatedAlbum){
     return db.updateAlbum(updatedAlbum)
 }
@@ -220,4 +227,4 @@ function registerUser(userData){
 function login(userData){
     return mongo.loginUser(userData)
 }
-module.exports = {connectWithDB,initializeDatabase,getAllAlbumsForUser,getAllSongsForAlbum,getDraftAlbumsForUser,getNonApprovedAlbums,getPrimaryArtistForUserID,registerUser,editAlbum,deleteAblum,deleteLabel,albumApproved,removeDraft,login,addLabelForUserWithID,saveArtist,getAllLabelsForUserIDForUser,saveAlbum,connectMongoDB}
+module.exports = {connectWithDB,initializeDatabase,getAllAlbumsForUser,getAllSongsForAlbum,getDraftAlbumsForUser,getNonApprovedAlbums,getPrimaryArtistForUserID,registerUser,editAlbum,deleteAblum,deleteLabel,albumApproved,removeDraft,login,addLabelForUserWithID,saveArtist,getAllLabelsForUserIDForUser,saveAlbum,connectMongoDB, getAllArtistsWithUserID}

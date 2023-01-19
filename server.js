@@ -136,7 +136,12 @@ app.post("/delete-label/:id", ensureLogin, async function(req,res){
 });
 // artist management page
 app.get("/artist-manage", ensureLogin, async function(req,res){
-res.render(path.join(__dirname,"/views/buttons.hbs"))
+  api.getAllArtistsWithUserID(req.session.user.userID).then((artist)=>{
+    console.log(artist)
+    res.render(path.join(__dirname,"/views/artists.hbs"),{Artist:artist})
+  }).catch((err)=>{
+    res.render(path.join(__dirname,"/views/artists.hbs"),{errorMessage:err})
+  })
 });
 app.post("/artist-manage/update", ensureLogin, async function(req,res){
   api.updateArtist(req.body,req.session.user.userID).then(()=>{
