@@ -125,7 +125,6 @@ var Label = sq.define('Label', {
     }
 })
 
-// After connecting  and defining models initialize the db 
 
 //Artist model
 var Artist = sq.define('Artist', {
@@ -135,6 +134,10 @@ var Artist = sq.define('Artist', {
         primaryKey: true,
     },
     name: {
+        type: Sequelize.STRING,
+        allowNull: false,
+    },
+    userID: {
         type: Sequelize.STRING,
         allowNull: false,
     },
@@ -156,6 +159,44 @@ var Artist = sq.define('Artist', {
     action: {
         type: Sequelize.STRING
     }
+})
+
+
+//Songs model
+var Song = sq.define('Songs',{
+    writer:{
+        type:Sequelize.STRING,
+    },
+    composer:{
+        type:Sequelize.STRING,
+    },
+    musicDirector:{
+        type:Sequelize.STRING,
+    },
+    producer:{
+        type:Sequelize.STRING
+    },
+    ISRC:{
+        type:Sequelize.STRING
+    },
+    keyTrack:{
+        type:Sequelize.STRING
+    },
+    parentalAdvisory:{
+        type:Sequelize.STRING
+    },
+    tiktokPreviewStartsinSeconds:{
+        type:Sequelize.STRING
+    },
+    trackLanguage:{
+        type:Sequelize.STRING
+    },
+    addTrackLyrics:{
+        type:Sequelize.STRING
+    },
+    albumId:{
+        type:Sequelize.STRING
+    },
 })
 
 function initialize() {
@@ -252,8 +293,12 @@ function deleteLabel(labelId, userID) {
 }
 
 //get all artists
-function getAllArtists() {
-    return Artist.findAll()
+function getAllArtists(artistId) {
+    return Artist.findAll(
+        {
+            where: { userID: artistId }
+        }
+    )
 }
 
 
@@ -293,5 +338,10 @@ function deleteArtist(artistId) {
     })
 }
 
+//adding a song
+function addSong(songData){
+    return Song.create(songData)
+} 
 
-module.exports = { connectDb, initialize, addAlbum, getAllAlbums, deleteAlbum, updateAlbum, getAlbum, addLabel, getAllLabelsForUserID, getLabel, updateLabel, deleteLabel, getAllArtists, getArtist, addArtist, updateArtist, deleteArtist }
+
+module.exports = { connectDb, initialize, addAlbum, getAllAlbums, deleteAlbum, updateAlbum, getAlbum, addLabel, getAllLabelsForUserID, getLabel, updateLabel, deleteLabel, getAllArtists, getArtist, addArtist, updateArtist, deleteArtist,addSong }
