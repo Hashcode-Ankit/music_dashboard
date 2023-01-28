@@ -149,13 +149,63 @@ var Artist = sq.define('Artist', {
         type: Sequelize.STRING,
     },
     appleId: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
     },
     facebookUrl: {
         type: Sequelize.STRING,
     }
 })
-
+// Song Model
+var Song = sq.define('Song', {
+    id: {
+        type: Sequelize.INTEGER,
+        unique: true,
+        autoIncrement: true,
+        primaryKey: true,
+    },
+    userID: {
+        type: Sequelize.STRING,
+        allowNull: false,
+    },
+    albumId:{
+        type: Sequelize.INTEGER,
+    },
+    writer: {
+        type: Sequelize.STRING,
+        allowNull: false,
+    },
+    composer: {
+        type: Sequelize.STRING,
+        allowNull: true,
+    },
+    director: {
+        type: Sequelize.BOOLEAN,
+    },
+    producer: {
+        type: Sequelize.BOOLEAN,
+    },
+    isrc: {
+        type: Sequelize.STRING,
+    },
+    parent: {
+        type: Sequelize.STRING,
+        allowNull: false,
+    },
+    language: {
+        type: Sequelize.STRING,
+    },
+    lyrics: {
+        type: Sequelize.STRING,
+        allowNull: false,
+    },
+    tiktok: {
+        type: Sequelize.STRING,
+    },
+    filePath: {
+        type: Sequelize.STRING,
+        allowNull: false,
+    }
+})
 function initialize() {
     return new Promise((resolve, reject) => {
         setTimeout(() => {
@@ -188,11 +238,15 @@ function getAlbum(albumId) {
 function addAlbum(albumData) {
     return Album.create(albumData)
 }
+function addSong(songData) {
+    return Song.create(songData)
+}
+
 
 //update an Album
 function updateAlbum(albumId, updateInfo) {
     return Album.update(updateInfo, {
-        where: { id: albumId }
+        where: { id:albumId }
     })
 }
 
@@ -274,14 +328,10 @@ function addArtist(artistData) {
 
 
 //update an artist
-function updateArtist(artistId, updateInfo) {
-    return Artist.update(updateInfo,
-        {
-            where: {
-                id: artistId,
-            }
-        }
-    )
+function updateArtist(artistId, artist) {
+    return Artist.update(artist, {
+        where: { id:artistId }
+    })
 }
 
 //delete an artist
@@ -294,4 +344,4 @@ function deleteArtist(artistId) {
 }
 
 
-module.exports = { connectDb, initialize, addAlbum, getAllAlbums, deleteAlbum, updateAlbum, getAlbum, addLabel, getAllLabelsForUserID, getLabel, updateLabel, deleteLabel, getArtist, addArtist, updateArtist, deleteArtist, getArtistForUser}
+module.exports = { connectDb, initialize, addAlbum, addSong, getAllAlbums, deleteAlbum, updateAlbum, getAlbum, addLabel, getAllLabelsForUserID, getLabel, updateLabel, deleteLabel, getArtist, addArtist, updateArtist, deleteArtist, getArtistForUser}

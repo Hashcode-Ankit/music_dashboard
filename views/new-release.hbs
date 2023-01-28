@@ -51,6 +51,7 @@
     border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 20px;
     padding-inline: 1rem;
+    padding: 25px;
   }
 
   main .font-normal {
@@ -369,8 +370,11 @@
     padding: 4 21px;
   }
 
-  . {
+  .errorShow{
     color: red;
+  }
+  .belowLine{
+    border :none
   }
 </style>
 
@@ -382,12 +386,12 @@
         <!-- Form Steps / Progress Bar -->
         <ul class="form-stepper form-stepper-horizontal text-center mx-auto pl-0">
           <!-- Step 1 -->
-          <li class="form-stepper-active text-center form-stepper-list" step="1">
+          <li class="form-stepper-active text-center form-stepper-list " step="1">
             <a class="mx-2">
               <span class="form-stepper-circle">
                 <span>1</span>
               </span>
-              <div class="label">Release</div>
+              <div class="text-lg font-semibold text-gray-600 dark:text-gray-300 py-2 ">Release</div>
             </a>
           </li>
           <!-- Step 2 -->
@@ -396,7 +400,7 @@
               <span class="form-stepper-circle text-muted">
                 <span>2</span>
               </span>
-              <div class="label text-muted">Upload Assets</div>
+              <div class="text-lg font-semibold text-gray-600 dark:text-gray-300 py-2 text-muted">Upload Assets</div>
             </a>
           </li>
           <!-- Step 3 -->
@@ -405,7 +409,7 @@
               <span class="form-stepper-circle text-muted">
                 <span>3</span>
               </span>
-              <div class="label text-muted">Release Date</div>
+              <div class="text-lg font-semibold text-gray-600 dark:text-gray-300 py-2 text-muted">Release Date</div>
             </a>
           </li>
           <!-- Step 4 -->
@@ -414,603 +418,804 @@
               <span class="form-stepper-circle text-muted">
                 <span>4</span>
               </span>
-              <div class="label text-muted">Store</div>
+              <div class="text-lg font-semibold text-gray-600 dark:text-gray-300 py-2 text-muted">Store</div>
             </a>
           </li>
         </ul>
 
         <!-- Step Wise Form Content -->
-        <form id="userAccountSetupForm" name="userAccountSetupForm" enctype="multipart/form-data" method="POST">
-          <!-- Step 1 Content -->
-          <section id="step-1" class="form-step">
-            <h4 class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300"
-              style="font-size: 20px;text-align:center;margin-top: 21px;">
-              &#127911; Release
-            </h4>
-            <!-- Step 1 input fields -->
-            <h1 id ="errorShow"></h1>
-            <div class="mt-3">
-              <div class="container">
+        <!-- Step 1 Content -->
+        <section id="step-1" class="form-step text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
+          <h4 
+            style="font-size: 20px;text-align:center;margin-top:10px;margin-bottom:30px;">
+            &#127911; Release
+          </h4>
+          <!-- Step 1 input fields -->
+          <h1 id="errorShow"></h1>
+          <div class="mt-3">
+            <div class="container">
 
-                <div class="item">
-                  <p style="width: 195px;">
-                    Upload Album Thumbnail:
-                  </p>
-                  <canvas id="canv1"></canvas>
-
-                  <input style="border:none;width: 260px;" type="file" multiple="false" accept="image/*" id="finput"
-                    name="thumbnail" onchange="upload()">
-
-                </div>
-
-                <div class="item">
-
-                  <label for="">Name</label>
-                  <input placeholder="ABC Track" type="" name="title" oninput="this.className = ''">
-                  <label>Version/Subtitle </label><input placeholder="Version/Subtitle" type="version_subtitle"
-                    name="version" oninput="this.className = ''">
-                  <label>Primary Artist <span class="">*</span></label><input placeholder="" type=""
-                    name="primary_artist" oninput="this.className = ''" >
-
-                  <p>
-
-                </div>
-              </div>
-
-              <div class="container">
-
-                <div class="item">
-                  <label>Actor </label><input style="margin-bottom: 29px;" placeholder="Featuring" type="" name="actor"
-                    oninput="this.className = ''">
-                  <label style="margin-right: 42px;" for="pet-select">Genre <span class="">*</span></label>
-                  <select name="genre" id="pet-select" >
-                    <option value="">--Select Genre--</option>
-                    <option value="dog">Dog</option>
-                    <option value="cat">Cat</option>
-                  </select>
-                  <br>
-                  <label for="pet-select" style="margin-right: 23px;">SubGenre </label>
-                  <select name="subgenre" id="pet-select">
-                    <option value="">--Select SubGenre--</option>
-                    <option value="dog">Dog</option>
-                    <option value="cat">Cat</option>
-                  </select>
-                  <br>
-                  <label for="pet-select">Lable Name <span class="">*</span></label>
-                  <select name="lable_name" id="pet-select" >
-                    <option value="">--Select Lable Name--</option>
-                    <option value="dog">Dog</option>
-                    <option value="cat">Cat</option>
-                  </select> <br>
-                  <label for="pet-select" style="margin-right: 35px;">Format <span class="">*</span></label>
-                  <select name="format" id="pet-select" >
-                    <option value="">--Single--</option>
-                    <option value="dog">Dog</option>
-                    <option value="cat">Cat</option>
-                  </select> <br>
-
-                  <label>Producer Catalogue Number <span class="">*</span></label>
-                  <input placeholder="Producer Catalogue Number" type="" name="producer_catalogue_number"
-                    oninput="this.className = ''" >
-                </div>
-
-                <div class="item">
-
-                  <label>Phisical/Original release date <span class="">*</span></label><input
-                    placeholder="Version/Subtitle" type="date" name="physical_release_date"
-                    oninput="this.className = ''" >
-                  <label>Line1 <span class="">*</span></label><input placeholder="Line" type="" name="line1"
-                    oninput="this.className = ''" >
-                  <label>Line2 <span class="">*</span></label><input placeholder="Line" type="" name="line2"
-                    oninput="this.className = ''" >
-                  <label>UPC/EAN <span class="">*</span></label><input placeholder="UPC/EAN" type="" name="upc"
-                    oninput="this.className = ''" >
-                  <label for="pet-select">Production Year <span class="">*</span></label>
-                  <select name="production_year" id="pet-select" >
-                    <option value="">--2022--</option>
-                    <option value="dog">Dog</option>
-                    <option value="cat">Cat</option>
-                  </select> <br>
-                </div>
-
-              </div>
-
-            </div>
-            <div class="mt-3" style="display: flex;
-        justify-content:end">
-              <button class="button btn-navigate-form-step" type="button" step_number="2">Next</button>
-            </div>
-          </section>
-
-          <!-- Step 2 Content, default hidden on page load. -->
-          <section id="step-2" class="form-step d-none">
-            <h4 class="text-lg font-semibold text-gray-600 dark:text-gray-300"
-              style="font-size: 20px;text-align:center;margin-top: 21px;">
-              &#127911; Upload Assets
-            </h4>
-            <!-- Step 2 input fields -->
-            <h1 id ="errorShow2"style="color:red"></h1>
-            <div class="mt-3">
-              <div>
-                <p @click="openModal" style="width: 158px;"
-                  class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
-                  Launch Uploader
+              <div class="item ">
+                <p style="width: 195px;">
+                  Upload Album Thumbnail:
                 </p>
-              </div>
-              <!-- Modal backdrop. This what you want to place close to the closing body tag -->
-              <div x-show="isModalOpen" x-transition:enter="transition ease-out duration-150"
-                x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
-                x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100"
-                x-transition:leave-end="opacity-0"
-                class="fixed inset-0 z-30 flex items-end bg-black bg-opacity-50 sm:items-center sm:justify-center">
-                <!-- Modal -->
-                <div x-show="isModalOpen" x-transition:enter="transition ease-out duration-150"
-                  x-transition:enter-start="opacity-0 transform translate-y-1/2" x-transition:enter-end="opacity-100"
-                  x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100"
-                  x-transition:leave-end="opacity-0  transform translate-y-1/2" @click.away="closeModal"
-                  @keydown.escape="closeModal"
-                  class="w-full px-6 py-4 overflow-hidden bg-white rounded-t-lg dark:bg-gray-800 sm:rounded-lg sm:m-4 sm:max-w-xl"
-                  role="dialog" id="modal">
-                  <!-- Remove header if you don't want a close icon. Use modal body to place modal tile. -->
-                  <header class="flex justify-end">
-                    <p class="inline-flex items-center justify-center w-6 h-6 text-gray-400 transition-colors duration-150 rounded dark:hover:text-gray-200 hover: hover:text-gray-700"
-                      aria-label="close" @click="closeModal">
-                      <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" role="img" aria-hidden="true">
-                        <path
-                          d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                          clip-rule="evenodd" fill-rule="evenodd"></path>
-                      </svg>
-                    </p>
-                  </header>
-                  <!-- Modal body -->
-                  <div class="mb-6">
-                    <!-- Modal title -->
-                    <p class="mb-2 text-lg font-semibold text-gray-700 dark:text-gray-300">
-                      Upload Assets
-                    </p>
-                    <!-- Modal description -->
-                    <div id="target" style="margin-top: 10px;overflow-y: scroll; height:330px;">
-                      <input placeholder="" type="file" id="1" style="height:52px" name="song1" accept=".mp3,audio/*"
-                        oninput="this.className = ''">
-                    </div>
-                    <p style="text-align: right;margin: 10px;">
-                      <span style="width: 52px;text-align: center;margin-right:10px;"
-                        class="px-4 py-2 mb-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
-                        id="addmore">
-                        <b>&plus;</b></span>
-                      <span style="width: 52px;text-align: center;" align="right"
-                        class="px-4 py-2 mb-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
-                        id="remove">
-                        <b>&minus; </b>
-                      </span>
-                    </p>
-                  </div>
-                  <footer
-                    class="flex flex-col items-center justify-end px-6 py-3 -mx-6 -mb-4 space-y-4 sm:space-y-0 sm:space-x-6 sm:flex-row bg-gray-50 dark:bg-gray-800">
-                    <p @click="closeModal"
-                      class="w-full px-5 py-3 text-sm font-medium leading-5 text-white text-gray-700 transition-colors duration-150 border border-gray-300 rounded-lg dark:text-gray-400 sm:px-4 sm:py-2 sm:w-auto active:bg-transparent hover:border-gray-500 focus:border-gray-500 active:text-gray-500 focus:outline-none focus:shadow-outline-gray">
-                      Cancel
-                    </p>
-                    <p onclick="updateTable();" @click="closeModal"
-                      class="w-full px-5 py-3 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg sm:w-auto sm:px-4 sm:py-2 active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
-                      Done
-                    </p>
-                  </footer>
-                </div>
-              </div>
-              <!-- End of modal backdrop -->
+                <canvas id="canv1"></canvas>
 
-              {{!-- table --}}
+                <input  autocomplete="on" style="border:none;width: 260px;" type="file" multiple="false" accept=".jpg,.png,.jpeg"
+                  id="albumImage" name="imgFile" onchange="upload()">
 
-              <div class="container grid px-6 mx-auto">
-                <div class="w-full mb-8 overflow-hidden rounded-lg shadow-xs">
-                  <div class="w-full overflow-x-auto">
-                    <table id="myTable" class="table" style="margin:5 0px">
-                    </table>
-                  </div>
-                </div>
               </div>
 
-              <div class="mt-3" style="display: flex;
-        justify-content: space-between;">
-                <button class="button btn-navigate-form-step" type="button" step_number="1">Prev</button>
-                <button class="button btn-navigate-form-step" type="button" step_number="3">Next</button>
-              </div>
-          </section>
-          <!-- Step 3 Content, default hidden on page load. -->
-          <section id="step-3" class="form-step d-none">
-            <h4 class="text-lg font-semibold text-gray-600 dark:text-gray-300"
-              style="font-size: 20px;text-align:center;margin-top: 21px;">
-              &#127911; Select Main Release Date
-            </h4>
-            <!-- Step 2 input fields -->
-            <div class="mt-3">
-              <label>Select Main release date <span class="">*</span></label><input
-                placeholder="Version/Subtitle" type="date" name="main_release_date" oninput="this.className = ''"
-                >
-            </div>
-            <div class="mt-3" style="display: flex;
-        justify-content: space-between;">
-              <button class="button btn-navigate-form-step" type="button" step_number="2">Prev</button>
-              <button class="button btn-navigate-form-step" type="button" step_number="4">Next</button>
-            </div>
-          </section>
-          <!-- Step 4 Content, default hidden on page load. -->
-          <section id="step-4" class="form-step d-none">
-            <h4 class="text-lg font-semibold text-gray-600 dark:text-gray-300"
-              style="font-size: 20px;text-align:center;margin-top: 21px;">
-              Select Companies To Store
-            </h4>
-            <!-- Step 4 input fields -->
-            <div class="mt-3">
-              <input type="button" onclick='selects()' style="width: 110px;background:#7e3af2;color:white;"
-                value="Select All" />
-              <input type="button" onclick='deSelect()' style="width: 110px;background:#7e3af2;color:white;"
-                value="Deselect All" />
-              <div class="row">
-                <div class="column" style="width: 33.33%;">
-                  <div class="column">
-                    <img
-                      src="https://w7.pngwing.com/pngs/831/542/png-transparent-sony-music-logo-music-industry-production-companies-sony-company-text-music-video.png"
-                      alt="Snow" style="width:100%">
-                    <input type="checkbox" id="s1" class="lg" value="Sony1">
-                  </div>
-                  <div class="column">
-                    <img
-                      src="https://w7.pngwing.com/pngs/831/542/png-transparent-sony-music-logo-music-industry-production-companies-sony-company-text-music-video.png"
-                      alt="Snow" style="width:100%">
-                    <input type="checkbox" id="s2" class="lg" value="Sony2">
-                  </div>
-                </div>
+              <div class="item">
+
+                <label for="">Name</label>
+                <input  autocomplete="on" placeholder="ABC Track" type="" name="title" oninput="this.className = ''">
+                <label>Version/Subtitle </label><input  autocomplete="on" placeholder="Version/Subtitle" type="version_subtitle"
+                  name="version" oninput="this.className = ''">
+                <label>Primary Artist <span class="">*</span></label><input  autocomplete="on" placeholder="" type="" name="primary_artist"
+                  oninput="this.className = ''">
+
+                <p>
+
               </div>
             </div>
-            <div class="mt-3" style="display: flex;justify-content: space-between;">
-              <button class="button btn-navigate-form-step" type="button" step_number="3">Prev</button>
-              <span @click="openModal" style="width: 86px;height: 40px;" onclick="preview();"
+
+            <div class="container">
+
+              <div class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800 belowLine ">
+                <label>Actor </label><input  autocomplete="on" style="margin-bottom: 29px;" placeholder="Featuring" type="" name="actor"
+                  oninput="this.className = ''">
+                <label style="margin-right: 42px;" for="pet-select">Genre <span class="">*</span></label>
+                <select name="genre" id="pet-select">
+                  <option value="">--Select Genre--</option>
+                  <option value="dog">Dog</option>
+                  <option value="cat">Cat</option>
+                </select>
+                <br>
+                <label for="pet-select" style="margin-right: 23px;">SubGenre </label>
+                <select name="subgenre" id="pet-select">
+                  <option value="">--Select SubGenre--</option>
+                  <option value="dog">Dog</option>
+                  <option value="cat">Cat</option>
+                </select>
+                <br>
+                <label for="pet-select">Lable Name <span class="">*</span></label>
+                <select name="lable_name" id="pet-select">
+                  <option value="">--Select Lable Name--</option>
+                  <option value="dog">Dog</option>
+                  <option value="cat">Cat</option>
+                </select> <br>
+                <label for="pet-select" style="margin-right: 35px;">Format <span class="">*</span></label>
+                <select name="format" id="pet-select">
+                  <option value="">--Single--</option>
+                  <option value="dog">Dog</option>
+                  <option value="cat">Cat</option>
+                </select> <br>
+
+                <label>Producer Catalogue Number <span class="">*</span></label>
+                <input  autocomplete="on" placeholder="Producer Catalogue Number" type="" name="producer_catalogue_number"
+                  oninput="this.className = ''">
+              </div>
+
+              <div class="item ">
+
+                <label>Phisical/Original release date <span class="">*</span></label><input
+                  placeholder="Version/Subtitle" type="date" name="physical_release_date" oninput="this.className = ''">
+                <label>Line1 <span class="">*</span></label><input  autocomplete="on" placeholder="Line" type="" name="line1"
+                  oninput="this.className = ''">
+                <label>Line2 <span class="">*</span></label><input  autocomplete="on" placeholder="Line" type="" name="line2"
+                  oninput="this.className = ''">
+                <label>UPC/EAN <span class="">*</span></label><input  autocomplete="on" placeholder="UPC/EAN" type="" name="upc"
+                  oninput="this.className = ''">
+                <label for="pet-select">Production Year <span class="">*</span></label>
+                <select name="production_year" id="pet-select">
+                  <option value="">--2022--</option>
+                  <option value="dog">Dog</option>
+                  <option value="cat">Cat</option>
+                </select> <br>
+              </div>
+
+            </div>
+
+          </div>
+          <div class="mt-3" style="display: flex;
+        justify-content:end">
+            <button class="button btn-navigate-form-step" type="button" step_number="2">Next</button>
+          </div>
+        </section>
+
+        <!-- Step 2 Content, default hidden on page load. -->
+        <section id="step-2" class="form-step d-none">
+          <h4 class="text-lg font-semibold text-gray-600 dark:text-gray-300"
+            style="font-size: 20px;text-align:center;margin-top: 21px;">
+            &#127911; Upload Assets
+          </h4>
+          <!-- Step 2 input fields -->
+          <h1 id="errorShow2" style="color:red"></h1>
+          <div class="mt-3">
+            <div>
+              <button @click="openModal" onclick="updateSaveSongFunction()" style="width: 158px;"
                 class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
-                Preview
-              </span>
+                Add Track +
+              </button>
+            </div>
+          </div>
+          {{!-- table --}}
+          <div class="container grid px-6 mx-auto">
+            <div class="w-full mb-8 overflow-hidden rounded-lg shadow-xs">
+              <div class="w-full overflow-x-auto">
+                <table id="myTable" class="table" style="margin:5 0px">
+                </table>
+              </div>
+            </div>
+          </div>
 
-              <!-- Modal backdrop. This what you want to place close to the closing body tag -->
-              <div x-show="isModalOpen" x-transition:enter="transition ease-out duration-150"
-                x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
-                x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100"
-                x-transition:leave-end="opacity-0"
-                class="fixed inset-0 z-30 flex items-end bg-black bg-opacity-50 sm:items-center sm:justify-center">
-                <!-- Modal -->
-                <div x-show="isModalOpen" x-transition:enter="transition ease-out duration-150"
-                  x-transition:enter-start="opacity-0 transform translate-y-1/2" x-transition:enter-end="opacity-100"
-                  x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100"
-                  x-transition:leave-end="opacity-0  transform translate-y-1/2" @click.away="closeModal"
-                  @keydown.escape="closeModal"
-                  class="w-full px-6 py-4 overflow-hidden bg-white rounded-t-lg dark:bg-gray-800 sm:rounded-lg sm:m-4 sm:max-w-xl"
-                  role="dialog" id="modal">
-                  <!-- Remove header if you don't want a close icon. Use modal body to place modal tile. -->
-                  <header class="flex justify-end">
-                    <p class="inline-flex items-center justify-center w-6 h-6 text-gray-400 transition-colors duration-150 rounded dark:hover:text-gray-200 hover: hover:text-gray-700"
-                      aria-label="close" @click="closeModal">
-                      <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" role="img" aria-hidden="true">
-                        <path
-                          d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                          clip-rule="evenodd" fill-rule="evenodd"></path>
-                      </svg>
-                    </p>
-                  </header>
-                  <!-- Modal body -->
-                  <div class="mb-6">
-                    <!-- Modal title -->
-                    <p class="mb-2 text-lg font-semibold text-gray-700 dark:text-gray-300">
-                      Preview
-                    </p>
-                    <!-- Modal description -->
-
-                    <div id="preview" style="margin-top: 10px;overflow-y: scroll; height:70%">
-
-                    </div>
-
-
-                  </div>
-                  <footer
-                    class="flex flex-col items-center justify-end px-6 py-3 -mx-6 -mb-4 space-y-4 sm:space-y-0 sm:space-x-6 sm:flex-row bg-gray-50 dark:bg-gray-800">
-                    <p @click="closeModal"
-                      class="w-full px-5 py-3 text-sm font-medium leading-5 text-white text-gray-700 transition-colors duration-150 border border-gray-300 rounded-lg dark:text-gray-400 sm:px-4 sm:py-2 sm:w-auto active:bg-transparent hover:border-gray-500 focus:border-gray-500 active:text-gray-500 focus:outline-none focus:shadow-outline-gray">
-                      Cancel
-                    </p>
-
-                    <button @click="closeModal"
-                      class="button submit-btn w-full px-5 py-3 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg sm:w-auto sm:px-4 sm:py-2 active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
-                      type="submit">Save</button>
-                  </footer>
+          <div class="mt-3" style="display: flex;
+        justify-content: space-between;">
+            <button class="button btn-navigate-form-step" type="button" step_number="1">Prev</button>
+            <button class="button btn-navigate-form-step" type="button" step_number="3">Next</button>
+          </div>
+        </section>
+        <!-- Step 3 Content, default hidden on page load. -->
+        <section id="step-3" class="form-step d-none">
+          <h4 class="text-lg font-semibold text-gray-600 dark:text-gray-300"
+            style="font-size: 20px;text-align:center;margin-top: 21px;">
+            &#127911; Select Main Release Date
+          </h4>
+          <!-- Step 2 input fields -->
+          <div class="mt-3">
+            <label>Select Main release date <span class="">*</span></label><input  autocomplete="on" placeholder="Version/Subtitle"
+              type="date" name="main_release_date" oninput="this.className = ''">
+          </div>
+          <div class="mt-3" style="display: flex;
+        justify-content: space-between;">
+            <button class="button btn-navigate-form-step" type="button" step_number="2">Prev</button>
+            <button class="button btn-navigate-form-step" type="button" step_number="4">Next</button>
+          </div>
+        </section>
+        <!-- Step 4 Content, default hidden on page load. -->
+        <section id="step-4" class="form-step d-none">
+          <h4 class="text-lg font-semibold text-gray-600 dark:text-gray-300"
+            style="font-size: 20px;text-align:center;margin-top: 21px;">
+            Select Companies To Store
+          </h4>
+          <!-- Step 4 input fields -->
+          <div class="mt-3">
+            <input  autocomplete="on" type="button" onclick='selects()' style="width: 110px;background:#7e3af2;color:white;"
+              value="Select All" />
+            <input  autocomplete="on" type="button" onclick='deSelect()' style="width: 110px;background:#7e3af2;color:white;"
+              value="Deselect All" />
+            <div class="row">
+              <div class="column" style="width: 33.33%;">
+                <div class="column">
+                  <img
+                    src="https://w7.pngwing.com/pngs/831/542/png-transparent-sony-music-logo-music-industry-production-companies-sony-company-text-music-video.png"
+                    alt="Snow" style="width:100%">
+                  <input  autocomplete="on" type="checkbox" id="s1" class="lg" value="Sony1">
+                </div>
+                <div class="column">
+                  <img
+                    src="https://w7.pngwing.com/pngs/831/542/png-transparent-sony-music-logo-music-industry-production-companies-sony-company-text-music-video.png"
+                    alt="Snow" style="width:100%">
+                  <input  autocomplete="on" type="checkbox" id="s2" class="lg" value="Sony2">
                 </div>
               </div>
-              <!-- End of modal backdrop -->
-
             </div>
-          </section>
-        </form>
+          </div>
+          <div class="mt-3" style="display: flex;justify-content: space-between;">
+            <button class="button btn-navigate-form-step" type="button" step_number="3">Prev</button>
+            <span @click="openModal" style="width: 86px;height: 40px;" onclick="preview();"
+              class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+              Preview
+            </span>
+
+            <!-- Modal backdrop. This what you want to place close to the closing body tag -->
+            <div x-show="isModalOpen" x-transition:enter="transition ease-out duration-150"
+              x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+              x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100"
+              x-transition:leave-end="opacity-0"
+              class="fixed inset-0 z-30 flex items-end bg-black bg-opacity-50 sm:items-center sm:justify-center">
+              <!-- Modal -->
+              <div x-show="isModalOpen" x-transition:enter="transition ease-out duration-150"
+                x-transition:enter-start="opacity-0 transform translate-y-1/2" x-transition:enter-end="opacity-100"
+                x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100"
+                x-transition:leave-end="opacity-0  transform translate-y-1/2" @click.away="closeModal"
+                @keydown.escape="closeModal"
+                class="w-full px-6 py-4 overflow-hidden bg-white rounded-t-lg dark:bg-gray-800 sm:rounded-lg sm:m-4 sm:max-w-xl"
+                role="dialog" id="modal">
+                <!-- Remove header if you don't want a close icon. Use modal body to place modal tile. -->
+                <header class="flex justify-end">
+                  <p class="inline-flex items-center justify-center w-6 h-6 text-gray-400 transition-colors duration-150 rounded dark:hover:text-gray-200 hover: hover:text-gray-700"
+                    aria-label="close" @click="closeModal">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" role="img" aria-hidden="true">
+                      <path
+                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                        clip-rule="evenodd" fill-rule="evenodd"></path>
+                    </svg>
+                  </p>
+                </header>
+                <!-- Modal body -->
+                <div class="mb-6">
+                  <!-- Modal title -->
+                  <p class="mb-2 text-lg font-semibold text-gray-700 dark:text-gray-300">
+                    Preview
+                  </p>
+                  <!-- Modal description -->
+
+                  <div id="preview" style="margin-top: 10px;overflow-y: scroll; height:70%">
+
+                  </div>
+
+
+                </div>
+                <footer
+                  class="flex flex-col items-center justify-end px-6 py-3 -mx-6 -mb-4 space-y-4 sm:space-y-0 sm:space-x-6 sm:flex-row bg-gray-50 dark:bg-gray-800">
+                  <p @click="closeModal"
+                    class="w-full px-5 py-3 text-sm font-medium leading-5 text-white text-gray-700 transition-colors duration-150 border border-gray-300 rounded-lg dark:text-gray-400 sm:px-4 sm:py-2 sm:w-auto active:bg-transparent hover:border-gray-500 focus:border-gray-500 active:text-gray-500 focus:outline-none focus:shadow-outline-gray">
+                    Cancel
+                  </p>
+
+                  <button @click="closeModal"
+                    class="button submit-btn w-full px-5 py-3 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg sm:w-auto sm:px-4 sm:py-2 active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+                    type="submit">Save</button>
+                </footer>
+              </div>
+            </div>
+            <!-- End of modal backdrop -->
+
+          </div>
+        </section>
       </div>
     </div>
   </div>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-  <script src="https://www.dukelearntoprogram.com/course1/common/js/image/SimpleImage.js">
-  </script>
-  <script>
-    var songn = 2;
-    var id = 1;
-    var isAlbumSaved =false
-    var isSongsDataSaved = false
-    $(document).ready(function () {
-      // jQuery methods go here...
-      $('#addmore').click(function () {
-        document.getElementById('target').innerHTML += `<input placeholder="" type="file" id=${songn} style="height:52px"name="song${songn}" accept=".mp3,audio/*" oninput="this.className = ''">`;
-        songn = songn + 1;
-      });
-      $('#remove').click(function () {
-        if (songn > 2) {
-          document.getElementById(songn - 1).remove();
-          songn = songn - 1;
-        }
-      });
-    });
-    function getAndVerifySongsData() {
-      let s;
-      let songsData = [];
-        for(s=1;s<songn;s++){
-         //Gettin song file
-        var fileSelect = document.getElementById(s);
-        var files = fileSelect.files;
-        var file = files[0];
-        
-        let song = {
-        songFile: file,
-        writer: $(`input[name="t${s}writer"]`).val(),
-        composer: $(`input[name="t${s}composer"]`).val(),
-        musicDirector: $(`input[name="t${s}music_director"]`).val(),
-        producer: $(`input[name="t${s}producer"]`).val(),
-        isrc: $(`input[name="t${s}isrc_admin"]`).val(),
-        parentalAdvisory : $(`input[name="t${s}parental_advisory"]`).val(),
-        trackLanguage :$(`input[name="t${s}track_language"]`).val(),
-        addTrackLyrics : $(`input[name="t${s}track_lyrics"]`).val(),
-        tiktokPreview : $(`input[name="t${s}tiktok_preview"]`).val(),
-        primaryTrack:$(`input[name="t${s}key_track"]`).val(),
-      }   
-      songsData.push(song);
-      }
-      return songsData
-    }
 
- const saveSongsData = async (songsData) => {
-      let savedSongsDataID = ""
-      const formData = new FormData();
-      for (const key in songsData) {
-        formData.append(key, songsData[key]);
-      }
-      await fetch('/album-manage/addSongsData', {
-        method: 'POST',
-        body: formData
-      }).then(response => {
-        data = response.json()
-        savedSongsDataID = data[songsDataID]
-      }).then(data => {
-        console.log('Successfully saved SongsData:', data);
-      }).catch((error) => {
-        console.error(error)
-        return ""
-      });
-      return savedSongsDataID
+</main>
+
+{{!-- Model for Uploading Assets --}}
+<style>
+  #myInput {
+    background-image: url('/css/searchicon.png');
+    background-position: 10px 10px;
+    background-repeat: no-repeat;
+    width: 100%;
+    font-size: 16px;
+    padding: 12px 20px 12px 40px;
+    border: 1px solid #ddd;
+    margin-bottom: 12px;
+  }
+
+  .container2 {
+    margin-top: 100px;
+    position: relative;
+    max-height: 600px;
+    width: 100%;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    background-color: #fcfcfc;
+  }
+
+  .card {
+    border-radius: 10px;
+    box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.3);
+    width: 100%;
+    height: 100%;
+    background-color: #ffffff;
+    padding: 10px 30px 40px;
+  }
+
+  .card h3 {
+    font-size: 22px;
+    font-weight: 600;
+
+  }
+
+  .drop_box {
+    margin: 10px 0;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    border: 3px dotted #a3a3a3;
+    border-radius: 5px;
+  }
+
+  .drop_box h4 {
+    font-size: 16px;
+    font-weight: 400;
+    color: #2e2e2e;
+  }
+
+  .drop_box p {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    font-size: 12px;
+    color: #a3a3a3;
+  }
+
+  .btn {
+    text-decoration: none;
+    background-color: #005af0;
+    color: #ffffff;
+    padding: 10px 20px;
+    border: none;
+    outline: none;
+    transition: 0.3s;
+  }
+
+  .btn:hover {
+    text-decoration: none;
+    background-color: #ffffff;
+    color: #005af0;
+    padding: 10px 20px;
+    border: none;
+    outline: 1px solid #010101;
+  }
+
+  .form input {
+    margin: 10px 0;
+    width: 100%;
+    background-color: #e2e2e2;
+    border: none;
+    outline: none;
+    padding: 12px 20px;
+    border-radius: 4px;
+  }
+
+  .scrolable {
+    overflow-y: scroll;
+  }
+
+  .above {
+    margin-bottom: 160px;
+  }
+</style>
+<div x-show="isModalOpen" x-transition:enter="transition ease-out duration-150" x-transition:enter-start="opacity-0"
+  x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-150"
+  x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
+  class="fixed inset-0 z-30 flex items-end bg-black bg-opacity-50 sm:items-center sm:justify-center">
+  <!-- Modal -->
+  <div x-show="isModalOpen" x-transition:enter="transition ease-out duration-150"
+    x-transition:enter-start="opacity-0 transform translate-y-1/2" x-transition:enter-end="opacity-100"
+    x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100"
+    x-transition:leave-end="opacity-0  transform translate-y-1/2" @click.away="closeModal" @keydown.escape="closeModal"
+    class="w-full px-6 py-4 overflow-hidden bg-white rounded-t-lg dark:bg-gray-800 sm:rounded-lg sm:m-4 sm:max-w-xl"
+    role="dialog" id="modal">
+    <!-- Remove header if you don't want a close icon. Use modal body to place modal tile. -->
+    <header class="flex justify-end">
+      <button
+        class="inline-flex items-center justify-center w-6 h-6 text-gray-400 transition-colors duration-150 rounded dark:hover:text-gray-200 hover: hover:text-gray-700"
+        aria-label="close" @click="closeModal">
+        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" role="img" aria-hidden="true">
+          <path
+            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+            clip-rule="evenodd" fill-rule="evenodd"></path>
+        </svg>
+      </button>
+    </header>
+    <!-- Modal body -->
+    <div class="mt-4 mb-6 scrolable">
+      <!-- Modal title -->
+      <p class="above font-semibold text-gray-700 dark:text-gray-300 my-6 text-xl font-semibold">
+        Add Track Details
+      </p>
+      <!-- Modal description -->
+      <div class="container2">
+        <div class="card">
+          <label class="block text-sm">
+            <span class="text-gray-700 dark:text-gray-400 my-6">Writer</span>
+            <input  autocomplete="on" name="writer"
+              id ="songWriter"
+              class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+              placeholder="Karan Aujila" required />
+          </label>
+          <label class="block text-sm">
+            <span class="text-gray-700 dark:text-gray-400 my-6"> Composer </span>
+            <input  autocomplete="on" name="composer"
+             id ="songComposer"
+              class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+              placeholder="Rehan Records" required />
+          </label>
+          <label class="block text-sm">
+            <span class="text-gray-700 dark:text-gray-400 my-6"> Music Director </span>
+            <input  autocomplete="on" name="director"
+             id ="songDirector"
+              class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+              placeholder="Sandeep Rehan" required />
+          </label>
+          <label class="block text-sm">
+            <span class="text-gray-700 dark:text-gray-400 my-6"> Producer </span>
+            <input  autocomplete="on" name="producer"
+             id ="songProducer"
+              class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+              placeholder="Musical Doctor" required />
+          </label>
+          <label class="block text-sm">
+            <span class="text-gray-700 dark:text-gray-400 my-6"> ISRC </span>
+            <input  autocomplete="on" name="isrc"
+             id ="songISRC"
+              class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+              placeholder="ixbt-axbx" />
+          </label>
+          <label class="block text-sm">
+            <span class="text-gray-700 dark:text-gray-400 my-6"> Parental Advisory </span>
+            <input  autocomplete="on" name="parent"
+             id ="songParent"
+              class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+              placeholder="T-Series" required />
+          </label>
+          <label class="block text-sm">
+            <span class="text-gray-700 dark:text-gray-400 my-6"> Track Language </span>
+            <input  autocomplete="on" name="language"
+             id ="songLanguage"
+              class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+              placeholder="Punjabi" required />
+          </label>
+          <label class="block text-sm">
+            <span class="text-gray-700 dark:text-gray-400 my-6"> Add Track Lyrics </span>
+            <input  autocomplete="on" name="lyrics"
+             id ="songLyrics"
+              class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+              placeholder="Hukam" required />
+          </label>
+          <label class="block text-sm">
+            <span class="text-gray-700 dark:text-gray-400 my-6"> Tiktok Preview </span>
+            <input  autocomplete="on" name="tiktok"
+             id ="songTiktok"
+              class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+              placeholder="15 sec" required />
+          </label>
+          <label class="text-gray-700 dark:text-gray-400">Upload Track File</label>
+          <div class="drop_box">
+            <header>
+              <h4>Select File here</h4>
+            </header>
+            <p>Files Supported: .mp3, .wav, .flac</p>
+            <input  autocomplete="on" name="filePath" type="file" class="form-control" hidden accept=".mp3,.wav,.flac" id="songFile"
+              style="display:none;">
+            <button class="btn" type="button">Choose File</button>
+          </div>
+          <div class="recent-file" id ="updatedSongFile"></div>
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;justify-content:space-between">
+      <button @click="closeModal"
+        class="w-full px-5 py-3 text-sm font-medium leading-5 text-white text-gray-700 transition-colors duration-150 border border-gray-300 rounded-lg dark:text-gray-400 sm:px-4 sm:py-2 sm:w-auto active:bg-transparent hover:border-gray-500 focus:border-gray-500 active:text-gray-500 focus:outline-none focus:shadow-outline-gray">
+        Cancel
+      </button>
+      <button @click="closeModal"
+        id="saveSongButton"
+        class="w-full px-5 py-3 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg sm:w-auto sm:px-4 sm:py-2 active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+        Save Track
+      </button>
+    </div>
+  </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<script src="https://www.dukelearntoprogram.com/course1/common/js/image/SimpleImage.js"></script>
+<script>
+  var songn = 2;
+  var id = 1;
+  var isAlbumSaved = false
+  var isSongsDataSaved = false
+  let songsArray = []
+  let savedAlbum = {}
+  let savedSongsID =[]
+  // Add Song Model Functions
+  const dropArea = document.querySelector(".drop_box")
+  const dropArea2 = document.querySelector(".recent-file"),
+  button = dropArea.querySelector("button"),
+  dragText = dropArea.querySelector("header"),
+  input = dropArea.querySelector("input");
+  let file;
+  var filename;
+  // when clicked add song then the model save function will create new object
+  function updateSaveSongFunction(){
+    document.getElementById('saveSongButton').onclick = addSongInArray;
+    clearForm()
+  }
+  function clearForm(){
+    document.getElementById('songWriter').value = ""
+    document.getElementById('songComposer').value = ""
+    document.getElementById('songDirector').value = ""
+    document.getElementById('songProducer').value = ""
+    document.getElementById('songISRC').value = ""
+    document.getElementById('songParent').value = ""
+    document.getElementById('songLanguage').value =""
+    document.getElementById('songLyrics').value = ""
+    document.getElementById('songTiktok').value = ""
+    document.getElementById('updatedSongFile').innerHTML = `File Added :`
+  }
+  button.onclick = () => {
+    console.log("btnset")
+    input.click();
+  };
+  input.addEventListener("change", function (e) {
+    var fileName = e.target.files[0].name;
+    let filedata = `
+    <h4> File Added : ${fileName}</h4>`;
+    dropArea2.innerHTML = filedata;
+  });
+function editSongDataInFormToUpdate(idx){
+  document.getElementById('songWriter').value = songsArray[idx].writer
+  document.getElementById('songComposer').value = songsArray[idx].composer
+  document.getElementById('songDirector').value = songsArray[idx].director
+  document.getElementById('songProducer').value = songsArray[idx].producer
+  document.getElementById('songISRC').value = songsArray[idx].isrc
+  document.getElementById('songParent').value = songsArray[idx].parent
+  document.getElementById('songLanguage').value = songsArray[idx].language
+  document.getElementById('songLyrics').value = songsArray[idx].lyrics
+  document.getElementById('songTiktok').value = songsArray[idx].tiktok
+  document.getElementById('updatedSongFile').innerHTML = `Choosen Previously : ${songsArray[idx].filePath.name}`
+  document.getElementById('saveSongButton').onclick = (function(index) {
+        return function() {
+            updateSongData(index);
+            updateTable()
+        }
+    })(idx);
+}
+function updateSongData(idx){
+      console.log("got idx here : ",idx)
+      let fileSelect = document.getElementById("songFile").files[0];
+      songsArray[idx].filePath = fileSelect,
+      songsArray[idx].writer = $(`input[name="writer"]`).val(),
+      songsArray[idx].composer = $(`input[name="composer"]`).val(),
+      songsArray[idx].director = $(`input[name="director"]`).val(),
+      songsArray[idx].producer = $(`input[name="producer"]`).val(),
+      songsArray[idx].isrc = $(`input[name="isrc"]`).val(),
+      songsArray[idx].parent = $(`input[name="parent"]`).val(),
+      songsArray[idx].language = $(`input[name="language"]`).val(),
+      songsArray[idx].lyrics = $(`input[name="lyrics"]`).val(),
+      songsArray[idx].tiktok = $(`input[name="tiktok"]`).val()
+  }
+  // <------------ model function end ---------->
+  // <-------------Function for Album Only------>
+  function getAndVerifyAlbumValues() {
+    const albumImageObject = document.getElementById("albumImage").files[0]
+    let albumValues = {
+      title: $('input[name="title"]').val(),
+      subTitle: $('input[name="version"]').val(),
+      albumImage: albumImageObject,
+      primaryArtist: $('input[name="primary_artist"]').val(),
+      actor: $('input[name="actor"]').val(),
+      genre: $('select[name="genre"]').children("option:selected").val(),
+      subgenre: $('select[name="subgenre"]').children("option:selected").val(),
+      labelID: $('select[name="lable_name"]').children("option:selected").val(),
+      format: $('select[name="format"]').children("option:selected").val(),
+      originalReleaseDate: $('input[name="physical_release_date"]').val(),
+      productionYear: $('select[name="production_year"]').children("option:selected").val(),
     }
-   
-    function getAndVerifyAlbumValues() {
-      let albumValues = {
-        title: $('input[name="title"]').val(),
-        subTitle: $('input[name="version"]').val(),
-        albumImage: $('input[name="thumbnail"]').val(),
-        primaryArtist: $('input[name="primary_artist"]').val(),
-        actor: $('input[name="actor"]').val(),
-        genre : $('select[name="genre"]').children("option:selected").val(),
-        subgenre : $('select[name="subgenre"]').children("option:selected").val(),
-        labelID : $('select[name="lable_name"]').children("option:selected").val(),
-        format : $('select[name="format"]').children("option:selected").val(),
-        originalReleaseDate: $('input[name="physical_release_date"]').val(),
-        productionYear : $('select[name="production_year"]').children("option:selected").val(),
-      }
-      return albumValues
+    return albumValues
+  }
+  const saveAlbumData = async (albumData) => {
+    let savedAlbum = {}
+    const formData = new FormData();
+    for (const key in albumData) {
+      formData.append(key, albumData[key]);
     }
-    const saveAlbumData = async (albumData) => {
-      let savedAlbumID = ""
-      const formData = new FormData();
+    await fetch('/album-manage/addAlbum', {
+      method: 'POST',
+      body: formData
+    }).then(response => {
+      if (response.ok) {
+        return response.json()
+      }
+    }).then(async (data) => {
+      if (data.album) {
+        savedAlbum = data.album;
+        console.log("response data", savedAlbum)
+      }
+    }).catch((error) => {
+      console.error(error)
+      return savedAlbum
+    });
+    return savedAlbum
+  }
+  const updateAlbumData = async (albumData,savedAlbumData)=> {
+    const formData = new FormData();
+    for (const key in albumData) {
+      formData.append(key, albumData[key]);
+    }
+    formData.append("albumId", savedAlbumData.id);
+    await fetch('/album-manage/updateAlbum', {
+      method: 'POST',
+      body: formData
+    }).then(response => {
+      if (response.ok) {
+        return response.json()
+      }
+    }).then(async (data) => {
+      console.log("Album Updated")
+    }).catch((error) => {
+      console.error(error)
+    });
+  }
+  // <-------------Function for Album Only End------>
+
+  function addSongInArray() {
+    let fileSelect = document.getElementById("songFile").files[0];
+    let song = {
+      filePath: fileSelect,
+      writer: $(`input[name="writer"]`).val(),
+      composer: $(`input[name="composer"]`).val(),
+      director: $(`input[name="director"]`).val(),
+      producer: $(`input[name="producer"]`).val(),
+      isrc: $(`input[name="isrc"]`).val(),
+      parent: $(`input[name="parent"]`).val(),
+      language: $(`input[name="language"]`).val(),
+      lyrics: $(`input[name="lyrics"]`).val(),
+      tiktok: $(`input[name="tiktok"]`).val(),
+      albumID : savedAlbum.id[0],
+      title: savedAlbum.title[0],
+    }
+    console.log("saved Song Data :", song)
+    songsArray.push(song);
+    updateTable()
+  }
+  const saveSongsData = async (savedAlbumData) => {
+    const formData = new FormData();
+    for(let i=0;i<songsArray.length;i++){
+      for (const key in songsArray[i]) {
+          formData.append(key, songsArray[i][key]);
+      }
+    await fetch('/album-manage/addSong', {
+    method: 'POST',
+    body: formData
+    }).then(response => {
+      console.log(response.json())
+    }).then(data => {
+      console.log('Successfully saved SongsData:', data);
+      savedSongsID.push(data)
+    }).catch((error) => {
+      console.error(error)
+    });
+    }
+  }
+  const navigateToFormStep = async (stepNumber) => {
+    // Check if data got saved if not not change the page 
+    // TODO: If data already saved then update by checking savedAlbumID
+    if (stepNumber == 2) {
+      albumData = getAndVerifyAlbumValues()
+      console.log(albumData)
+      let missingData = false
+      let text = `<p class ="err">Missing Fields :`
       for (const key in albumData) {
-        formData.append(key, albumData[key]);
+        if (albumData[key] == "") {
+          text = text + `${key}, `
+          missingData = true
+        }
       }
-      await fetch('/album-manage/addAlbum', {
-        method: 'POST',
-        body: formData
-      }).then(response => {
-        data = response.json()
-        savedAlbumID = data[albumID]
-        console.log("response data",data)
-      }).then(() => {
-        console.log('Successfully saved album');
-      }).catch((error) => {
-        console.error(error)
-        return ""
-      });
-      return savedAlbumID
+      if (missingData) {
+        document.getElementById("errorShow").innerHTML = text + `<p>`
+        return
+      } else {
+        document.getElementById("errorShow").innerHTML = ``
+      }
+      if(isAlbumSaved == false){
+        savedAlbum = await saveAlbumData(albumData)
+      }
+      else{
+         updateAlbumData(albumData,savedAlbum)
+      }
+      if (Object.keys(savedAlbum) === 0) {
+        console.log("Album Not Saved")
+        return
+      } else {
+        document.getElementById("errorShow").innerHTML = ``
+        isAlbumSaved = true
+        console.log("savedAlbumID: ", savedAlbum.title)
+      }
     }
-    const navigateToFormStep = async(stepNumber) => {
-      albumID = ""
-      // Check if data got saved if not not change the page 
-      // TODO: If data already saved then update by checking savedAlbumID
-      if (stepNumber == 2 && isAlbumSaved == false) {
-        albumData = getAndVerifyAlbumValues()
-        let missingData = false
-        let text = `<p class ="err">Missing Fields :`
-        for (const key in albumData) {
-          if (albumData[key] == "") {
-            text = text + `${key}, `
-            missingData = true
-         }
-        }
-        if (missingData) {
-          document.getElementById("errorShow").innerHTML = text + `<p>`
-          return
-        } else {
-          document.getElementById("errorShow").innerHTML = ``
-        }
-        let savedAlbumID = await saveAlbumData(albumData)
-        if (savedAlbumID == "") {
-          return
-        } else {
-          document.getElementById("errorShow").innerHTML = ``
-          isAlbumSaved = true
-          console.log("savedAlbumID: hash-",savedAlbumID)
-        }
-      }      
 
-      // checking for second page
-
-       if (stepNumber == 3 && isSongsDataSaved == false) {
-        songsData = getAndVerifySongsData()
-        let missingData = false
-        let text = `<p class ="err">File or MataData Fields Missing! Please Fill Or Remove song by Uploader! `
-        let s;
-        for(s=0;s<songn-1;s++){
-          for (const key in songsData[s]) {
-          console.log(key, " : ", songsData[s][key])
-          if (songsData[s][key] == "") {
-            missingData = true
-         }
-        }  
-        
-        if (missingData) {
-          document.getElementById("errorShow2").innerHTML = text + `<p>`
-          return
-        } else {
-          document.getElementById("errorShow2").innerHTML = ``
-        }
-        let savedSongsDataID = saveSongsData(songsData[s])
-        if (savedSongsDataID == "") {
-          return
-        } else {
-          document.getElementById("errorShow2").innerHTML = ``
-          isSongsDataSaved = true
-        }
-      }       
-       text = text + `${key}, `
+    // checking for second page
+    if (stepNumber == 3 && isSongsDataSaved == false) {
+      await saveSongsData(savedAlbum) 
+      if(!isSongsDataSaved) {
+          document.getElementById("errorShow").innerHTML = `An Error Occure While Saving Assets`
       }
-     
-      document.querySelectorAll(".form-step").forEach((formStepElement) => {
-        formStepElement.classList.add("d-none");
-      });
-      document.querySelectorAll(".form-stepper-list").forEach((formStepHeader) => {
-        formStepHeader.classList.add("form-stepper-unfinished");
-        formStepHeader.classList.remove("form-stepper-active", "form-stepper-completed");
-      });
+    }
 
-      document.querySelector("#step-" + stepNumber).classList.remove("d-none");
-
-      const formStepCircle = document.querySelector('li[step="' + stepNumber + '"]');
-
-      formStepCircle.classList.remove("form-stepper-unfinished", "form-stepper-completed");
-      formStepCircle.classList.add("form-stepper-active");
-
-      for (let index = 0; index < stepNumber; index++) {
-
-        const formStepCircle = document.querySelector('li[step="' + index + '"]');
-
-        if (formStepCircle) {
-
-          formStepCircle.classList.remove("form-stepper-unfinished", "form-stepper-active");
-          formStepCircle.classList.add("form-stepper-completed");
-        }
-      }
-    };
-    /**
-     * Select all form navigation buttons, and loop through them.
-     */
-    document.querySelectorAll(".btn-navigate-form-step").forEach((formNavigationBtn) => {
-      /**
-       * Add a click event listener to the button.
-       */
-      formNavigationBtn.addEventListener("click", () => {
-        /**
-         * Get the value of the step.
-         */
-        const stepNumber = parseInt(formNavigationBtn.getAttribute("step_number"));
-        /**
-         * Call the function to navigate to the target form step.
-         */
-        navigateToFormStep(stepNumber);
-      });
+    document.querySelectorAll(".form-step").forEach((formStepElement) => {
+      formStepElement.classList.add("d-none");
+    });
+    document.querySelectorAll(".form-stepper-list").forEach((formStepHeader) => {
+      formStepHeader.classList.add("form-stepper-unfinished");
+      formStepHeader.classList.remove("form-stepper-active", "form-stepper-completed");
     });
 
-    //script for image Uploader
-    function upload() {
-      var imgcanvas = document.getElementById("canv1");
-      var fileinput = document.getElementById("finput");
-      var image = new SimpleImage(fileinput);
-      image.drawTo(imgcanvas);
+    document.querySelector("#step-" + stepNumber).classList.remove("d-none");
 
-    }
-    function priviewimg() {
-      var imgcanvas2 = document.getElementById("canv2");
-      var fileinput = document.getElementById("finput");
-      var image = new SimpleImage(fileinput);
-      image.drawTo(imgcanvas2);
-    }
+    const formStepCircle = document.querySelector('li[step="' + stepNumber + '"]');
 
-    //for company selection
-    function getCheckboxValue() {
-      var lang1 = document.getElementById("s1");
-      var lang2 = document.getElementById("s2");
-      var result = " ";
-      if (lang1.checked == true) {
-        var lg1 = document.getElementById("s1").value;
-        result += lg1 + " ";
-      }
-      if (lang2.checked == true) {
-        var lg2 = document.getElementById("s2").value;
-        result += lg2 + " ";
-      }
+    formStepCircle.classList.remove("form-stepper-unfinished", "form-stepper-completed");
+    formStepCircle.classList.add("form-stepper-active");
 
-      return document.getElementById("result").innerHTML = "You have selected " + result + " Companies to Release";
-    }
-    function selects() {
-      var ele = document.getElementsByClassName('lg');
-      for (var i = 0; i < ele.length; i++) {
-        if (ele[i].type == 'checkbox')
-          ele[i].checked = true;
+    for (let index = 0; index < stepNumber; index++) {
+
+      const formStepCircle = document.querySelector('li[step="' + index + '"]');
+
+      if (formStepCircle) {
+
+        formStepCircle.classList.remove("form-stepper-unfinished", "form-stepper-active");
+        formStepCircle.classList.add("form-stepper-completed");
       }
     }
-    function deSelect() {
-      var ele = document.getElementsByClassName('lg');
-      for (var i = 0; i < ele.length; i++) {
-        if (ele[i].type == 'checkbox')
-          ele[i].checked = false;
+  };
+  document.querySelectorAll(".btn-navigate-form-step").forEach((formNavigationBtn) => {
+    formNavigationBtn.addEventListener("click", () => {
+      const stepNumber = parseInt(formNavigationBtn.getAttribute("step_number"));
+      navigateToFormStep(stepNumber);
+    });
+  });
 
-      }
+  //script for image Uploader
+  function upload() {
+    var imgcanvas = document.getElementById("canv1");
+    var fileinput = document.getElementById("albumImage");
+    var image = new SimpleImage(fileinput);
+    image.drawTo(imgcanvas);
+
+  }
+  function priviewimg() {
+    var imgcanvas2 = document.getElementById("canv2");
+    var fileinput = document.getElementById("albumImage");
+    var image = new SimpleImage(fileinput);
+    image.drawTo(imgcanvas2);
+  }
+
+  //for company selection
+  function getCheckboxValue() {
+    var lang1 = document.getElementById("s1");
+    var lang2 = document.getElementById("s2");
+    var result = " ";
+    if (lang1.checked == true) {
+      var lg1 = document.getElementById("s1").value;
+      result += lg1 + " ";
     }
-     function preview() {
-      let name = $('input[name="title"]').val();
-      let version = $('input[name="version"]').val();
-      let thumbnail = $('input[name="thumbnail"]').val();
-      let primary_artist = $('input[name="primary_artist"]').val();
-      let actor = $('input[name="actor"]').val();
-      let various_artist = $('input[type="checkbox"]:checked').val();
-      if (various_artist != "yes") { various_artist = "No" };
-      let genre = $('select[name="genre"]').children("option:selected").val();
-      let subgenre = $('select[name="subgenre"]').children("option:selected").val();
-      let lable_name = $('select[name="lable_name"]').children("option:selected").val();
-      let format = $('select[name="format"]').children("option:selected").val();
-      let physical_release_date = $('input[name="physical_release_date"]').val();
-      let line1 = $('input[name="line1"]').val();
-      let line2 = $('input[name="line2"]').val();
-      let production_year = $('select[name="production_year"]').children("option:selected").val();
-      let upc = $('input[name="upc"]').val();
-      let producer_catalogue_number = $('input[name="producer_catalogue_number"]').val();
-      let main_release_date = $('input[name="main_release_date"]').val();
+    if (lang2.checked == true) {
+      var lg2 = document.getElementById("s2").value;
+      result += lg2 + " ";
+    }
+    return document.getElementById("result").innerHTML = "You have selected " + result + " Companies to Release";
+  }
+  function selects() {
+    var ele = document.getElementsByClassName('lg');
+    for (var i = 0; i < ele.length; i++) {
+      if (ele[i].type == 'checkbox')
+        ele[i].checked = true;
+    }
+  }
+  function deSelect() {
+    var ele = document.getElementsByClassName('lg');
+    for (var i = 0; i < ele.length; i++) {
+      if (ele[i].type == 'checkbox')
+        ele[i].checked = false;
 
-      document.getElementById('preview').innerHTML = `
+    }
+  }
+  function preview() {
+    let name = $('input[name="title"]').val();
+    let version = $('input[name="version"]').val();
+    let thumbnail = $('input[name="imgFile"]').val();
+    let primary_artist = $('input[name="primary_artist"]').val();
+    let actor = $('input[name="actor"]').val();
+    let various_artist = $('input[type="checkbox"]:checked').val();
+    if (various_artist != "yes") { various_artist = "No" };
+    let genre = $('select[name="genre"]').children("option:selected").val();
+    let subgenre = $('select[name="subgenre"]').children("option:selected").val();
+    let lable_name = $('select[name="lable_name"]').children("option:selected").val();
+    let format = $('select[name="format"]').children("option:selected").val();
+    let physical_release_date = $('input[name="physical_release_date"]').val();
+    let line1 = $('input[name="line1"]').val();
+    let line2 = $('input[name="line2"]').val();
+    let production_year = $('select[name="production_year"]').children("option:selected").val();
+    let upc = $('input[name="upc"]').val();
+    let producer_catalogue_number = $('input[name="producer_catalogue_number"]').val();
+    let main_release_date = $('input[name="main_release_date"]').val();
+
+    document.getElementById('preview').innerHTML = `
 
 <br>
   <div class="container" style="background: #ded2f1;
@@ -1062,24 +1267,24 @@
 
 
   `
-      document.getElementById('myTable2').innerHTML = document.getElementById('myTable').innerHTML;
-      getCheckboxValue();//for companies selection
-      priviewimg();
+    document.getElementById('myTable2').innerHTML = document.getElementById('myTable').innerHTML;
+    getCheckboxValue();//for companies selection
+    priviewimg();
 
-    }
+  }
 
-    function updateTable() {
-      var i;
-
-      document.getElementById('myTable').innerHTML = `
+  // Updating the table
+  function updateTable() {
+    document.getElementById('myTable').innerHTML = `
     <table class="w-full whitespace-no-wrap">
           <thead>
             <tr
               class="header text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
               <th class="px-4 py-3">Id</th>
+              <th class="px-4 py-3">Writer</th>
+              <th class="px-4 py-3">Language</th>
               <th class="px-4 py-3">File Name</th>
-              <th class="px-4 py-3">Type</th>
-              <th class="px-4 py-3">Add MataData <span class="">*</span></th>
+              <th class="px-4 py-3">Action</th>
             </tr>
           </thead>
           <tbody id="myTable" class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
@@ -1087,113 +1292,38 @@
           </tbody>
         </table>
     `;
-      for (i = 1; i < songn; i++) {
-        var fileName;
-        var extension;
-        try {
-          fileName = $('#' + i).val().split('\\').pop();
-          extension = $('#' + i).val().split('.').pop();
-          fileName = fileName.substr(0, 50);
-        }
-        catch {
-          fileName = "Not Uploaded!";
-          extension = NaN;
-        }
-        if (fileName == "") {
-          fileName = "Not Uploaded!";
-          extension = NaN;
-        }
-
-        document.getElementById('myTable').innerHTML += `
+    console.log("Here are song Details: ", songsArray)
+    for (let i = 0; i < songsArray.length; i++) {
+      document.getElementById('myTable').innerHTML += `
        <tr id="row${i}" class="text-gray-700 dark:text-gray-400">
               <td class="px-4 py-3">
-                   ${i}
+                   ${i + 1}
               </td>
               <td class="px-4 py-3 text-sm">
-                ${fileName}...
+                ${songsArray[i].writer}
               </td>
-      
               <td class="px-4 py-3 text-sm">
-                ${extension}
+                ${songsArray[i].language}
+              </td>
+              <td class="px-4 py-3 text-sm">
+                ${songsArray[i].filePath.name}
               </td>
               <td class="px-4 py-3">
               <div class="ActionDiv flex items-center space-x-4 text-sm">
                <button
                     id="${i}"
-                    onclick="togglePopup(${i})"
+                    onclick="editSongDataInFormToUpdate(${i})"
+                    @click="openModal"
                     class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                     aria-label="Edit">
-                    add
                     <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
                       <path
                         d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z">
                       </path>
                     </svg>
-                  </button>
-                
+               </button> `
   
-    <!-- div containing the popup -->
-    <div class="content" id="content${i}">
-        <div id="${i}"onclick="togglePopup(${i})" class="close-btn">
-            Done
-        </div>
-        <p class="mb-2 text-lg font-semibold text-gray-700 dark:text-gray-300">
-        Song Metadata
-      </p>
-  
-       <div style="margin-top: 10px;overflow-y: scroll; height:90%;"> 
-  <div class="inputwrap">
-  <label>Writer <span class="">*</span></label><input style="width:70%;"placeholder="Writer" type="text" id="t${i}writer" name="t${i}writer" oninput="this.className = ''">
-  </div>    
-  <div class="inputwrap">
-  <label>Composer <span class="">*</span></label><input style="width:70%;"placeholder="Composer" type="text" id="t${i}composer" name="t${i}composer" oninput="this.className = ''">
-  </div> 
-  <div class="inputwrap">
-  <label>Music Director <span class="">*</span></label><input style="width:70%;"placeholder="Music Director" type="text" id="t${i}music_director" name="t${i}music_director" oninput="this.className = ''">
-  </div> 
-  <div class="inputwrap">
-  <label>Producer <span class="">*</span></label><input style="width:70%;"placeholder="Producer" type="text" id = "t${i}producer" name="t${i}producer" oninput="this.className = ''">
-  </div> 
-  <div class="inputwrap">
-  <label>ISRC  (Admin) <span class="">*</span></label><input style="width:70%;"placeholder="ISRC  (Admin)" type="text" id="t${i}isrc_admin" name="t${i}isrc_admin" name="t${i}isrc_admin" oninput="this.className = ''">
-  </div> 
- 
-  <div class="inputwrap">
-  <label>Parental advisory <span class="">*</span></label><input style="width:70%;"placeholder="Parental Advisory" type="text" id="t${i}parental_advisory" name="t${i}parental_advisory" oninput="this.className = ''">
-  </div> 
-  
-  <div class="inputwrap">
-  <label>Track Language <span class="">*</span></label><input style="width:70%;"placeholder="Track Language" type="text" id="t${i}track_language" name="t${i}track_language" oninput="this.className = ''">
-  </div> 
-  <div class="inputwrap">
-  <label>Add track Lyrics <span class="">*</span></label><input style="width:70%;"placeholder="Add track Lyrics" type="text" id="t${i}track_lyrics" name="t${i}track_lyrics" oninput="this.className = ''">
-  </div> 
-<div class="inputwrap">
-  <label style="width: 30%;">Tiktok Preview Starts in Seconds <span class="">*</span></label><input style="width:70%;"placeholder="" type="text" id="t${i}tiktok_preview" name="t${i}tiktok_preview" oninput="this.className = ''">
-  </div> 
- <div class="inputwrap">
-  <label style="width: 30%;">Is this track considered a key track for the release <span class="">*</span></label><input style="width:70%;"placeholder="" type="text" id=name="t${i}key_track" name="t${i}key_track" oninput="this.className = ''">
-  </div> 
-</div>
-    </div>
-
-                </div>
-              </td>
-            </tr>
-            
-       `;
-
-      }
-    };
-
-    function togglePopup(i) {
-      $('#' + 'content' + i).toggle();
-      console.log(i)
     }
+  }
 
-    /**
-     * Define a function to navigate betweens form steps.
-     * It accepts one parameter. That is - step number.
-     */             
-  </script>
-</main>
+</script>

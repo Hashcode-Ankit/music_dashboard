@@ -59,6 +59,10 @@ function addLabelForUserWithID(labelData,userID){
         }
         return db.addLabel(label)
 }
+function updateLabel(labelData){
+    console.log("got data :",labelData)
+    return db.updateLabel(labelData.id,labelData)
+}
 // run the query to get all albums which are mentioned draft = false and related to userID
 function getDraftAlbumsForUser(userID){
     return new Promise((resolve,reject)=>{
@@ -138,9 +142,13 @@ function saveAlbum(albumData){
     }
     
     return new Promise((resolve, reject) => {
-        saveArtist(albumData.primaryArtist,albumData.userID).then(()=>{
-            db.addAlbum(album).then((savedAlbumData)=>{
-                resolve(savedAlbumData.id)
+        db.addAlbum(album).then((savedAlbumData)=>{
+            let response = {
+                "id" : savedAlbumData.id,
+                "title": savedAlbumData.title
+            }
+            saveArtist(albumData.primaryArtist,albumData.userID).then((savedAlbumData)=>{
+                resolve(response)
             }).catch((err)=>{
                 reject(err)
             }) 
@@ -156,21 +164,66 @@ function saveArtist(artistName,userID){
         "userID":userID
     }
     return db.addArtist(artist)
-    
+}
+function updateArtist(artist){
+    console.log("updating ID:",artist)
+    return db.updateArtist(artist.id,artist)
+}
+function deleteArtist(id){
+    return db.deleteArtist(id)
+}
+function saveSongData(songs, files){
+    console.log(songs,files)
+    return new Promise((resolve, reject) => {
+        resolve("Checked the data ")
+    })
+}
+function addSongForUser(songData, userID, AlbumID){
+    return db.addSong(songData)
 }
 function getAllArtistsWithUserID(userID){
     return db.getArtistForUser(userID)
 }
-function editAlbum(updatedAlbum){
-    return db.updateAlbum(updatedAlbum)
+function updateAlbum(albumData){
+    album = {
+        "title":albumData.title,
+        "subTitle":albumData.subTitle,
+        "imageUrl":albumData.imageUrl,
+        "primaryArtist":albumData.primaryArtist,
+        "actor":albumData.actor,
+        "genre":albumData.genre,
+        "subGenre":albumData.subGenre,
+        "format":albumData.format,
+        "labelName":albumData.labelID,
+        "originalReleaseDate":albumData.originalReleaseDate,
+        "userID":albumData.userID,
+        "approved":false,
+        "draft" : true
+    }
+   return new Promise((resolve, reject) => {
+    console.log("id to save :",albumData.albumId)
+    db.updateAlbum(albumData.albumId,album).then((savedAlbumData)=>{
+        let response = {
+            "id" : savedAlbumData.id,
+            "title": savedAlbumData.title
+        }
+        saveArtist(albumData.primaryArtist,albumData.userID).then((savedAlbumData)=>{
+            resolve(response)
+        }).catch((err)=>{
+            reject(err)
+        }) 
+    }).catch((err)=>{
+        reject(err)
+    })
+   })
 }
 
 function deleteAblum(albumId){
     return db.deleteAlbum(albumId)
 }
 
-function deleteLabel(labelId){
-    return db.deleteLabel(labelId) 
+function deleteLabel(labelId,userID){
+    return db.deleteLabel(labelId,userID) 
 }
 
 function albumApproved(albumID){
@@ -227,4 +280,4 @@ function registerUser(userData){
 function login(userData){
     return mongo.loginUser(userData)
 }
-module.exports = {connectWithDB,initializeDatabase,getAllAlbumsForUser,getAllSongsForAlbum,getDraftAlbumsForUser,getNonApprovedAlbums,getPrimaryArtistForUserID,registerUser,editAlbum,deleteAblum,deleteLabel,albumApproved,removeDraft,login,addLabelForUserWithID,saveArtist,getAllLabelsForUserIDForUser,saveAlbum,connectMongoDB, getAllArtistsWithUserID}
+module.exports = {connectWithDB,initializeDatabase,updateLabel, saveSongData, updateArtist,deleteArtist, getAllAlbumsForUser,getAllSongsForAlbum,getDraftAlbumsForUser,getNonApprovedAlbums,getPrimaryArtistForUserID,registerUser,deleteAblum,deleteLabel,albumApproved,removeDraft,login,addLabelForUserWithID,saveArtist,getAllLabelsForUserIDForUser,saveAlbum,connectMongoDB, getAllArtistsWithUserID, addSongForUser,updateAlbum}
