@@ -499,7 +499,7 @@
 
               <div class="item ">
 
-                <label>Phisical/Original release date <span class="">*</span></label><input
+                <label>Phisical/Original release date <span class="">*</span></label><input id ="datepicker"
                   placeholder="Version/Subtitle" type="date" name="physical_release_date" oninput="this.className = ''">
                 <label>Line1 <span class="">*</span></label><input  autocomplete="on" placeholder="Line" type="" name="line1"
                   oninput="this.className = ''">
@@ -520,7 +520,7 @@
           </div>
           <div class="mt-3" style="display: flex;
         justify-content:end">
-            <button class="button btn-navigate-form-step" type="button" step_number="2">Next</button>
+            <button class="button btn-navigate-form-step" type="button"  id = "next-1" step_number="2">Next</button>
           </div>
         </section>
 
@@ -553,7 +553,7 @@
           <div class="mt-3" style="display: flex;
         justify-content: space-between;">
             <button class="button btn-navigate-form-step" type="button" step_number="1">Prev</button>
-            <button class="button btn-navigate-form-step" type="button" step_number="3">Next</button>
+            <button class="button btn-navigate-form-step" type="button" id = "next-2" step_number="3">Next</button>
           </div>
         </section>
         <!-- Step 3 Content, default hidden on page load. -->
@@ -565,12 +565,12 @@
           <!-- Step 2 input fields -->
           <div class="mt-3">
             <label>Select Main release date <span class="">*</span></label><input  autocomplete="on" placeholder="Version/Subtitle"
-              type="date" name="main_release_date" oninput="this.className = ''">
+              type="date" name="main_release_date" id ="datepicker2" oninput="this.className = ''">
           </div>
           <div class="mt-3" style="display: flex;
         justify-content: space-between;">
             <button class="button btn-navigate-form-step" type="button" step_number="2">Prev</button>
-            <button class="button btn-navigate-form-step" type="button" step_number="4">Next</button>
+            <button class="button btn-navigate-form-step" type="button" id = "next-3" step_number="4">Next</button>
           </div>
         </section>
         <!-- Step 4 Content, default hidden on page load. -->
@@ -902,7 +902,8 @@
   var isSongsDataSaved = false
   let songsArray = []
   let savedAlbum = {}
-  let savedSongsID =[]
+  let clickedPrevForFirstStep = false
+
   // Add Song Model Functions
   const dropArea = document.querySelector(".drop_box")
   const dropArea2 = document.querySelector(".recent-file"),
@@ -968,7 +969,8 @@ function updateSongData(idx){
       songsArray[idx].parent = $(`input[name="parent"]`).val(),
       songsArray[idx].language = $(`input[name="language"]`).val(),
       songsArray[idx].lyrics = $(`input[name="lyrics"]`).val(),
-      songsArray[idx].tiktok = $(`input[name="tiktok"]`).val()
+      songsArray[idx].tiktok = $(`input[name="tiktok"]`).val(),
+      songsArray[idx].updated = true
   }
   // <------------ model function end ---------->
   // <-------------Function for Album Only------>
@@ -1037,7 +1039,11 @@ function updateSongData(idx){
   function addSongInArray() {
     let fileSelect = document.getElementById("songFile").files[0];
     let song = {
+      albumID: savedAlbum.id,
+      title: savedAlbum.title,
       filePath: fileSelect,
+      songIDInDB: 0,
+      updated: false,
       writer: $(`input[name="writer"]`).val(),
       composer: $(`input[name="composer"]`).val(),
       director: $(`input[name="director"]`).val(),
@@ -1047,36 +1053,94 @@ function updateSongData(idx){
       language: $(`input[name="language"]`).val(),
       lyrics: $(`input[name="lyrics"]`).val(),
       tiktok: $(`input[name="tiktok"]`).val(),
-      albumID : savedAlbum.id[0],
-      title: savedAlbum.title[0],
     }
     console.log("saved Song Data :", song)
     songsArray.push(song);
     updateTable()
   }
-  const saveSongsData = async (savedAlbumData) => {
+  const updateSongInDB = async(idx)=>{
     const formData = new FormData();
-    for(let i=0;i<songsArray.length;i++){
-      for (const key in songsArray[i]) {
-          formData.append(key, songsArray[i][key]);
+    for (const key in songsArray[idx]) {
+        formData.append(key, songsArray[idx][key]);
+    }
+    await fetch('/album-manage/updateSong', {
+    method: 'POST',
+    body: formData
+    }).then(response => {
+     if (response.ok) {
+        return response.json()
       }
+    }).then(()=> {
+      songsArray[idx].updated = false
+      console.log('Successfully updated SongsData');
+    }).catch((error) => {
+      console.error(error)
+    });
+  }
+  const saveSongsData = async (savedAlbumData) => {
+    for(let i=0;i<songsArray.length;i++){
+    console.log(songsArray[i])
+    if(songsArray[i].updated) {
+      console.log("updating song",songsArray[i].songIDInDB)
+      await updateSongInDB(i)
+      isSongsDataSaved = true
+      continue
+    }
+    if(songsArray[i].songIDInDB != 0 ) continue
+    const formData = new FormData();
+    for (const key in songsArray[i]) {
+        formData.append(key, songsArray[i][key]);
+    }
     await fetch('/album-manage/addSong', {
     method: 'POST',
     body: formData
     }).then(response => {
-      console.log(response.json())
+     if (response.ok) {
+        return response.json()
+      }
     }).then(data => {
       console.log('Successfully saved SongsData:', data);
-      savedSongsID.push(data)
+      songsArray[i].songIDInDB = data.songID
     }).catch((error) => {
       console.error(error)
     });
     }
+    let savedSongsID =[]
+    for(let i=0;i<songsArray.length;i++){
+    if( songsArray[i].songIDInDB != 0)
+     {
+      savedSongsID.push(songsArray[i].songIDInDB)
+      continue
+     }
+    else
+       return 
+    }
+    const formData = new FormData();
+    formData.append("songs",JSON.stringify(savedSongsID))
+    formData.append("albumID",savedAlbum.id)
+    await fetch('/album-manage/updateSongArray', {
+    method: 'POST',
+    body: formData
+    }).then(response => {
+     if (response.ok) {
+        return response.json()
+      }
+    }).then(data => {
+      console.log('Successfully saved songsArray:', data);
+      isSongsDataSaved = true
+    }).catch((error) => {
+      console.error(error)
+    });
   }
   const navigateToFormStep = async (stepNumber) => {
     // Check if data got saved if not not change the page 
     // TODO: If data already saved then update by checking savedAlbumID
+    if(stepNumber == 1){ 
+      console.log("come on 1st step") 
+      clickedPrevForFirstStep = true
+    }
     if (stepNumber == 2) {
+      document.getElementById("next-1").disabled = true;
       albumData = getAndVerifyAlbumValues()
       console.log(albumData)
       let missingData = false
@@ -1096,8 +1160,9 @@ function updateSongData(idx){
       if(isAlbumSaved == false){
         savedAlbum = await saveAlbumData(albumData)
       }
-      else{
+      else if(clickedPrevForFirstStep){
          updateAlbumData(albumData,savedAlbum)
+         clickedPrevForFirstStep = false
       }
       if (Object.keys(savedAlbum) === 0) {
         console.log("Album Not Saved")
@@ -1107,16 +1172,20 @@ function updateSongData(idx){
         isAlbumSaved = true
         console.log("savedAlbumID: ", savedAlbum.title)
       }
+      document.getElementById("next-1").disabled = false;
     }
 
     // checking for second page
-    if (stepNumber == 3 && isSongsDataSaved == false) {
+    if (stepNumber == 3 ) {
+      document.getElementById("next-2").disabled = true;
       await saveSongsData(savedAlbum) 
       if(!isSongsDataSaved) {
+          console.log("songs not saved")
           document.getElementById("errorShow").innerHTML = `An Error Occure While Saving Assets`
+          return
       }
+      document.getElementById("next-2").disabled = false;
     }
-
     document.querySelectorAll(".form-step").forEach((formStepElement) => {
       formStepElement.classList.add("d-none");
     });
@@ -1325,5 +1394,15 @@ function updateSongData(idx){
   
     }
   }
+
+
+// disable three more days in calender
+let today = new Date();
+// Add 3 days to today's date
+var disableUntil = new Date();
+disableUntil.setDate(today.getDate() + 3);
+// Set the min attribute of the datepicker to the date 3 days from now
+document.getElementById("datepicker").min = disableUntil.toISOString().slice(0,10);
+document.getElementById("datepicker2").min = disableUntil.toISOString().slice(0,10);
 
 </script>

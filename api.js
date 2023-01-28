@@ -60,7 +60,6 @@ function addLabelForUserWithID(labelData,userID){
         return db.addLabel(label)
 }
 function updateLabel(labelData){
-    console.log("got data :",labelData)
     return db.updateLabel(labelData.id,labelData)
 }
 // run the query to get all albums which are mentioned draft = false and related to userID
@@ -166,17 +165,55 @@ function saveArtist(artistName,userID){
     return db.addArtist(artist)
 }
 function updateArtist(artist){
-    console.log("updating ID:",artist)
     return db.updateArtist(artist.id,artist)
 }
 function deleteArtist(id){
     return db.deleteArtist(id)
 }
-function saveSongData(songs, files){
-    console.log(songs,files)
+function saveSongData(songData){
+    var song = {
+       "userID" : songData.userID,
+       "albumID": songData.albumID,
+       "writer" : songData.writer,
+       "director": songData.director,
+       "composer": songData.composer,
+       "producer": songData.producer,
+       "parent" : songData.parent,
+       "isrc": songData.isrc,
+       "language": songData.language,
+       "lyrics": songData.lyrics,
+       "tiktok": songData.tiktok,
+       "filePath" : songData.filePath
+    }
+    console.log("data of song to store : ",song)
     return new Promise((resolve, reject) => {
-        resolve("Checked the data ")
+        db.addSong(song).then((data)=>{
+            resolve(data.id)
+        }).catch((err)=>{
+            reject(err)
+        })
     })
+}
+function updateSongData(songData){
+    var song = {
+       "userID" : songData.userID,
+       "albumID": songData.albumID,
+       "writer" : songData.writer,
+       "director": songData.director,
+       "composer": songData.composer,
+       "producer": songData.producer,
+       "parent" : songData.parent,
+       "isrc": songData.isrc,
+       "language": songData.language,
+       "lyrics": songData.lyrics,
+       "tiktok": songData.tiktok,
+       "filePath" : songData.filePath
+    }
+    console.log("data of song to update : ",song)
+    return db.updateSong(song,songData.songIDInDB)
+}
+function updateSongsArrayInAlbum(songArray){
+    return db.updateSongArrayOfAlbum(songArray)
 }
 function addSongForUser(songData, userID, AlbumID){
     return db.addSong(songData)
@@ -201,7 +238,6 @@ function updateAlbum(albumData){
         "draft" : true
     }
    return new Promise((resolve, reject) => {
-    console.log("id to save :",albumData.albumId)
     db.updateAlbum(albumData.albumId,album).then((savedAlbumData)=>{
         let response = {
             "id" : savedAlbumData.id,
@@ -280,4 +316,4 @@ function registerUser(userData){
 function login(userData){
     return mongo.loginUser(userData)
 }
-module.exports = {connectWithDB,initializeDatabase,updateLabel, saveSongData, updateArtist,deleteArtist, getAllAlbumsForUser,getAllSongsForAlbum,getDraftAlbumsForUser,getNonApprovedAlbums,getPrimaryArtistForUserID,registerUser,deleteAblum,deleteLabel,albumApproved,removeDraft,login,addLabelForUserWithID,saveArtist,getAllLabelsForUserIDForUser,saveAlbum,connectMongoDB, getAllArtistsWithUserID, addSongForUser,updateAlbum}
+module.exports = {connectWithDB,initializeDatabase,updateLabel, updateSongData,updateSongsArrayInAlbum, saveSongData, updateArtist,deleteArtist, getAllAlbumsForUser,getAllSongsForAlbum,getDraftAlbumsForUser,getNonApprovedAlbums,getPrimaryArtistForUserID,registerUser,deleteAblum,deleteLabel,albumApproved,removeDraft,login,addLabelForUserWithID,saveArtist,getAllLabelsForUserIDForUser,saveAlbum,connectMongoDB, getAllArtistsWithUserID, addSongForUser,updateAlbum}

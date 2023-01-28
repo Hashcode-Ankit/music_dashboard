@@ -179,10 +179,10 @@ var Song = sq.define('Song', {
         allowNull: true,
     },
     director: {
-        type: Sequelize.BOOLEAN,
+        type: Sequelize.STRING,
     },
     producer: {
-        type: Sequelize.BOOLEAN,
+        type: Sequelize.STRING,
     },
     isrc: {
         type: Sequelize.STRING,
@@ -241,7 +241,21 @@ function addAlbum(albumData) {
 function addSong(songData) {
     return Song.create(songData)
 }
+function updateSong(songData,songID) {
+    return Song.update(songData,{
+        where: { 
+            id:songID,
+           }
+    })
+}
 
+function updateSongArrayOfAlbum(songArray){
+    return Album.update({ songs: songArray.songs }, {
+        where: { id:songArray.albumID,
+          userID:songArray.albumID
+         }
+    })
+}
 
 //update an Album
 function updateAlbum(albumId, updateInfo) {
@@ -344,4 +358,4 @@ function deleteArtist(artistId) {
 }
 
 
-module.exports = { connectDb, initialize, addAlbum, addSong, getAllAlbums, deleteAlbum, updateAlbum, getAlbum, addLabel, getAllLabelsForUserID, getLabel, updateLabel, deleteLabel, getArtist, addArtist, updateArtist, deleteArtist, getArtistForUser}
+module.exports = { connectDb, initialize, updateSong, addAlbum, addSong, updateSongArrayOfAlbum,getAllAlbums, deleteAlbum, updateAlbum, getAlbum, addLabel, getAllLabelsForUserID, getLabel, updateLabel, deleteLabel, getArtist, addArtist, updateArtist, deleteArtist, getArtistForUser}

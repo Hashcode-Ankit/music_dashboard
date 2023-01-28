@@ -28,7 +28,7 @@ app.use(express.static('public'));
 const ndaStorage = multer.diskStorage({
   destination: (req, file, cb) => {
     // Choose the destination based on data in the request
-    const destination =`./uploads/nda/${req.session.user.email}/Label-${req.body.title}/`;
+    const destination =`./uploads/${req.session.user.email}/nda/Label-${req.body.title}/`;
     if (!fs.existsSync(destination)) {
       fs.mkdirSync(destination, { recursive: true, mode: 0o777})
     }
@@ -45,7 +45,7 @@ const albumImageStorage = multer.diskStorage({
   
   destination: (req, file, cb) => {
     // Choose the destination based on data in the request
-    const destination = `./uploads/albums/${req.session.user.email}/${req.body.title}/`;
+    const destination = `./uploads/${req.session.user.email}/albums/${req.body.title}/`;
     if (!fs.existsSync(destination)) {
       fs.mkdirSync(destination, { recursive: true, mode: 0o777 });
     }
@@ -59,7 +59,7 @@ const albumImageStorage = multer.diskStorage({
 const songFileStorage = multer.diskStorage({
   destination: (req, file, cb) => {
     // Choose the destination based on data in the request
-    const destination =   req.body.filePath = `./uploads/albums/${req.session.user.email}/${req.body.title}/Songs/`;
+    const destination =  `./uploads/${req.session.user.email}/albums/${req.body.title}/Songs/`
     if (!fs.existsSync(destination)) {
       fs.mkdirSync(destination, { recursive: true, mode: 0o777 });
     }
@@ -129,13 +129,23 @@ app.post("/album-manage/addAlbum", ensureLogin, multer({storage: albumImageStora
 });
 // add song for album
 app.post("/album-manage/addSong", ensureLogin, multer({storage: songFileStorage }).array('filePath'), async function(req,res){
-  console.log("got files here ",req.files)
-  console.log("got data here ",req.body)
-  req.body.filePath = `./uploads/albums/${req.session.user.email}/${req.body.title}/Songs/`
-  api.saveSongData(req.body,req.files).then(()=>{
-    res.status(200);
+  req.body.filePath = `./uploads/albums/${req.session.user.email}/${req.body.albumID}/Songs/`
+  req.body.userID = req.session.user.userID
+  api.saveSongData(req.body).then((data)=>{
+    res.status(200).json({ songID: data });
   }).catch((err)=>{
     console.log("Error saving songs data",err)
+    res.status(503).json({ error: err });
+  })
+});
+app.post("/album-manage/updateSong", ensureLogin, multer({storage: songFileStorage }).array('filePath'), async function(req,res){
+  req.body.filePath = `./uploads/albums/${req.session.user.email}/${req.body.albumID}/Songs/`
+  console.log("got data to update : ",req.body)
+  req.body.userID = req.session.user.userID
+  api.updateSongData(req.body).then(()=>{
+    res.status(200).json({ message: "song updated successfully" });
+  }).catch((err)=>{
+    console.log("Error updating song data",err)
     res.status(503).json({ error: err });
   })
 });
@@ -143,9 +153,18 @@ app.post("/album-manage/addSong", ensureLogin, multer({storage: songFileStorage 
 app.post("/album-manage/updateAlbum", ensureLogin, multer({storage: albumImageStorage }).single('albumImage'),async function(req,res){
   req.body.imageUrl = `./uploads/albums/${req.session.user.email}/${req.body.title}/${req.file.originalname}`
   req.body.userID = req.session.user.userID
-  api.updateAlbum(req.body).then((album)=>{
-    console.log("saved album with id : ",album)
-    res.status(200).json({ album: album });
+  api.updateAlbum(req.body).then(()=>{
+    res.status(200).json({ message: "Update Success" });
+  }).catch((err)=>{
+    console.log("Error saving album data",err)
+    res.status(503).json({ error: err });
+  })
+});
+app.post("/album-manage/updateSongArray", ensureLogin, multer({storage: albumImageStorage }).single('albumImage'), async function(req,res){
+  req.body.userID = req.session.user.userID
+  req.body.songs = JSON.parse(req.body.songs)
+  api.updateSongsArrayInAlbum(req.body).then(()=>{
+    res.status(200).json({ message: "successfully saved Songs" })
   }).catch((err)=>{
     console.log("Error saving album data",err)
     res.status(503).json({ error: err });
