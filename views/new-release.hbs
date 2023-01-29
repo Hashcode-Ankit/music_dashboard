@@ -228,7 +228,14 @@
     border-width: 1px;
     border-color: black;
   }
-
+  .imgNote{
+    display: flex;
+  }
+  .noteToUser{
+    padding: 10%;
+    text-align: center;
+    color: #be5959;
+  }
   main #myInput {
     background-image: url('/css/searchicon.png');
     background-position: 10px 10px;
@@ -491,7 +498,11 @@
                 <p style="width: 195px;">
                   Upload Album Thumbnail:
                 </p>
+                <div class="imgNote">
                 <canvas id="canv1"></canvas>
+                <div class ="noteToUser">Note :<br> Image must be less then or <br> equal to 100kb</div>
+                </div>
+                <p id ="imgError" style="color: red;"></p>
                 <input  required autocomplete="on" style="border:none;width: 260px;" type="file" multiple="false" accept=".jpg,.jpeg"
                   id="albumImage" name="imgFile" onchange="upload()">
               </div>
@@ -898,6 +909,7 @@
   let albumDataSaved 
   let prevBtnClicked = false;
   let nextBtnClicked = false;
+  let sizeLimitExceed = false
   function clickedPrev(){
     console.log("prev clicked")
     prevBtnClicked = true
@@ -1187,12 +1199,16 @@ function updateSongData(idx){
     });
   }
   const navigateToFormStep = async (stepNumber) => {
-    if (stepNumber == 2 && nextBtnClicked) {
+    if (stepNumber == 2 && nextBtnClicked ) {
       nextBtnClicked = false
       document.getElementById("next-1").disabled = true;
       albumData = getAndVerifyAlbumValues()
       console.log(albumData)
       let missingData = false
+      if(sizeLimitExceed){
+        document.getElementById("next-1").disabled = false;
+        return
+      }
       let text = `<p class ="err">Missing Fields :`
       for (const key in albumData) {
         if (albumData[key] == "") {
@@ -1288,6 +1304,14 @@ function updateSongData(idx){
   function upload() {
     var imgcanvas = document.getElementById("canv1");
     var fileinput = document.getElementById("albumImage");
+    console.log("size :",fileinput.files[0].size)
+    if(fileinput.files[0].size > 100*1024){
+      document.getElementById("imgError").innerHTML =  `image is too large`
+      sizeLimitExceed = true
+    }else{
+      document.getElementById("imgError").innerHTML =``
+      sizeLimitExceed = false
+    }
     var image = new SimpleImage(fileinput);
     image.drawTo(imgcanvas);
 
