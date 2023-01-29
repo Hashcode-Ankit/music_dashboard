@@ -222,10 +222,27 @@ function initialize() {
 // get all Albums 
 function getAllAlbums(userID) {
     return Album.findAll({
-        where: { userID: userID }
+        where: { 
+            userID: userID
+        }
     })
 }
-
+function getDraftAlbumsForUser(userID) {
+    return Album.findAll({
+        where: { 
+            userID: userID,
+            draft:true,
+        }
+    })
+}
+function getCompletedAlbumsForUser(userID){
+    return Album.findAll({
+        where: { 
+            userID: userID,
+            draft:false,
+        }
+    })
+}
 //get an Album
 function getAlbum(albumId) {
     return Album.findAll({
@@ -358,4 +375,4 @@ function deleteArtist(artistId) {
 }
 
 
-module.exports = { connectDb, initialize, updateSong, addAlbum, addSong, updateSongArrayOfAlbum,getAllAlbums, deleteAlbum, updateAlbum, getAlbum, addLabel, getAllLabelsForUserID, getLabel, updateLabel, deleteLabel, getArtist, addArtist, updateArtist, deleteArtist, getArtistForUser}
+module.exports = { connectDb, initialize, updateSong, addAlbum,getDraftAlbumsForUser,getCompletedAlbumsForUser, addSong, updateSongArrayOfAlbum,getAllAlbums, deleteAlbum, updateAlbum, getAlbum, addLabel, getAllLabelsForUserID, getLabel, updateLabel, deleteLabel, getArtist, addArtist, updateArtist, deleteArtist, getArtistForUser}

@@ -116,6 +116,23 @@ res.render(path.join(__dirname,"/views/overview.hbs"))
 app.get("/new-release", ensureLogin, async function(req,res){
 res.render(path.join(__dirname,"/views/new-release.hbs"))
 });
+// data for album
+app.get("/albumDrafts", ensureLogin, async function(req,res){
+   api.getDraftAlbumsForUser(req.session.user.userID).then((data)=>{
+      res.status(200).json({ album: data });
+   }).catch((err)=>{
+    console.log(err)
+    res.status(503).json({ error: err });
+   })
+});
+app.get("/albumCompleted", ensureLogin, async function(req,res){
+  api.getCompletedAlbumsForUser(req.session.user.userID).then((data)=>{
+     res.status(200).json({ album: data });
+  }).catch((err)=>{
+   console.log(err)
+   res.status(503).json({ error: err });
+  })
+});
 app.post("/album-manage/addAlbum", ensureLogin, multer({storage: albumImageStorage }).single('albumImage'), async function(req,res){
   req.body.imageUrl = `./uploads/albums/${req.session.user.email}/${req.body.title}/${req.file.originalname}`
   req.body.userID = req.session.user.userID
@@ -259,15 +276,15 @@ app.delete("/artist-manage/:id", ensureLogin, async function(req,res){
 });
 // finance management page
 app.get("/finance-manage", ensureLogin,  async function(req,res){
-res.render(path.join(__dirname,"/views/modals.hbs"))
+res.render(path.join(__dirname,"/views/comingSoon.hbs"))
 });
 // analytics manage page 
 app.get("/analytics-manage", ensureLogin, async function(req,res){
-res.render(path.join(__dirname,"/views/tables.hbs"))
+res.render(path.join(__dirname,"/views/comingSoon.hbs"))
 });
 // you tube request page
 app.get("/you-tube-req", ensureLogin, async function(req,res){
-res.render(path.join(__dirname,"/views/overview.hbs"))
+res.render(path.join(__dirname,"/views/comingSoon.hbs"))
 });
 
 

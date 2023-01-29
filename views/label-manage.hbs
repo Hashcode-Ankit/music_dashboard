@@ -359,7 +359,7 @@ input.addEventListener("change", function (e) {
   }
   const updateLabel=async(idx)=>{
       let fileSelect = document.getElementById("fileID").files[0];
-      labelArray[idx].youtube = $(`input[name="youtube"]`).val(),
+      labelArray[idx].youtubeLink = $(`input[name="youtube"]`).val(),
       labelArray[idx].title = $(`input[name="title"]`).val(),
       labelArray[idx].filename = fileSelect,
       youtube = $(`input[name="youtube"]`).val()
@@ -377,7 +377,7 @@ input.addEventListener("change", function (e) {
       body: formData
       }).then(response => response.json()).then(data => {
         updateTableData()
-        console.log("artist updated successfully")
+        console.log("label updated successfully")
       }).catch((error) => {
         console.error(error)
       });

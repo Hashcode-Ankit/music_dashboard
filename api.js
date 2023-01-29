@@ -64,20 +64,10 @@ function updateLabel(labelData){
 }
 // run the query to get all albums which are mentioned draft = false and related to userID
 function getDraftAlbumsForUser(userID){
-    return new Promise((resolve,reject)=>{
-        db.getAllAlbums(userID)
-        .then(function(data){
-            let albums = [];
-            for(let i=0;i<data.length;i++){
-                if(!data.draft){
-                    albums.push(data[i]);
-                }
-            }
-            resolve(albums)
-        }).catch((error)=>{
-            reject(Error("Unable to get albums from postgres",error))
-        })
-    })
+    return db.getDraftAlbumsForUser(userID)
+}
+function getCompletedAlbumsForUser(userID){
+    return db.getCompletedAlbumsForUser(userID)
 }
 function getNews(){
 
@@ -316,4 +306,4 @@ function registerUser(userData){
 function login(userData){
     return mongo.loginUser(userData)
 }
-module.exports = {connectWithDB,initializeDatabase,updateLabel, updateSongData,updateSongsArrayInAlbum, saveSongData, updateArtist,deleteArtist, getAllAlbumsForUser,getAllSongsForAlbum,getDraftAlbumsForUser,getNonApprovedAlbums,getPrimaryArtistForUserID,registerUser,deleteAblum,deleteLabel,albumApproved,removeDraft,login,addLabelForUserWithID,saveArtist,getAllLabelsForUserIDForUser,saveAlbum,connectMongoDB, getAllArtistsWithUserID, addSongForUser,updateAlbum}
+module.exports = {connectWithDB,initializeDatabase,updateLabel, updateSongData,updateSongsArrayInAlbum,getCompletedAlbumsForUser, saveSongData, updateArtist,deleteArtist, getAllAlbumsForUser,getAllSongsForAlbum,getDraftAlbumsForUser,getNonApprovedAlbums,getPrimaryArtistForUserID,registerUser,deleteAblum,deleteLabel,albumApproved,removeDraft,login,addLabelForUserWithID,saveArtist,getAllLabelsForUserIDForUser,saveAlbum,connectMongoDB, getAllArtistsWithUserID, addSongForUser,updateAlbum}
