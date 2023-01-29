@@ -117,24 +117,50 @@ app.get("/new-release", ensureLogin, async function(req,res){
 res.render(path.join(__dirname,"/views/new-release.hbs"))
 });
 // data for album
-app.get("/albumDrafts", ensureLogin, async function(req,res){
+app.get("/album-drafts", ensureLogin, async function(req,res){
+  try{
    api.getDraftAlbumsForUser(req.session.user.userID).then((data)=>{
       res.status(200).json({ album: data });
    }).catch((err)=>{
     console.log(err)
     res.status(503).json({ error: err });
    })
+  }
+  catch(err){
+    console.log(err)
+    res.status(503).json({ error: err });
+  }
 });
-app.get("/albumCompleted", ensureLogin, async function(req,res){
+app.get("/album-completed", ensureLogin, async function(req,res){
+  try{
   api.getCompletedAlbumsForUser(req.session.user.userID).then((data)=>{
      res.status(200).json({ album: data });
   }).catch((err)=>{
    console.log(err)
    res.status(503).json({ error: err });
   })
+}catch(err){
+  console.log(err)
+  res.status(503).json({ error: err });
+}
+
+});
+app.get("/albumStores", ensureLogin, async function(req,res){
+  try{
+    api.getStores().then((stores)=>{
+      res.status(200).json({ stores: stores });
+   }).catch((err)=>{
+    console.log(err)
+    res.status(503).json({ error: err });
+   })
+  }catch(err){
+    console.log(err)
+    res.status(503).json({ error: err });
+  }
 });
 app.post("/album-manage/addAlbum", ensureLogin, multer({storage: albumImageStorage }).single('albumImage'), async function(req,res){
-  req.body.imageUrl = `./uploads/albums/${req.session.user.email}/${req.body.title}/${req.file.originalname}`
+  try{
+    req.body.imageUrl = `./uploads/albums/${req.session.user.email}/${req.body.title}/${req.file.originalname}`
   req.body.userID = req.session.user.userID
   api.saveAlbum(req.body).then((album)=>{
     console.log("saved album with id : ",album)
@@ -143,10 +169,15 @@ app.post("/album-manage/addAlbum", ensureLogin, multer({storage: albumImageStora
     console.log("Error saving album data",err)
     res.status(503).json({ error: err });
   })
+  }catch(err){
+    console.log(err)
+    res.status(503).json({ error: err });
+  }
 });
 // add song for album
 app.post("/album-manage/addSong", ensureLogin, multer({storage: songFileStorage }).array('filePath'), async function(req,res){
-  req.body.filePath = `./uploads/albums/${req.session.user.email}/${req.body.albumID}/Songs/`
+  try{
+    req.body.filePath = `./uploads/albums/${req.session.user.email}/${req.body.albumID}/Songs/`
   req.body.userID = req.session.user.userID
   api.saveSongData(req.body).then((data)=>{
     res.status(200).json({ songID: data });
@@ -154,9 +185,14 @@ app.post("/album-manage/addSong", ensureLogin, multer({storage: songFileStorage 
     console.log("Error saving songs data",err)
     res.status(503).json({ error: err });
   })
+  }catch(err){
+    console.log(err)
+    res.status(503).json({ error: err });
+  }
 });
 app.post("/album-manage/updateSong", ensureLogin, multer({storage: songFileStorage }).array('filePath'), async function(req,res){
-  req.body.filePath = `./uploads/albums/${req.session.user.email}/${req.body.albumID}/Songs/`
+   try{
+    req.body.filePath = `./uploads/albums/${req.session.user.email}/${req.body.albumID}/Songs/`
   console.log("got data to update : ",req.body)
   req.body.userID = req.session.user.userID
   api.updateSongData(req.body).then(()=>{
@@ -165,10 +201,15 @@ app.post("/album-manage/updateSong", ensureLogin, multer({storage: songFileStora
     console.log("Error updating song data",err)
     res.status(503).json({ error: err });
   })
+   }catch(err){
+    console.log(err)
+    res.status(503).json({ error: err });
+  }
 });
 //updateAlbum
 app.post("/album-manage/updateAlbum", ensureLogin, multer({storage: albumImageStorage }).single('albumImage'),async function(req,res){
-  req.body.imageUrl = `./uploads/albums/${req.session.user.email}/${req.body.title}/${req.file.originalname}`
+  try{
+    req.body.imageUrl = `./uploads/albums/${req.session.user.email}/${req.body.title}/${req.file.originalname}`
   req.body.userID = req.session.user.userID
   api.updateAlbum(req.body).then(()=>{
     res.status(200).json({ message: "Update Success" });
@@ -176,9 +217,14 @@ app.post("/album-manage/updateAlbum", ensureLogin, multer({storage: albumImageSt
     console.log("Error saving album data",err)
     res.status(503).json({ error: err });
   })
+  }catch(err){
+    console.log(err)
+    res.status(503).json({ error: err });
+  }
 });
 app.post("/album-manage/updateSongArray", ensureLogin, multer({storage: albumImageStorage }).single('albumImage'), async function(req,res){
-  req.body.userID = req.session.user.userID
+  try{
+    req.body.userID = req.session.user.userID
   req.body.songs = JSON.parse(req.body.songs)
   api.updateSongsArrayInAlbum(req.body).then(()=>{
     res.status(200).json({ message: "successfully saved Songs" })
@@ -186,6 +232,39 @@ app.post("/album-manage/updateSongArray", ensureLogin, multer({storage: albumIma
     console.log("Error saving album data",err)
     res.status(503).json({ error: err });
   })
+  }catch(err){
+    console.log(err)
+    res.status(503).json({ error: err });
+  }
+});
+app.post("/album-manage/updateStoresArray", ensureLogin, multer({storage: albumImageStorage }).single('albumImage'), async function(req,res){
+ try{
+  req.body.userID = req.session.user.userID
+  req.body.stores = JSON.parse(req.body.stores)
+  api.updateStoresArrayInAlbum(req.body).then(()=>{
+    res.status(200).json({ message: "successfully saved stores" })
+  }).catch((err)=>{
+    console.log("Error saving album data",err)
+    res.status(503).json({ error: err });
+  })
+ }catch(err){
+  console.log(err)
+  res.status(503).json({ error: err });
+}
+});
+app.post("/album-manage/completed", ensureLogin, multer({storage: albumImageStorage }).single('albumImage'), async function(req,res){
+  try{
+    req.body.userID = req.session.user.userID
+    api.updateToCompletedAlbum(req.body).then(()=>{
+      res.status(200).json({ message: "successfully saved album" })
+    }).catch((err)=>{
+      console.log("Error saving album data",err)
+      res.status(503).json({ error: err });
+    })
+  }catch(err){
+    console.log(err)
+    res.status(503).json({ error: err });
+  }
 });
 // music catalog page
 app.get("/music-catalog",ensureLogin, async function(req,res){
@@ -200,79 +279,105 @@ app.get("/label-manage", ensureLogin, async function(req,res){
     })
 });
 app.get("/label-manage/labels", ensureLogin, async function(req,res){
-  api.getAllLabelsForUserIDForUser(req.session.user.userID).then((labelData)=>{
+  try{api.getAllLabelsForUserIDForUser(req.session.user.userID).then((labelData)=>{
     res.status(200).json({ labelData: labelData });
     }).catch((err)=>{
       console.log("Error saving label data",err)
       res.status(503).json({ error: err });
-    })
+    })}catch(err){
+      console.log(err)
+      res.status(503).json({ error: err });
+    }
 });
 app.post("/label-manage", ensureLogin, multer({storage: ndaStorage }).single('nda'), async function(req,res){
-  console.log("got file here ",req.file)
-  req.body.filename = `uploads/nda/${req.session.user.email}/${req.body.title}/${req.file.originalname}`
-  api.addLabelForUserWithID(req.body,req.session.user.userID).then(()=>{
-    res.status(200).json({ message: "Label Added successfully" });
+  try{req.body.filename = `uploads/nda/${req.session.user.email}/${req.body.title}/${req.file.originalname}`
+  api.addLabelForUserWithID(req.body,req.session.user.userID).then((label)=>{
+    res.status(200).json({ id: label.id});
   }).catch((err)=>{
     res.status(503).json({ error: err });
-  })
+  })}catch(err){
+    console.log(err)
+    res.status(503).json({ error: err });
+  }
 });
 app.delete("/label-manage/:id", ensureLogin, async function(req,res){
-  const id = req.params.id;
+  try{const id = req.params.id;
   api.deleteLabel(id,req.session.user.userID).then(()=>{
     res.status(200).json({ message: "delete success" });
   }).catch((err)=>{
     console.log(err)
     res.status(503).json({ error: "delete failed" })
-  })
+  })}catch(err){
+    console.log(err)
+    res.status(503).json({ error: err });
+  }
 });
 app.post("/label-manage/update", ensureLogin, multer({storage: ndaStorage }).single('nda'), async function(req,res){
-  req.body.filename = `uploads/nda/${req.session.user.email}/${req.body.title}/${req.file.originalname}`
+  try{req.body.filename = `uploads/nda/${req.session.user.email}/${req.body.title}/${req.file.originalname}`
   api.updateLabel(req.body).then(()=>{
     res.status(200).json({ message: "success label update" });
   }).catch((err)=>{
     console.log(err)
     res.status(503).json({ message: "failed label update" });
-  })
+  })}catch(err){
+    console.log(err)
+    res.status(503).json({ error: err });
+  }
 });
 app.post("/delete-label/:id", ensureLogin, async function(req,res){
-  api.deleteLabel(req.body,req.session.user.userID).then(()=>{
+  try{api.deleteLabel(req.body,req.session.user.userID).then(()=>{
      res.redirect('/label-manage')
   }).catch((err)=>{
     res.render(path.join(__dirname,"/views/label-manage.hbs"),{errorMessage:"Unable to delete label try again!"})         
-  })
+  })}catch(err){
+    console.log(err)
+    res.status(503).json({ error: err });
+  }
 });
 // artist management page
 app.get("/artist-manage", ensureLogin, async function(req,res){
-  api.getAllArtistsWithUserID(req.session.user.userID).then((artist)=>{
+  try{api.getAllArtistsWithUserID(req.session.user.userID).then((artist)=>{
     res.render(path.join(__dirname,"/views/artists.hbs"),{artist:artist})
   }).catch((err)=>{
     res.render(path.join(__dirname,"/views/artists.hbs"),{errorMessage:err})
-  })
+  })}catch(err){
+    console.log(err)
+    res.status(503).json({ error: err });
+  }
 });
 app.get("/artist-manage/artists", ensureLogin, async function(req,res){
-  api.getAllArtistsWithUserID(req.session.user.userID).then((artist)=>{
+  try{api.getAllArtistsWithUserID(req.session.user.userID).then((artist)=>{
     res.status(200).json({ artist: artist });
   }).catch((err)=>{
     res.status(503).json({ err: err });
-  })
+  })}catch(err){
+    console.log(err)
+    res.status(503).json({ error: err });
+  }
 });
 app.post("/artist-manage/update", ensureLogin,multer({storage: artistDocumentStorage }).single('albumImage'), async function(req,res){
-  console.log(req.body)
-  api.updateArtist(req.body).then(()=>{
+  try{api.updateArtist(req.body).then(()=>{
     res.status(200).json({ message: "update success" });
   }).catch((err)=>{
     console.log(err)
     res.status(503).json({ message: "update failed" })
-  })
+  console.log(req.body)
+  })}catch(err){
+    console.log(err)
+    res.status(503).json({ error: err });
+  }
 });
 app.delete("/artist-manage/:id", ensureLogin, async function(req,res){
-  const id = req.params.id;
+  try{const id = req.params.id;
   api.deleteArtist(id).then(()=>{
     res.status(200).json({ message: "delete success" });
   }).catch((err)=>{
     console.log(err)
     res.status(503).json({ error: "delete failed" })
-  })
+  })}catch(err){
+    console.log(err)
+    res.status(503).json({ error: err });
+  }
 });
 // finance management page
 app.get("/finance-manage", ensureLogin,  async function(req,res){
@@ -298,12 +403,15 @@ app.get('/register',function(req,res){
 res.render(path.join(__dirname,"/views/register.hbs"))
 });
 app.post('/register',(req, res, next)=>{ 
- api.registerUser(req.body).then(()=>{
+ try{api.registerUser(req.body).then(()=>{
   res.render(path.join(__dirname,"/views/register.hbs"),{successMessage: "Registration Successful click for login "});
  }).catch((err)=>{
   console.error(err)
   res.render(path.join(__dirname,"/views/register.hbs"), {errorMessage: err,userName : req.body.email});
- })
+ })}catch(err){
+  console.log(err)
+  res.status(503).json({ error: err });
+}
 });
 app.post('/login',(req, res, next)=>{
 if (req.session.user) {

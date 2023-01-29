@@ -1,3 +1,4 @@
+
 <style>
   main h1 {
     text-align: center;
@@ -189,7 +190,7 @@
   }
 
   .form-stepper a {
-    cursor: default;
+    cursor: pointer;
   }
 
   main input {
@@ -409,6 +410,24 @@
     border-radius: 5px;
     margin-top: 20px;
   }
+#storesIcon.grid-container {
+  display: grid;
+  column-gap: 20px;
+  row-gap: 20px;
+  grid-template-columns: auto auto auto auto auto;
+  padding: 10px;
+}
+
+#storesIcon.grid-container .grid-item {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  padding: 20px;
+  font-size: 30px;
+  text-align: center;
+}
+.pointer{
+  cursor:pointer;
+}
 </style>
 
 <main class="h-full pb-16 overflow-y-auto">
@@ -420,7 +439,7 @@
         <ul class="form-stepper form-stepper-horizontal text-center mx-auto pl-0">
           <!-- Step 1 -->
           <li class="form-stepper-active text-center form-stepper-list " step="1">
-            <a class="mx-2" onclick="navigateToFormStep(1)">
+            <a class="mx-2 pointer" onclick="navigateToFormStep(1)">
               <span class="form-stepper-circle">
                 <span>1</span>
               </span>
@@ -429,7 +448,7 @@
           </li>
           <!-- Step 2 -->
           <li class="form-stepper-unfinished text-center form-stepper-list" step="2">
-            <a class="mx-2" onclick="navigateToFormStep(2)">
+            <a class="mx-2 pointer" onclick="navigateToFormStep(2)">
               <span class="form-stepper-circle text-muted">
                 <span>2</span>
               </span>
@@ -438,7 +457,7 @@
           </li>
           <!-- Step 3 -->
           <li class="form-stepper-unfinished text-center form-stepper-list" step="3">
-            <a class="mx-2" onclick="navigateToFormStep(3)">
+            <a class="mx-2 pointer" onclick="navigateToFormStep(3)">
               <span class="form-stepper-circle text-muted">
                 <span>3</span>
               </span>
@@ -447,7 +466,7 @@
           </li>
           <!-- Step 4 -->
           <li class="form-stepper-unfinished text-center form-stepper-list" step="4">
-            <a class="mx-2" onclick="navigateToFormStep(4)">
+            <a class="mx-2 pointer" onclick="navigateToFormStep(4)">
               <span class="form-stepper-circle text-muted">
                 <span>4</span>
               </span>
@@ -473,25 +492,24 @@
                   Upload Album Thumbnail:
                 </p>
                 <canvas id="canv1"></canvas>
-                <input  autocomplete="on" style="border:none;width: 260px;" type="file" multiple="false" accept=".jpg,.jpeg"
+                <input  required autocomplete="on" style="border:none;width: 260px;" type="file" multiple="false" accept=".jpg,.jpeg"
                   id="albumImage" name="imgFile" onchange="upload()">
               </div>
               <div class="item">
                 <label for="">Name</label>
-                <input  autocomplete="on" placeholder="ABC Track" type="" name="title" oninput="this.className = ''">
-                <label>Version/Subtitle </label><input  autocomplete="on" placeholder="Version/Subtitle" type="version_subtitle"
+                <input required autocomplete="on" placeholder="ABC Track" type="" name="title" oninput="this.className = ''">
+                <label>Version/Subtitle </label><input required autocomplete="on" placeholder="Version/Subtitle" type="version_subtitle"
                   name="version" oninput="this.className = ''">
-                <label>Primary Artist </label><input  autocomplete="on" placeholder="" type="" name="primary_artist"
+                <label>Primary Artist </label><input  required autocomplete="on" placeholder="" type="" name="primary_artist"
                   oninput="this.className = ''">
                 <p>
               </div>
             </div>
-
             <div class="container">
               <div class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800 belowLine ">
                 <div class="selectionInput">
-                <label style="margin-right: 42px;" for="pet-select">Genre </label>
-                <select name="genre" id="pet-select">
+                <label required style="margin-right: 42px;" for="pet-select">Genre </label>
+                <select required name="genre" id="pet-select">
                   <option value="">--Select Genre--</option>
                   <option value="dog">Dog</option>
                   <option value="cat">Cat</option>
@@ -499,7 +517,7 @@
                 </div>
                 <div class="selectionInput">
                 <label for="pet-select" style="margin-right: 23px;">SubGenre </label>
-                <select name="subgenre" id="pet-select">
+                <select required name="subgenre" id="pet-select">
                   <option value="">--Select SubGenre--</option>
                   <option value="dog">Dog</option>
                   <option value="cat">Cat</option>
@@ -550,7 +568,7 @@
           </div>
           <div class="mt-3" style="display: flex;
         justify-content:end">
-            <button class="button btn-navigate-form-step" type="button"  id = "next-1" step_number="2">Next</button>
+            <button class="button btn-navigate-form-step" type="button"  onclick="clickedNext()" id = "next-1" step_number="2">Next</button>
           </div>
         </section>
 
@@ -582,8 +600,8 @@
 
           <div class="mt-3" style="display: flex;
         justify-content: space-between;">
-            <button class="button btn-navigate-form-step" type="button" step_number="1">Prev</button>
-            <button class="button btn-navigate-form-step" type="button" id = "next-2" step_number="3">Next</button>
+            <button class="button btn-navigate-form-step" onclick="clickedPrev()" type="button" step_number="1">Prev</button>
+            <button class="button btn-navigate-form-step" type="button"  id = "next-2" onclick="clickedNext()" step_number="3">Next</button>
           </div>
         </section>
         <!-- Step 3 Content, default hidden on page load. -->
@@ -593,37 +611,18 @@
             Select Companies To Store
           </h4>
           <!-- Step 4 input fields -->
-          <div class="mt-3">
-            <input  autocomplete="on" type="button" onclick='selects()' style="width: 110px;background:#7e3af2;color:white;"
-              value="Select All" />
-            <input  autocomplete="on" type="button" onclick='deSelect()' style="width: 110px;background:#7e3af2;color:white;"
-              value="Deselect All" />
-            <div class="row">
-              <div class="column" style="width: 33.33%;">
-                <div class="column">
-                  <img
-                    src="https://w7.pngwing.com/pngs/831/542/png-transparent-sony-music-logo-music-industry-production-companies-sony-company-text-music-video.png"
-                    alt="Snow" style="width:100%">
-                  <input  autocomplete="on" type="checkbox" id="s1" class="lg" value="Sony1">
-                </div>
-                <div class="column">
-                  <img
-                    src="https://w7.pngwing.com/pngs/831/542/png-transparent-sony-music-logo-music-industry-production-companies-sony-company-text-music-video.png"
-                    alt="Snow" style="width:100%">
-                  <input  autocomplete="on" type="checkbox" id="s2" class="lg" value="Sony2">
-                </div>
-              </div>
+            <div class="grid-container" id ="storesIcon">
+                
             </div>
-          </div>
          <div class="mt-3" style="display: flex;
         justify-content: space-between;">
-            <button class="button btn-navigate-form-step" type="button" step_number="2">Prev</button>
-            <button class="button btn-navigate-form-step" type="button" id = "next-3" step_number="4">Preview</button>
+            <button class="button btn-navigate-form-step" onclick="clickedPrev()" type="button" step_number="2">Prev</button>
+            <button class="button btn-navigate-form-step" type="button" onclick="clickedNext()" id = "next-3"  step_number="4">Preview</button>
           </div>
           
         </section>
         <!-- Step 4 Content, default hidden on page load. -->
-        <section id="step-4" class="form-step d-none text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
+        <section id="step-4" class="form-step d-none text-xs font-semibold tracking-wide text-left text-gray-500  border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
             <h4 style="font-size: 20px;text-align:center;margin-top:10px;margin-bottom:30px;">
             &#127911; Release
           </h4>
@@ -639,7 +638,7 @@
                     <div class="w-full overflow-x-auto">
                         <table class="w-full whitespace-no-wrap">
                           <thead>
-                            <tr class="header text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
+                            <tr class="header text-xs font-semibold tracking-wide text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                               <th class="px-4 py-3">Id</th>
                               <th class="px-4 py-3">Writer</th>
                               <th class="px-4 py-3">Language</th>
@@ -654,8 +653,8 @@
                 </div>
               <div class="mt-3" style="display: flex;
                   justify-content: space-between;">
-                <button class="button btn-navigate-form-step" type="button" step_number="3">Prev</button>
-                <button class="button btn-navigate-form-step" type="button"  step_number="5">Submit</button>
+                <button class="button btn-navigate-form-step" type="button" step_number="3">Edit Forms</button>
+                <button class="button btn-navigate-form-step" type="button" onclick="saveCompletedAlbum()" step_number="5">Submit</button>
               </div>
         </section>
       </div>
@@ -894,11 +893,22 @@
   var isAlbumSaved = false
   var isSongsDataSaved = false
   let songsArray = []
+  let stores = []
   let savedAlbum = {}
-  let clickedPrevForFirstStep = false
-  let clickedPrevForSecondStep = false
   let albumDataSaved 
-
+  let prevBtnClicked = false;
+  let nextBtnClicked = false;
+  function clickedPrev(){
+    console.log("prev clicked")
+    prevBtnClicked = true
+    nextBtnClicked = false
+  }
+  function clickedNext(){
+    console.log("next clicked")
+    prevBtnClicked = false
+    nextBtnClicked = true
+  }
+  
   // Add Song Model Functions
   const dropArea = document.querySelector(".drop_box")
   const dropArea2 = document.querySelector(".recent-file"),
@@ -979,7 +989,7 @@ function updateSongData(idx){
       actor: $('input[name="actor"]').val(),
       genre: $('select[name="genre"]').children("option:selected").val(),
       subgenre: $('select[name="subgenre"]').children("option:selected").val(),
-      labelID: "sharma",
+      labelID: $('select[name="lable_name"]').children("option:selected").val(),
       format: $('select[name="format"]').children("option:selected").val(),
       originalReleaseDate: $('input[name="physical_release_date"]').val(),
       productionYear: $('select[name="production_year"]').children("option:selected").val(),
@@ -1128,15 +1138,57 @@ function updateSongData(idx){
       console.error(error)
     });
   }
-  const navigateToFormStep = async (stepNumber) => {
-    // Check if data got saved if not not change the page 
-    // TODO: If data already saved then update by checking savedAlbumID
-    if(stepNumber == 1){ 
-      console.log("come on 1st step") 
-      clickedPrevForFirstStep = true
+  const getClickStoreID =() =>{
+    console.log("get click store id")
+    let clickStoresID = []
+    for(let i=0;i<stores.length;i++){
+      if(document.getElementById(`store-${i}`).checked){
+        clickStoresID.push(stores[i].id)
+      }
     }
-    if (stepNumber == 2) {
-      clickedPrevForSecondStep = true
+    console.log("clicked Stores",clickStoresID)
+    return clickStoresID
+  }
+  const saveStoresForSavedAlbum = async(clickedStores)=>{
+    let isStoreSaved = false
+    const formData = new FormData();
+    formData.append("stores",JSON.stringify(clickedStores))
+    formData.append("albumID",savedAlbum.id)
+    await fetch('/album-manage/updateStoresArray', {
+    method: 'POST',
+    body: formData
+    }).then(response => {
+     if (response.ok) {
+        return response.json()
+      }
+    }).then(data => {
+      console.log('Successfully saved storesArray:', data);
+       isStoreSaved = true
+    }).catch((error) => {
+      console.error(error)
+      isStoreSaved = false
+    });
+    return isStoreSaved
+  }
+  function saveCompletedAlbum(){
+    const formData = new FormData();
+    formData.append("albumID",savedAlbum.id)
+    fetch(`/album-manage/completed`, {
+    method: 'POST',
+    body: formData
+    }).then(response => {
+     if (response.ok) {
+        return response.json()
+      }
+    }).then(() => {
+       window.location.href ="/"
+    }).catch((error) => {
+      console.error(error)
+    });
+  }
+  const navigateToFormStep = async (stepNumber) => {
+    if (stepNumber == 2 && nextBtnClicked) {
+      nextBtnClicked = false
       document.getElementById("next-1").disabled = true;
       albumData = getAndVerifyAlbumValues()
       console.log(albumData)
@@ -1158,9 +1210,8 @@ function updateSongData(idx){
       if(isAlbumSaved == false){
         savedAlbum = await saveAlbumData(albumData)
       }
-      else if(clickedPrevForFirstStep){
+      else{
          updateAlbumData(albumData,savedAlbum)
-         clickedPrevForFirstStep = false
       }
       if (Object.keys(savedAlbum) === 0) {
         console.log("Album Not Saved")
@@ -1175,8 +1226,8 @@ function updateSongData(idx){
     }
 
     // checking for second page
-    if (stepNumber == 3 && clickedPrevForSecondStep) {
-      clickedPrevForSecondStep = false
+    if (stepNumber == 3 && nextBtnClicked && Object.keys(savedAlbum) != 0 ) {
+      nextBtnClicked = false
       document.getElementById("next-2").disabled = true;
       await saveSongsData(savedAlbum) 
       if(!isSongsDataSaved) {
@@ -1187,9 +1238,19 @@ function updateSongData(idx){
       }
       document.getElementById("next-2").disabled = false;
     }
-    if(stepNumber == 4 && isAlbumSaved){
-      preview()
+    if(stepNumber == 4 && nextBtnClicked && Object.keys(savedAlbum) != 0 ){
+      nextBtnClicked = false
+      document.getElementById("next-3").disabled = true;
+      clickedStore = getClickStoreID()
+      savedStore = await saveStoresForSavedAlbum(clickedStore)
+      if(!savedStore){
+          console.log("unable to save stores")
+          document.getElementById("next-3").disabled = false;
+          return
+      }
+      document.getElementById("next-3").disabled = false;
     }
+    preview()
     document.querySelectorAll(".form-step").forEach((formStepElement) => {
       formStepElement.classList.add("d-none");
     });
@@ -1268,6 +1329,7 @@ function updateSongData(idx){
     }
   }
   function preview() {
+    if(Object.keys(savedAlbum) != 0){
     document.getElementById('previewData').innerHTML = ` 
             <div class="container">
               <div class="item">
@@ -1331,6 +1393,7 @@ function updateSongData(idx){
               </div>
             </div>`
     priviewimg();
+    }
     document.getElementById('previewTableRows').innerHTML =``
     for (let i = 0; i < songsArray.length; i++) {
           document.getElementById('previewTableRows').innerHTML += `
@@ -1411,7 +1474,7 @@ let labelArray = []
       if (response.ok) {
         return response.json()
       }
-    }).then(async (data) => {
+    }).then((data) => {
       if (data.labelData) {
         labelArray = data.labelData;
         console.log("response data", labelArray)
@@ -1421,11 +1484,36 @@ let labelArray = []
     });
    document.getElementById("select-label").innerHTML = `<option value="">--Select Genre--</option>`
    for(let i = 0;i<labelArray.length;i++){
-      document.getElementById("select-label").innerHTML += `<option value="">${labelArray[i].title}</option>`
+      document.getElementById("select-label").innerHTML += `<option value="${labelArray[i].title}">${labelArray[i].title}</option>`
    }
+}
+var getAllStores=async()=>{
+  await fetch('/albumStores').then(response => {
+      if (response.ok) {
+        return response.json()
+      }
+    }).then((data) => {
+      if (data.stores) {
+        stores = data.stores;
+        console.log(stores)
+        document.getElementById("storesIcon").innerHTML =``
+        for(let i = 0;i<stores.length;i++){
+        document.getElementById("storesIcon").innerHTML += `
+                        <div class="grid-item"> <img
+                          src="${stores[i].img}"
+                          alt="${stores[i].name}">
+                        <input  type="checkbox" id="store-${i}" style = "height :20px" value="${stores[i].name}">
+                      </div>`
+        }
+      }
+    }).catch((error) => {
+      console.error(error)
+  });
 }
 
 getAllLabels()
+getAllStores()
+
 // disable three more days in calender
 let today = new Date();
 // Add 3 days to today's date

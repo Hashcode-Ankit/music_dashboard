@@ -72,6 +72,15 @@ function getCompletedAlbumsForUser(userID){
 function getNews(){
 
 }
+function getStores(){
+    return new Promise((resolve, reject) => {
+        const fs = require("fs");
+        fs.readFile("stores.json", (err, data) => {
+        if (err) reject (err);
+        resolve(JSON.parse(data))
+         });
+    })
+}
 function getPaymentInfoForUserID(userID){
 
 }
@@ -243,7 +252,12 @@ function updateAlbum(albumData){
     })
    })
 }
-
+function updateToCompletedAlbum(album){
+   return db.migrateToCompleted(album)
+}
+function updateStoresArrayInAlbum(storeArray){
+    return db.updateStoresArrayInAlbum(storeArray)
+}
 function deleteAblum(albumId){
     return db.deleteAlbum(albumId)
 }
@@ -306,4 +320,4 @@ function registerUser(userData){
 function login(userData){
     return mongo.loginUser(userData)
 }
-module.exports = {connectWithDB,initializeDatabase,updateLabel, updateSongData,updateSongsArrayInAlbum,getCompletedAlbumsForUser, saveSongData, updateArtist,deleteArtist, getAllAlbumsForUser,getAllSongsForAlbum,getDraftAlbumsForUser,getNonApprovedAlbums,getPrimaryArtistForUserID,registerUser,deleteAblum,deleteLabel,albumApproved,removeDraft,login,addLabelForUserWithID,saveArtist,getAllLabelsForUserIDForUser,saveAlbum,connectMongoDB, getAllArtistsWithUserID, addSongForUser,updateAlbum}
+module.exports = {connectWithDB,initializeDatabase,updateLabel,updateToCompletedAlbum, updateStoresArrayInAlbum, getStores, updateSongData,updateSongsArrayInAlbum,getCompletedAlbumsForUser, saveSongData, updateArtist,deleteArtist, getAllAlbumsForUser,getAllSongsForAlbum,getDraftAlbumsForUser,getNonApprovedAlbums,getPrimaryArtistForUserID,registerUser,deleteAblum,deleteLabel,albumApproved,removeDraft,login,addLabelForUserWithID,saveArtist,getAllLabelsForUserIDForUser,saveAlbum,connectMongoDB, getAllArtistsWithUserID, addSongForUser,updateAlbum}

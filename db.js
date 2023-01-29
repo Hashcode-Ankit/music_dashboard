@@ -269,15 +269,28 @@ function updateSong(songData,songID) {
 function updateSongArrayOfAlbum(songArray){
     return Album.update({ songs: songArray.songs }, {
         where: { id:songArray.albumID,
-          userID:songArray.albumID
+          userID:songArray.userID
          }
     })
 }
-
+function updateStoresArrayInAlbum(storeArray){
+    return Album.update({ stores: storeArray.stores }, {
+        where: { id:storeArray.albumID,
+          userID:storeArray.userID
+         }
+    })
+}
 //update an Album
 function updateAlbum(albumId, updateInfo) {
     return Album.update(updateInfo, {
         where: { id:albumId }
+    })
+}
+function migrateToCompleted(album){
+    return Album.update({ draft: false }, {
+        where: { id:album.albumID,
+          userID:album.userID
+         }
     })
 }
 
@@ -375,4 +388,4 @@ function deleteArtist(artistId) {
 }
 
 
-module.exports = { connectDb, initialize, updateSong, addAlbum,getDraftAlbumsForUser,getCompletedAlbumsForUser, addSong, updateSongArrayOfAlbum,getAllAlbums, deleteAlbum, updateAlbum, getAlbum, addLabel, getAllLabelsForUserID, getLabel, updateLabel, deleteLabel, getArtist, addArtist, updateArtist, deleteArtist, getArtistForUser}
+module.exports = { connectDb, initialize,migrateToCompleted, updateSong,updateStoresArrayInAlbum, addAlbum,getDraftAlbumsForUser,getCompletedAlbumsForUser, addSong, updateSongArrayOfAlbum,getAllAlbums, deleteAlbum, updateAlbum, getAlbum, addLabel, getAllLabelsForUserID, getLabel, updateLabel, deleteLabel, getArtist, addArtist, updateArtist, deleteArtist, getArtistForUser}
