@@ -396,6 +396,9 @@ res.render(path.join(__dirname,"/views/comingSoon.hbs"))
 // User Login, register
 
 // Don't Touch Logic without Permission
+app.get('/profile', function(req,res){
+  res.render(path.join(__dirname,"/views/profile.hbs"))
+});
 app.get('/login', function(req,res){
   res.render(path.join(__dirname,"/views/login.hbs"))
 });
