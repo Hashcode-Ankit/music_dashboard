@@ -474,14 +474,14 @@
                 </p>
                 <canvas id="canv1"></canvas>
                 <input  autocomplete="on" style="border:none;width: 260px;" type="file" multiple="false" accept=".jpg,.jpeg"
-                  id="albumImage" name="imgFile" onchange="upload()">
+                  id="albumImage" name="imgFile"  onchange="upload()">
               </div>
               <div class="item">
                 <label for="">Name</label>
-                <input  autocomplete="on" placeholder="ABC Track" type="" name="title" oninput="this.className = ''">
+                <input  autocomplete="on" placeholder="ABC Track" type="" name="title" id="title" oninput="this.className = ''">
                 <label>Version/Subtitle </label><input  autocomplete="on" placeholder="Version/Subtitle" type="version_subtitle"
-                  name="version" oninput="this.className = ''">
-                <label>Primary Artist </label><input  autocomplete="on" placeholder="" type="" name="primary_artist"
+                  name="version" id ="version"oninput="this.className = ''">
+                <label>Primary Artist </label><input  autocomplete="on" placeholder="" type="" name="primary_artist" id="primary_artist"
                   oninput="this.className = ''">
                 <p>
               </div>
@@ -491,7 +491,7 @@
               <div class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800 belowLine ">
                 <div class="selectionInput">
                 <label style="margin-right: 42px;" for="pet-select">Genre </label>
-                <select name="genre" id="pet-select">
+                <select name="genre" id="genre">
                   <option value="">--Select Genre--</option>
                   <option value="dog">Dog</option>
                   <option value="cat">Cat</option>
@@ -499,7 +499,7 @@
                 </div>
                 <div class="selectionInput">
                 <label for="pet-select" style="margin-right: 23px;">SubGenre </label>
-                <select name="subgenre" id="pet-select">
+                <select name="subgenre" id="subgenre">
                   <option value="">--Select SubGenre--</option>
                   <option value="dog">Dog</option>
                   <option value="cat">Cat</option>
@@ -507,13 +507,15 @@
                 </div>
                 <div class="selectionInput">
                 <label for="pet-select">Lable Name </label>
-                <select name="lable_name" id="select-label">
+                <select name="lable_name" id="lable_name">
                   <option value="">--Select Lable Name--</option>
+                  <option value="dog">Dog</option>
+                  <option value="cat">Cat</option>
                 </select> 
                 </div>
                 <div class="selectionInput">
                 <label for="pet-select" style="margin-right: 35px;">Format </label>
-                <select name="format" id="pet-select">
+                <select name="format" id="format">
                   <option value="">--Single--</option>
                   <option value="dog">Dog</option>
                   <option value="cat">Cat</option>
@@ -521,26 +523,26 @@
                 </div>
                 <div class="selectionInput">
                 <label for="pet-select">Production Year </label>
-                <select name="production_year" id="pet-select">
+                <select name="production_year" id="production_year">
                   <option value="">--2022--</option>
                   <option value="dog">Dog</option>
                   <option value="cat">Cat</option>
                 </select> 
                 </div>
-                <label>Actor </label><input  autocomplete="on" style="margin-bottom: 29px;" placeholder="Featuring" type="" name="actor"
+                <label>Actor </label><input  autocomplete="on" style="margin-bottom: 29px;" placeholder="Featuring" type="" name="actor" id="actor"
                   oninput="this.className = ''">
               </div>
               <div class="item ">
                 <label>Producer Catalogue Number </label>
-                <input  autocomplete="on" placeholder="Producer Catalogue Number" type="" name="producer_catalogue_number"
+                <input  autocomplete="on" placeholder="Producer Catalogue Number" type="" id="producer_catalogue_number"name="producer_catalogue_number"
                   oninput="this.className = ''">
                 <label>Phisical/Original release date </label><input id ="datepicker"
                   placeholder="Version/Subtitle" type="date" name="physical_release_date" oninput="this.className = ''">
-                <label>Line1 </label><input  autocomplete="on" placeholder="Line" type="" name="line1"
+                <label>Line1 </label><input  autocomplete="on" placeholder="Line" type="" name="line1" id="line1"
                   oninput="this.className = ''">
-                <label>Line2 </label><input  autocomplete="on" placeholder="Line" type="" name="line2"
+                <label>Line2 </label><input  autocomplete="on" placeholder="Line" type="" name="line2" id="line2"
                   oninput="this.className = ''">
-                <label>UPC/EAN </label><input  autocomplete="on" placeholder="UPC/EAN" type="" name="upc"
+                <label>UPC/EAN </label><input  autocomplete="on" placeholder="UPC/EAN" type="" name="upc" id="upc"
                   oninput="this.className = ''">
                
               </div>
@@ -979,7 +981,7 @@ function updateSongData(idx){
       actor: $('input[name="actor"]').val(),
       genre: $('select[name="genre"]').children("option:selected").val(),
       subgenre: $('select[name="subgenre"]').children("option:selected").val(),
-      labelID: "sharma",
+      labelID:$('select[name="label_name"]').children("option:selected").val(),
       format: $('select[name="format"]').children("option:selected").val(),
       originalReleaseDate: $('input[name="physical_release_date"]').val(),
       productionYear: $('select[name="production_year"]').children("option:selected").val(),
@@ -1419,7 +1421,7 @@ let labelArray = []
     }).catch((error) => {
       console.error(error)
     });
-   document.getElementById("select-label").innerHTML = `<option value="">--Select Genre--</option>`
+   document.getElementById("select_label").innerHTML = `<option value="">--Select Genre--</option>`
    for(let i = 0;i<labelArray.length;i++){
       document.getElementById("select-label").innerHTML += `<option value="">${labelArray[i].title}</option>`
    }
@@ -1434,4 +1436,49 @@ disableUntil.setDate(today.getDate() + 3);
 // Set the min attribute of the datepicker to the date 3 days from now
 document.getElementById("datepicker").min = disableUntil.toISOString().slice(0,10);
 
+function fillInputs(draft){
+    document.getElementById("title").value = draft.title;
+    document.getElementById("version").value = draft.subTitle;
+    document.getElementById("primary_artist").value = draft.primaryArtist;
+    document.getElementById("actor").value = draft.actor;
+    //document.getElementById("label_name").value = 'Dog';
+    document.getElementById("producer_catalogue_number").value = draft.producerCatalogueNumber;
+    document.getElementById("genre").value = draft.genre;
+    document.getElementById("subgenre").value = draft.subgenre;
+    document.getElementById("format").value = draft.format;
+    document.getElementById("production_year").value = draft.productionYear;
+    document.getElementById("datepicker").value = draft.originalReleaseDate;
+    
+  
+
+}
+
+ const getAllDrafts=async(draftId)=>{
+     await fetch('/albumDrafts').then(response => {
+      if (response.ok) {
+        return response.json()
+      }
+    }).then(async (data) => {
+      if (data.album) {
+        DraftArray = data.album;
+        console.log("yes")
+        console.log("response data", DraftArray)
+        for (let i = 0; i < DraftArray.length; i++) {
+          if(DraftArray[i].id==draftId){
+            var draft = DraftArray[i];
+            console.log(draft)
+            fillInputs(draft);
+          }
+        
+        }
+      }
+    }).catch((error) => {
+      console.error(error)
+    });
+  }
+//Editing Draft 
+var draftId = "{{ draftId }}";
+if(draftId){
+  getAllDrafts(draftId);
+}
 </script>
