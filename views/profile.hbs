@@ -1,0 +1,522 @@
+<style>
+    main h1 {
+        text-align: center;
+    }
+
+    main h2 {
+        margin: 0;
+    }
+
+    main .err {
+        color: red;
+        margin: 10px;
+    }
+
+    main #multi-step-form-container {
+        margin-top: 1rem;
+    }
+
+    main .text-center {
+        text-align: center;
+    }
+
+    main .mx-auto {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    main .pl-0 {
+        padding-left: 0;
+    }
+
+    main .button {
+        padding: 0.7rem 1.5rem;
+        border: 1px solid #7e3af2;
+        background-color: #7e3af2;
+        color: #fff;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    main .submit-btn {
+        border: 1px solid #7e3af2;
+        background-color: #7e3af2;
+    }
+
+    main .d-none {
+        display: none;
+    }
+
+    main .form-step {
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: 20px;
+        padding-inline: 1rem;
+        padding: 25px;
+    }
+
+    main .font-normal {
+        font-weight: normal;
+    }
+
+    main ul.form-stepper {
+        counter-reset: section;
+        margin-bottom: 1rem;
+    }
+
+    main ul.form-stepper .form-stepper-circle {
+        position: relative;
+    }
+
+    main ul.form-stepper .form-stepper-circle span {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translateY(-50%) translateX(-50%);
+    }
+
+    main .form-stepper-horizontal {
+        position: relative;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+        justify-content: space-between;
+    }
+
+    main ul.form-stepper>li:not(:last-of-type) {
+        margin-bottom: 0.625rem;
+        -webkit-transition: margin-bottom 0.4s;
+        -o-transition: margin-bottom 0.4s;
+        transition: margin-bottom 0.4s;
+    }
+
+    main .form-stepper-horizontal>li:not(:last-of-type) {
+        margin-bottom: 0 !important;
+    }
+
+    main .form-stepper-horizontal li {
+        position: relative;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-flex: 1;
+        -ms-flex: 1;
+        flex: 1;
+        -webkit-box-align: start;
+        -ms-flex-align: start;
+        align-items: start;
+        -webkit-transition: 0.5s;
+        transition: 0.5s;
+    }
+
+    main .form-stepper-horizontal li:not(:last-child):after {
+        position: relative;
+        -webkit-box-flex: 1;
+        -ms-flex: 1;
+        flex: 1;
+        height: 1px;
+        content: "";
+        top: 32%;
+    }
+
+    main .form-stepper-horizontal li:after {
+        background-color: #dee2e6;
+    }
+
+    main .form-stepper-horizontal li.form-stepper-completed:after {
+        background-color: #7e3af2;
+    }
+
+    main .form-stepper-horizontal li:last-child {
+        flex: unset;
+    }
+
+    main ul.form-stepper li a .form-stepper-circle {
+        display: inline-block;
+        width: 40px;
+        height: 40px;
+        margin-right: 0;
+        line-height: 1.7rem;
+        text-align: center;
+        background: rgba(0, 0, 0, 0.38);
+        border-radius: 50%;
+    }
+
+    main .form-stepper .form-stepper-active .form-stepper-circle {
+        background-color: #bcadd5;
+        color: #fff;
+    }
+
+    main .form-stepper .form-stepper-active .label {
+        color: black;
+    }
+
+    main .form-stepper .form-stepper-active .form-stepper-circle:hover {
+        background-color: #bcadd5;
+        color: #fff !important;
+    }
+
+    main .form-stepper .form-stepper-unfinished .form-stepper-circle {
+        background-color: #f8f7ff;
+    }
+
+    main .form-stepper .form-stepper-completed .form-stepper-circle {
+        background-color: #7e3af2 !important;
+        color: #fff;
+    }
+
+    main .form-stepper .form-stepper-completed .label {
+        color: #7e3af2 !important;
+    }
+
+    main .form-stepper .form-stepper-completed .form-stepper-circle:hover {
+        background-color: #7e3af2 !important;
+        color: #fff !important;
+    }
+
+    main .form-stepper .form-stepper-active span.text-muted {
+        color: #fff !important;
+    }
+
+    main .form-stepper .form-stepper-completed span.text-muted {
+        color: #fff !important;
+    }
+
+    main .form-stepper .label {
+        font-size: 1rem;
+        margin-top: 0.5rem;
+    }
+
+    .form-stepper a {
+        cursor: pointer;
+    }
+
+    main input {
+        padding-inline: 10px;
+        height: 40px;
+        width: 100%;
+        font-size: 17px;
+        font-family: Raleway;
+        border: 1px solid #a789da;
+        border-radius: 5px;
+        margin-bottom: 10px;
+    }
+
+    main label {
+        margin-bottom: 10px;
+        font-family: sans-serif;
+        font-size: 1rem;
+    }
+
+    main input.invalid {
+        background-color: #ae87f2;
+    }
+
+    main select {
+        margin-bottom: 10px;
+        font-size: 0.9rem;
+        padding: 2px 5px;
+    }
+
+    main canvas {
+        margin: 11px;
+        height: 150px;
+        width: 172px;
+        border-style: solid;
+        border-width: 1px;
+        border-color: black;
+    }
+
+    .imgNote {
+        display: flex;
+    }
+
+    .noteToUser {
+        padding: 10%;
+        text-align: center;
+        color: #be5959;
+    }
+
+    main #myInput {
+        background-image: url('/css/searchicon.png');
+        background-position: 10px 10px;
+        background-repeat: no-repeat;
+        width: 100%;
+        font-size: 16px;
+        padding: 12px 20px 12px 40px;
+        border: 1px solid #ddd;
+        margin-bottom: 12px;
+    }
+
+    main .table {
+        border-collapse: collapse;
+        width: 100%;
+        border: 1px solid #ddd;
+        font-size: 18px;
+    }
+
+    main .table th,
+    #myTable td {
+        text-align: left;
+        padding: 12px;
+        text-align: center;
+    }
+
+    main .table tr {
+        border-bottom: 1px solid #ddd;
+
+    }
+
+    main .table tr.header,
+    .table tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    main td {
+        padding: 8px 16px;
+        border: 1px solid #ccc;
+        text-align: center;
+    }
+
+    main .ActionDiv {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .content {
+        position: absolute;
+        top: 49%;
+        left: 45%;
+        transform: translate(-50%, -50%);
+        width: 98%;
+        height: 90%;
+        text-align: center;
+        background-color: rgba(249, 250, 251, var(--bg-opacity));
+        box-sizing: border-box;
+        padding: 10px;
+        z-index: 100;
+        display: none;
+    }
+
+    @media only screen and (min-width: 1000px) {
+        main .container {
+            padding-inline: 10px;
+
+            display: table;
+            table-layout: fixed;
+            width: 100%;
+        }
+
+        .content {
+            position: absolute;
+            top: 49%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60%;
+            height: 90%;
+            text-align: center;
+            background-color: rgba(249, 250, 251, var(--bg-opacity));
+            box-sizing: border-box;
+            padding: 10px;
+            z-index: 100;
+            display: none;
+            /*to hide popup initially*/
+        }
+
+
+
+        main .item {
+            /* float:left; */
+            display: table-cell;
+            padding-inline: 10px;
+        }
+    }
+
+    main .avatar {
+        vertical-align: middle;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+    }
+
+    main .column {
+        float: left;
+        width: 50%;
+        padding: 5px;
+    }
+
+    /* Clearfix (clear floats) */
+    main .row::after {
+        content: "";
+        clear: both;
+        display: table;
+    }
+
+    select {
+        width: 185px;
+    }
+
+    .inputwrap {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .inputwrap label {
+        width: 30%;
+    }
+
+
+
+    .close-btn {
+        position: absolute;
+        right: 20px;
+        top: 15px;
+        background-color: #7e3af2;
+        color: white;
+        border-radius: 10%;
+        padding: 4 21px;
+    }
+
+    .errorShow {
+        color: red;
+    }
+
+    .belowLine {
+        border: none
+    }
+
+    #step-4 input,
+    #step-4 select {
+        background-color: rgb(203, 203, 203);
+        color: white;
+        height: 30px;
+    }
+
+    #step-4 label {
+        font-size: 13px;
+    }
+
+    .selectionInput {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .selectionInput input {
+        padding-inline: 10px;
+        height: 40px;
+        font-size: 17px;
+        width: 70%;
+        font-family: Raleway;
+        border: 1px solid #a789da;
+        border-radius: 5px;
+        margin-bottom: 13px;
+        margin-top: 5px;
+    }
+
+    .selectionInput select {
+        padding-inline: 10px;
+        height: 30px;
+        font-size: 17px;
+        width: 63%;
+        font-family: Raleway;
+        border: 1px solid #a789da;
+        border-radius: 5px;
+        margin-top: 20px;
+    }
+
+    #storesIcon.grid-container {
+        display: grid;
+        column-gap: 20px;
+        row-gap: 20px;
+        grid-template-columns: auto auto auto auto auto;
+        padding: 10px;
+    }
+
+    #storesIcon.grid-container .grid-item {
+        background-color: rgba(255, 255, 255, 0.8);
+        border: 1px solid rgba(0, 0, 0, 0.8);
+        padding: 20px;
+        font-size: 30px;
+        text-align: center;
+    }
+
+    .pointer {
+        cursor: pointer;
+    }
+</style>
+<main
+    class="h-full pb-16 overflow-y-auto form-step text-xs font-semibold tracking-wide text-left text-gray-500  border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
+    <div class="container px-6 mx-auto grid">
+        <!-- multistep form -->
+        <div>
+            <div id="multi-step-form-container">
+                <section id="step-1"
+                    class="form-step text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
+                    <h4 style="font-size: 20px;text-align:center;margin-top:10px;margin-bottom:30px;">
+                         User Details
+                    </h4>
+                    <!-- Step 1 input fields -->
+                    <h1 id="errorShow"></h1>
+                    <div class="mt-3">
+                        <div class="container">
+
+                            <div class="item ">
+                                <p style="width: 195px;">
+                                    Upload Profile <Picture></Picture>:
+                                </p>
+                                <div class="imgNote">
+                                    <canvas id="canv1"></canvas>
+                                    <div class="noteToUser">Note :<br> Image must be less then or <br> equal to 100kb
+                                    </div>
+                                </div>
+                                <p id="imgError" style="color: red;"></p>
+                                <input required autocomplete="on" style="border:none;width: 260px;" type="file"
+                                    multiple="false" accept=".jpg,.jpeg" id="albumImage" name="imgFile"
+                                    onchange="upload()">
+                            </div>
+                            <div class="item">
+                                <label for="">First Name</label>
+                                <input required autocomplete="on" placeholder="first name" type="" name="title"
+                                    oninput="this.className = ''">
+                                <label>Last Name </label><input required autocomplete="on"
+                                    placeholder="last name" type="version_subtitle" name="version"
+                                    oninput="this.className = ''">
+                                <label>Contact Number </label><input required autocomplete="on" placeholder="contact" type=""
+                                    name="primary_artist">
+                            <label>Email </label><input autocomplete="on" placeholder="email" type="" name="email"
+                                   >
+                            </div>
+                        </div>
+                        <div class="container">
+                            <div class="item ">
+                                <label>Address</label>
+                                <input autocomplete="on" placeholder="address" type=""
+                                    name="producer_catalogue_number">
+                                <label>UPI ID</label><input 
+                                    placeholder="upi" type="" name="upi"
+                                    >
+                                <label>Account Number </label><input autocomplete="on" placeholder="bank account" type="" name="account"
+                                   >
+                                <label>IFSC Code </label><input autocomplete="on" placeholder="ifsc code" type="" name="ifsc"
+                                   >
+                               
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="mt-3" style="display: flex;justify-content:center;margin-top:10px;font-size: 15px;">
+                        <button class="button btn-navigate-form-step" type="button" onclick="saveDetails()" id="next-1">Update Details</button>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+    </div>
+</main>
+
+<script>
+
+</script>
