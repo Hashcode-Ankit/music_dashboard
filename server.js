@@ -28,7 +28,7 @@ app.use(express.static('public'));
 const ndaStorage = multer.diskStorage({
     destination: (req, file, cb) => {
         // Choose the destination based on data in the request
-        const destination = `./uploads/${req.session.user.email}/nda/Label-${req.body.title}/`;
+        const destination = `./assets/uploads/${req.session.user.email}/nda/Label-${req.body.title}/`;
         if (!fs.existsSync(destination)) {
             fs.mkdirSync(destination, { recursive: true, mode: 0o777 })
         }
@@ -45,7 +45,7 @@ const albumImageStorage = multer.diskStorage({
 
     destination: (req, file, cb) => {
         // Choose the destination based on data in the request
-        const destination = `./uploads/${req.session.user.email}/albums/${req.body.title}/`;
+        const destination = `./assets/uploads/${req.session.user.email}/albums/${req.body.title}/`;
         if (!fs.existsSync(destination)) {
             fs.mkdirSync(destination, { recursive: true, mode: 0o777 });
         }
@@ -59,7 +59,7 @@ const albumImageStorage = multer.diskStorage({
 const songFileStorage = multer.diskStorage({
     destination: (req, file, cb) => {
         // Choose the destination based on data in the request
-        const destination = `./uploads/${req.session.user.email}/albums/${req.body.title}/Songs/`
+        const destination = `./assets/uploads/${req.session.user.email}/albums/${req.body.title}/Songs/`
         if (!fs.existsSync(destination)) {
             fs.mkdirSync(destination, { recursive: true, mode: 0o777 });
         }
@@ -74,7 +74,8 @@ const artistDocumentStorage = multer.diskStorage({
 
     destination: (req, file, cb) => {
         // Choose the destination based on data in the request
-        const destination = req.body.filePath = `./uploads/artist/${req.session.user.email}/${req.body.id}/`;
+        const destination = `./assets/uploads/artist/${req.session.user.email}/${req.body.id}/`;
+        req.body.filePath = `./uploads/artist/${req.session.user.email}/${req.body.id}/`;
         if (!fs.existsSync(destination)) {
             fs.mkdirSync(destination, { recursive: true, mode: 0o777 });
         }
@@ -127,6 +128,8 @@ app.get("/draftToRelease/:draft", ensureLogin, async function(req, res) {
 app.get("/drafts", ensureLogin, async function(req, res) {
     res.render(path.join(__dirname, "/views/drafts.hbs"))
 });
+
+
 //Completes Page
 app.get("/completes", ensureLogin, async function(req, res) {
     res.render(path.join(__dirname, "/views/completes.hbs"))
@@ -175,7 +178,7 @@ app.get("/albumStores", ensureLogin, async function(req, res) {
 });
 app.post("/album-manage/addAlbum", ensureLogin, multer({ storage: albumImageStorage }).single('albumImage'), async function(req, res) {
     try {
-        req.body.imageUrl = `./uploads/albums/${req.session.user.email}/${req.body.title}/${req.file.originalname}`
+        req.body.imageUrl = `./uploads/${req.session.user.email}/albums/${req.body.title}/${req.file.originalname}`
         req.body.userID = req.session.user.userID
         api.saveAlbum(req.body).then((album) => {
             console.log("saved album with id : ", album)
@@ -224,7 +227,7 @@ app.post("/album-manage/updateSong", ensureLogin, multer({ storage: songFileStor
 //updateAlbum
 app.post("/album-manage/updateAlbum", ensureLogin, multer({ storage: albumImageStorage }).single('albumImage'), async function(req, res) {
     try {
-        req.body.imageUrl = `./uploads/albums/${req.session.user.email}/${req.body.title}/${req.file.originalname}`
+        req.body.imageUrl = `./uploads/${req.session.user.email}/albums/${req.body.title}/${req.file.originalname}`
         req.body.userID = req.session.user.userID
         api.updateAlbum(req.body).then(() => {
             res.status(200).json({ message: "Update Success" });

@@ -294,7 +294,7 @@
         document.getElementById("load").style.display = "none";
   }
   const getAllDrafts=async()=>{
-     await fetch('/albumDrafts').then(response => {
+     await fetch('/album-drafts').then(response => {
       if (response.ok) {
         return response.json()
       }
@@ -309,13 +309,17 @@
     });
   }
 
-/*function gotoRelease(idx){
-  var draft = DraftArray[idx].id
-  fetch(`/new-release/${draft}`, {
-    method: 'GET'
-    })
-}
-*/
+
+function priviewimg() {
+    var imgcanvas2 = document.getElementById("canv2");
+    var fileinput = document.getElementById("imagefile")
+    var image = new SimpleImage(fileinput);
+    image.drawTo(imgcanvas2);
+  
+  }
+
+
+
   function myFunction() {
     var input, filter, table, tr, td, i, txtValue;
     input = document.getElementById("myInput");
