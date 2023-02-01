@@ -1,0 +1,67 @@
+{
+    "genres": [
+        {
+            "name": "Pop",
+            "subgenres": [
+                "Pop Rock",
+                "Dance Pop",
+                "Adult Contemporary",
+                "Teen Pop"
+            ]
+        },
+        {
+            "name": "Rock",
+            "subgenres": [
+                "Classic Rock",
+                "Heavy Metal",
+                "Alternative Rock",
+                "Progressive Rock"
+            ]
+        },
+        {
+            "name": "Hip Hop",
+            "subgenres": [
+                "Old School Hip Hop",
+                "Gangsta Rap",
+                "Trap Music",
+                "Conscious Hip Hop"
+            ]
+        },
+        {
+            "name": "R&B",
+            "subgenres": [
+                "Soul Music",
+                "Funk",
+                "Contemporary R&B",
+                "Neo Soul"
+            ]
+        },
+        {
+            "name": "Jazz",
+            "subgenres": [
+                "Traditional Jazz",
+                "Bebop",
+                "Swing",
+                "Cool Jazz"
+            ]
+        },
+        {
+            "name": "Classical",
+            "subgenres": [
+                "Baroque",
+                "Classical",
+                "Romantic",
+                "Modern Classical"
+            ]
+        },
+        {
+            "name": "Blues",
+            "subgenres": [
+                "Delta Blues",
+                "Chicago Blues",
+                "Electric Blues",
+                "Acoustic Blues"
+            ]
+        }
+    ]
+}

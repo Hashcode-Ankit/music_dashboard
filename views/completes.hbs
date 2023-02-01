@@ -290,8 +290,22 @@ main label {
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 <script>
-
- function preview(albumDataSaved) {
+let songsArray = []
+const getSongsWithAlbumID =async(albumID)=>{
+  await fetch(`/album-song/${albumID}`).then(response => {
+      if (response.ok) {
+        return response.json()
+      }
+    }).then(async (data) => {
+      if (data.songs) {
+        songsArray = data.songs;
+        console.log("response data", songsArray)
+      }
+    }).catch((error) => {
+      console.error(error)
+    });
+}
+async function preview(albumDataSaved) {
   console.log(albumDataSaved)
     document.getElementById('previewData').innerHTML = ` 
             <div class="container">
@@ -358,23 +372,26 @@ main label {
             </div>
 
             `
-    // document.getElementById('previewTableRows').innerHTML =``
-    // for (let i = 0; i < songsArray.length; i++) {
-    //       document.getElementById('previewTableRows').innerHTML += `
-    //       <tr id="row${i}" class="text-gray-700 dark:text-gray-400">
-    //               <td class="px-4 py-3">
-    //                   ${i + 1}
-    //               </td>
-    //               <td class="px-4 py-3 text-sm">
-    //                 ${songsArray[i].writer}
-    //               </td>
-    //               <td class="px-4 py-3 text-sm">
-    //                 ${songsArray[i].language}
-    //               </td>
-    //               <td class="px-4 py-3 text-sm">
-    //                 ${songsArray[i].filePath.name}
-    //               </td>`
-    //   }
+     await  getSongsWithAlbumID(albumDataSaved.id)
+     document.getElementById('previewTableRows').innerHTML =``
+     for (let i = 0; i < songsArray.length; i++) {
+         let songName = songsArray[i].filePath.split("/")
+          songName = songName[songName.length-1]
+          document.getElementById('previewTableRows').innerHTML += `
+          <tr id="row${i}" class="text-gray-700 dark:text-gray-400">
+                   <td class="px-4 py-3">
+                       ${i + 1}
+                  </td>
+                   <td class="px-4 py-3 text-sm">
+                    ${songsArray[i].writer}
+                  </td>
+                   <td class="px-4 py-3 text-sm">
+                     ${songsArray[i].language}
+                   </td>
+                  <td class="px-4 py-3 text-sm">
+                    ${songName}
+                   </td>`
+       }
 
   }
 
@@ -421,10 +438,10 @@ function showpreview(index){
               <td class="px-4 py-3">
                  ${CompleteArray[i].originalReleaseDate}
               </td>
-              <td class="px-4 py-3">
-                <span style="background-color: rgba(210,178,248,var(--bg-opacity));"
-                  class="px-2 py-1 font-semibold leading-tight text-pink-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
-                  ${CompleteArray[i].approved}
+              <td class="px-4 py-3" id ="approvalAlbum">
+                 <span 
+                  class="px-2 py-1 font-semibold leading-tight text-orange-700 bg-orange-100 rounded-full dark:text-white dark:bg-orange-600">
+                  Pending
                 </span>
               </td>
               <td class="px-4 py-3">
@@ -438,7 +455,18 @@ function showpreview(index){
                 </div>
               </td>
             </tr>`
+        if(CompleteArray[i].approved){
+        document.getElementById("approvalAlbum").innerHTML = `<span
+                  class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
+                  Approved
+                </span>`
+        }else{
+        document.getElementById("approvalAlbum").innerHTML = `<span 
+                  class="px-2 py-1 font-semibold leading-tight text-orange-700 bg-orange-100 rounded-full dark:text-white dark:bg-orange-600">
+                  Pending
+                </span>`
         }
+   }
         document.getElementById("load").style.display = "none";
   }
   const getAllCompletes=async()=>{

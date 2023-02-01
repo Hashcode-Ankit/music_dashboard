@@ -432,7 +432,7 @@
 .pointer{
   cursor:pointer;
 }
-   .loader {
+.loader {
   border: 7px solid #f3f3f3;
   border-radius: 50%;
   border-top: 7px solid #7e3af2;
@@ -449,6 +449,7 @@
 </style>
 
 <main class="h-full pb-16 overflow-y-auto">
+    <div class="loader" id="load"></div>
     <div class="container px-6 mx-auto grid">
         <!-- multistep form -->
         <div>
@@ -658,7 +659,6 @@
                         </div>
                         <div class="mt-3" style="display: flex;
                             justify-content:end">
-                            <div class="loader" id="load"></div>
                             <button class="button btn-navigate-form-step"
                                 type="button" onclick="clickedNext()" id="next-1"
                                 step_number="2">Next</button>
@@ -1156,6 +1156,26 @@
     <h4> File Added : ${fileName}</h4>`;
     dropArea2.innerHTML = filedata;
   });
+function updateAlbumDataBeforeEditing(draft){
+    console.log(draft);
+    saveAlbum = {
+        id : draft.id,
+        title: draft.title 
+    }
+    document.getElementById("title").value = draft.title;
+    document.getElementById("version").value = draft.subTitle;
+    document.getElementById("primary_artist").value = draft.primaryArtist;
+    document.getElementById("actor").value = draft.actor;
+    document.getElementById("label_name").value = draft.labelID;
+    document.getElementById("producer_catalogue_number").value = draft.producerCatalogueNumber;
+    document.getElementById("genre").value = draft.genre;
+    document.getElementById("subgenre").value = draft.subgenre;
+    document.getElementById("format").value = draft.format;
+    document.getElementById("production_year").value = draft.productionYear;
+    document.getElementById("datepicker").value = draft.originalReleaseDate;
+    showDraftImage(draft.imageUrl);
+    document.getElementById('load1').style.display='none'; 
+}
 function editSongDataInFormToUpdate(idx){
   document.getElementById('songWriter').value = songsArray[idx].writer
   document.getElementById('songComposer').value = songsArray[idx].composer
@@ -1188,9 +1208,26 @@ function updateSongData(idx){
       songsArray[idx].lyrics = $(`input[name="lyrics"]`).val(),
       songsArray[idx].tiktok = $(`input[name="tiktok"]`).val(),
       songsArray[idx].updated = true
-  }
+}
   // <------------ model function end ---------->
   // <-------------Function for Album Only------>
+const getAllDrafts=async(draftId)=>{
+    //document.getElementById('load1').style.display='flex'; 
+    await fetch('/album-drafts').then(response => {
+      if (response.ok) {
+        return response.json()
+      }
+    }).then(async (data) => {
+      if (data.album) {
+        console.log("album response :",data.album)
+        updateAlbumDataBeforeEditing(data.album[0])
+        }
+    }).catch((error) => {
+      console.error(error)
+    });
+  }
+  getAllDrafts(savedAlbum.id);
+
   function getAndVerifyAlbumValues() {
     const albumImageObject = document.getElementById("albumImage").files[0]
     let albumValues = {
@@ -1225,6 +1262,7 @@ function updateSongData(idx){
       }
     }).then(async (data) => {
       if (data.album) {
+         loader();
         savedAlbum = data.album;
         console.log("response data", savedAlbum)
       }
@@ -1403,11 +1441,13 @@ function updateSongData(idx){
   const navigateToFormStep = async (stepNumber) => {
     if (stepNumber == 2 && nextBtnClicked ) {
       nextBtnClicked = false
+      loader();
       document.getElementById("next-1").disabled = true;
       albumData = getAndVerifyAlbumValues()
       console.log(albumData)
       let missingData = false
       if(sizeLimitExceed){
+        loader();
         document.getElementById("next-1").disabled = false;
         return
       }
@@ -1420,6 +1460,7 @@ function updateSongData(idx){
       }
       if (missingData) {
         document.getElementById("errorShow").innerHTML = text + `<p>`
+        loader();
         document.getElementById("next-1").disabled = false;
         return
       } else {
@@ -1433,6 +1474,7 @@ function updateSongData(idx){
       }
       if (Object.keys(savedAlbum) === 0) {
         console.log("Album Not Saved")
+        loader();
         document.getElementById("next-1").disabled = false;
         return
       } else {
@@ -1440,32 +1482,39 @@ function updateSongData(idx){
         isAlbumSaved = true
         console.log("savedAlbumID: ", savedAlbum.title)
       }
+      loader();
       document.getElementById("next-1").disabled = false;
     }
 
     // checking for second page
     if (stepNumber == 3 && nextBtnClicked && Object.keys(savedAlbum) != 0 ) {
       nextBtnClicked = false
+      loader()
       document.getElementById("next-2").disabled = true;
       await saveSongsData(savedAlbum) 
       if(!isSongsDataSaved) {
           console.log("songs not saved")
           document.getElementById("errorShow").innerHTML = `An Error Occure While Saving Assets`
+          loader();
           document.getElementById("next-2").disabled = false;
           return
       }
+      loader();
       document.getElementById("next-2").disabled = false;
     }
     if(stepNumber == 4 && nextBtnClicked && Object.keys(savedAlbum) != 0 ){
       nextBtnClicked = false
+      loader();
       document.getElementById("next-3").disabled = true;
       clickedStore = getClickStoreID()
       savedStore = await saveStoresForSavedAlbum(clickedStore)
       if(!savedStore){
           console.log("unable to save stores")
+          loader();
           document.getElementById("next-3").disabled = false;
           return
       }
+      loader();
       document.getElementById("next-3").disabled = false;
       preview()
 
@@ -1563,7 +1612,6 @@ function updateSongData(idx){
   }
   
   function preview() {
-    if(Object.keys(savedAlbum) != 0){
     document.getElementById('previewData').innerHTML = ` 
             <div class="container">
               <div class="item">
@@ -1627,7 +1675,6 @@ function updateSongData(idx){
               </div>
             </div>`
     priviewimg();
-    }
     document.getElementById('previewTableRows').innerHTML =``
     for (let i = 0; i < songsArray.length; i++) {
           document.getElementById('previewTableRows').innerHTML += `
@@ -1756,28 +1803,6 @@ disableUntil.setDate(today.getDate() + 3);
 // Set the min attribute of the datepicker to the date 3 days from now
 document.getElementById("datepicker").min = disableUntil.toISOString().slice(0,10);
 
-
-
-function fillInputs(draft){
-    console.log(draft);
-    document.getElementById("title").value = draft.title;
-    document.getElementById("version").value = draft.subTitle;
-    document.getElementById("primary_artist").value = draft.primaryArtist;
-    document.getElementById("actor").value = draft.actor;
-    //document.getElementById("label_name").value = 'Dog';
-    document.getElementById("producer_catalogue_number").value = draft.producerCatalogueNumber;
-    document.getElementById("genre").value = draft.genre;
-    document.getElementById("subgenre").value = draft.subgenre;
-    document.getElementById("format").value = draft.format;
-    document.getElementById("production_year").value = draft.productionYear;
-    document.getElementById("datepicker").value = draft.originalReleaseDate;
-
-    showDraftImage(draft.imageUrl);
-    document.getElementById('load1').style.display='none'; 
-
-
-  }
-
 function showDraftImage(url){
 document.getElementById('draftimage').src = '.'+url;
 document.getElementById('draftimage').style = 'margin-top:10px;margin-bottom:10px;display:block;height:140px;width:140px;border:solid;';
@@ -1788,32 +1813,7 @@ function showCanvas(){
   document.getElementById('canv1').style.display = 'block';
 }
 
- const getAllDrafts=async(draftId)=>{
-     document.getElementById('load1').style.display='flex'; 
-     await fetch('/album-drafts').then(response => {
-      if (response.ok) {
-        return response.json()
-      }
-    }).then(async (data) => {
-      if (data.album) {
-        DraftArray = data.album;
-        console.log("yes")
-        for (let i = 0; i < DraftArray.length; i++) {
-          if(DraftArray[i].id==draftId){
-            var draft = DraftArray[i];
-            fillInputs(draft);
-          }
-        }
-      }
-    }).catch((error) => {
-      console.error(error)
-    });
-  }
-//Editing Draft 
-var draftId = "{{ draftId }}";
-if(draftId){
-  getAllDrafts(draftId);
-}
+
 function loader() {
   var x = document.getElementById("load");
   if (x.style.display === "none") {

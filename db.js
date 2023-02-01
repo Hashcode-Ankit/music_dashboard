@@ -1,5 +1,6 @@
 // DB Interactions CRUD returns promises only and file exposed to api only 
 
+const { decodeBase64 } = require('bcryptjs');
 const { info } = require('console');
 const Sequelize = require('sequelize');
 
@@ -167,7 +168,7 @@ var Song = sq.define('Song', {
         type: Sequelize.STRING,
         allowNull: false,
     },
-    albumId:{
+    albumId: {
         type: Sequelize.INTEGER,
     },
     writer: {
@@ -222,24 +223,24 @@ function initialize() {
 // get all Albums 
 function getAllAlbums(userID) {
     return Album.findAll({
-        where: { 
+        where: {
             userID: userID
         }
     })
 }
 function getDraftAlbumsForUser(userID) {
     return Album.findAll({
-        where: { 
+        where: {
             userID: userID,
-            draft:true,
+            draft: true,
         }
     })
 }
-function getCompletedAlbumsForUser(userID){
+function getCompletedAlbumsForUser(userID) {
     return Album.findAll({
-        where: { 
+        where: {
             userID: userID,
-            draft:false,
+            draft: false,
         }
     })
 }
@@ -258,46 +259,49 @@ function addAlbum(albumData) {
 function addSong(songData) {
     return Song.create(songData)
 }
-function updateSong(songData,songID) {
-    return Song.update(songData,{
-        where: { 
-            id:songID,
-           }
+function updateSong(songData, songID) {
+    return Song.update(songData, {
+        where: {
+            id: songID,
+        }
     })
 }
 
-function updateSongArrayOfAlbum(songArray){
+function updateSongArrayOfAlbum(songArray) {
     return Album.update({ songs: songArray.songs }, {
-        where: { id:songArray.albumID,
-          userID:songArray.userID
-         }
+        where: {
+            id: songArray.albumID,
+            userID: songArray.userID
+        }
     })
 }
-function updateStoresArrayInAlbum(storeArray){
+function updateStoresArrayInAlbum(storeArray) {
     return Album.update({ stores: storeArray.stores }, {
-        where: { id:storeArray.albumID,
-          userID:storeArray.userID
-         }
+        where: {
+            id: storeArray.albumID,
+            userID: storeArray.userID
+        }
     })
 }
 //update an Album
 function updateAlbum(albumId, updateInfo) {
     return Album.update(updateInfo, {
-        where: { id:albumId }
+        where: { id: albumId }
     })
 }
-function migrateToCompleted(album){
+function migrateToCompleted(album) {
     return Album.update({ draft: false }, {
-        where: { id:album.albumID,
-          userID:album.userID
-         }
+        where: {
+            id: album.albumID,
+            userID: album.userID
+        }
     })
 }
 
 //delete an Album
-function deleteAlbum(albumId) {
+function deleteAlbum(albumId, userID) {
     return Album.destroy({
-        where: { id: albumId }
+        where: { id: albumId, userID: userID }
     })
 }
 
@@ -306,7 +310,16 @@ function deleteAlbum(albumId) {
 function addLabel(labelData) {
     return Label.create(labelData)
 }
-
+function getAllSongForUser(userID) {
+    return Song.findAll({
+        where: { userID: userID }
+    })
+}
+function getAllSongsForAlbum(albumID) {
+    return Song.findAll({
+        where: { albumId: albumID }
+    })
+}
 
 //get all labels
 function getAllLabelsForUserID(userID) {
@@ -374,7 +387,7 @@ function addArtist(artistData) {
 //update an artist
 function updateArtist(artistId, artist) {
     return Artist.update(artist, {
-        where: { id:artistId }
+        where: { id: artistId }
     })
 }
 
@@ -388,4 +401,4 @@ function deleteArtist(artistId) {
 }
 
 
-module.exports = { connectDb, initialize,migrateToCompleted, updateSong,updateStoresArrayInAlbum, addAlbum,getDraftAlbumsForUser,getCompletedAlbumsForUser, addSong, updateSongArrayOfAlbum,getAllAlbums, deleteAlbum, updateAlbum, getAlbum, addLabel, getAllLabelsForUserID, getLabel, updateLabel, deleteLabel, getArtist, addArtist, updateArtist, deleteArtist, getArtistForUser}
+module.exports = { connectDb, initialize, getAllSongForUser, getAllSongsForAlbum, migrateToCompleted, updateSong, updateStoresArrayInAlbum, addAlbum, getDraftAlbumsForUser, getCompletedAlbumsForUser, addSong, updateSongArrayOfAlbum, getAllAlbums, deleteAlbum, updateAlbum, getAlbum, addLabel, getAllLabelsForUserID, getLabel, updateLabel, deleteLabel, getArtist, addArtist, updateArtist, deleteArtist, getArtistForUser }

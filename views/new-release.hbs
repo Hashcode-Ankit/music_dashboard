@@ -192,7 +192,15 @@
   .form-stepper a {
     cursor: pointer;
   }
-
+main .loader {
+  border: 7px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 7px solid #7e3af2;
+  width: 41px;
+  height: 41px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+}
   main input {
     padding-inline: 10px;
     height: 40px;
@@ -435,6 +443,7 @@
 </style>
 
 <main class="h-full pb-16 overflow-y-auto">
+  <div class="loader" id="load"></div>
   <div class="container px-6 mx-auto grid">
     <!-- multistep form -->
     <div>
@@ -516,20 +525,12 @@
             <div class="container">
               <div class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800 belowLine ">
                 <div class="selectionInput">
-                <label required style="margin-right: 42px;" for="pet-select">Genre </label>
-                <select required name="genre" id="pet-select">
-                  <option value="">--Select Genre--</option>
-                  <option value="dog">Dog</option>
-                  <option value="cat">Cat</option>
-                </select>
+                <label required style="margin-right: 42px;" >Genre </label>
+                <select required name="genre" id="genre"></select>
                 </div>
                 <div class="selectionInput">
-                <label for="pet-select" style="margin-right: 23px;">SubGenre </label>
-                <select required name="subgenre" id="pet-select">
-                  <option value="">--Select SubGenre--</option>
-                  <option value="dog">Dog</option>
-                  <option value="cat">Cat</option>
-                </select>
+                <label  style="margin-right: 23px;">SubGenre </label>
+                <select required id="subgenre" name="subgenre" ></select>
                 </div>
                 <div class="selectionInput">
                 <label for="pet-select">Lable Name </label>
@@ -538,19 +539,24 @@
                 </select> 
                 </div>
                 <div class="selectionInput">
-                <label for="pet-select" style="margin-right: 35px;">Format </label>
+                <label  style="margin-right: 35px;">Format </label>
                 <select name="format" id="pet-select">
-                  <option value="">--Single--</option>
-                  <option value="dog">Dog</option>
-                  <option value="cat">Cat</option>
+                  <option value="">--Choose Format--</option>
+                  <option value="dog">Single</option>
+                  <option value="cat">Album</option>
                 </select> 
                 </div>
                 <div class="selectionInput">
                 <label for="pet-select">Production Year </label>
                 <select name="production_year" id="pet-select">
-                  <option value="">--2022--</option>
-                  <option value="dog">Dog</option>
-                  <option value="cat">Cat</option>
+                  <option value="">--2023--</option>
+                  <option value="dog">2023</option>
+                  <option value="dog">2022</option>
+                  <option value="cat">2019</option>
+                  <option value="cat">2018</option>
+                  <option value="cat">2017</option>
+                  <option value="cat">2016</option>
+
                 </select> 
                 </div>
                 <label>Actor </label><input  autocomplete="on" style="margin-bottom: 29px;" placeholder="Featuring" type="" name="actor"
@@ -997,7 +1003,7 @@ function updateSongData(idx){
       primaryArtist: $('input[name="primary_artist"]').val(),
       actor: $('input[name="actor"]').val(),
       genre: $('select[name="genre"]').children("option:selected").val(),
-      subgenre: $('select[name="subgenre"]').children("option:selected").val(),
+      subGenre: $('select[name="subgenre"]').children("option:selected").val(),
       labelID: $('select[name="lable_name"]').children("option:selected").val(),
       format: $('select[name="format"]').children("option:selected").val(),
       originalReleaseDate: $('input[name="physical_release_date"]').val(),
@@ -1198,11 +1204,13 @@ function updateSongData(idx){
   const navigateToFormStep = async (stepNumber) => {
     if (stepNumber == 2 && nextBtnClicked ) {
       nextBtnClicked = false
+      loader()
       document.getElementById("next-1").disabled = true;
       albumData = getAndVerifyAlbumValues()
       console.log(albumData)
       let missingData = false
       if(sizeLimitExceed){
+        loader()
         document.getElementById("next-1").disabled = false;
         return
       }
@@ -1215,6 +1223,7 @@ function updateSongData(idx){
       }
       if (missingData) {
         document.getElementById("errorShow").innerHTML = text + `<p>`
+        loader()
         document.getElementById("next-1").disabled = false;
         return
       } else {
@@ -1228,6 +1237,7 @@ function updateSongData(idx){
       }
       if (Object.keys(savedAlbum) === 0) {
         console.log("Album Not Saved")
+        loader()
         document.getElementById("next-1").disabled = false;
         return
       } else {
@@ -1235,32 +1245,39 @@ function updateSongData(idx){
         isAlbumSaved = true
         console.log("savedAlbumID: ", savedAlbum.title)
       }
+      loader()
       document.getElementById("next-1").disabled = false;
     }
 
     // checking for second page
     if (stepNumber == 3 && nextBtnClicked && Object.keys(savedAlbum) != 0 ) {
       nextBtnClicked = false
+      loader()
       document.getElementById("next-2").disabled = true;
       await saveSongsData(savedAlbum) 
       if(!isSongsDataSaved) {
           console.log("songs not saved")
           document.getElementById("errorShow").innerHTML = `An Error Occure While Saving Assets`
+          loader()
           document.getElementById("next-2").disabled = false;
           return
       }
+      loader()
       document.getElementById("next-2").disabled = false;
     }
     if(stepNumber == 4 && nextBtnClicked && Object.keys(savedAlbum) != 0 ){
       nextBtnClicked = false
+      loader()
       document.getElementById("next-3").disabled = true;
       clickedStore = getClickStoreID()
       savedStore = await saveStoresForSavedAlbum(clickedStore)
       if(!savedStore){
           console.log("unable to save stores")
+          loader()
           document.getElementById("next-3").disabled = false;
           return
       }
+      loader()
       document.getElementById("next-3").disabled = false;
       preview()
 
@@ -1378,7 +1395,7 @@ function updateSongData(idx){
                 </input>
                 </div>
                 <div class="selectionInput">
-                <label for="pet-select" style="margin-right: 23px;">SubGenre </label>
+                <label  style="margin-right: 23px;">SubGenre </label>
                 <input value = ${albumDataSaved.subgenre} disabled name="subgenre" id="pet-select">
                 </input>
                 </div>
@@ -1388,7 +1405,7 @@ function updateSongData(idx){
                 </input> 
                 </div>
                 <div class="selectionInput">
-                <label for="pet-select" style="margin-right: 35px;">Format </label>
+                <label  style="margin-right: 35px;">Format </label>
                 <input value = ${albumDataSaved.format} disabled name="format" id="pet-select" >
                 </input>
                 </div>
@@ -1516,11 +1533,43 @@ let labelArray = []
     }).catch((error) => {
       console.error(error)
     });
-   document.getElementById("select-label").innerHTML = `<option value="">--Select Genre--</option>`
+   document.getElementById("select-label").innerHTML = `<option value="">--Select Label--</option>`
    for(let i = 0;i<labelArray.length;i++){
       document.getElementById("select-label").innerHTML += `<option value="${labelArray[i].title}">${labelArray[i].title}</option>`
    }
 }
+let genre = []
+ const getAllGenre=async()=>{
+     await fetch('/genre').then(response => {
+      if (response.ok) {
+        return response.json()
+      }
+    }).then((data) => {
+      if (data.genre) {
+        genre = data.genre.genres;
+        console.log("genre data", genre)
+      }
+    }).catch((error) => {
+      console.error(error)
+    });
+   document.getElementById("genre").innerHTML = `<option value="">--Select Genre--</option>`
+   document.getElementById("subgenre").innerHTML = `<option value="">--Select SubGenre--</option>`
+   for(let i = 0;i<genre.length;i++){
+      document.getElementById("genre").innerHTML += `<option value="${genre[i].name}">${genre[i].name}</option>`
+   }
+}
+getAllGenre()
+document.getElementById("genre").addEventListener('change', function(){
+   document.getElementById("subgenre").innerHTML = `<option value="">--Select SubGenre--</option>`
+   for(let i = 0;i<genre.length;i++){
+     if(genre[i].name == $('select[name="genre"]').children("option:selected").val()){
+      document.getElementById("subgenre").innerHTML = `<option value="">--Select SubGenre--</option>`
+      for(let j = 0;j<genre[i].subgenres.length;j++)
+      document.getElementById("subgenre").innerHTML += `<option value="${genre[i].subgenres[j]}">${genre[i].subgenres[j]}</option>`
+      break
+     }
+   }
+})
 var getAllStores=async()=>{
   await fetch('/albumStores').then(response => {
       if (response.ok) {
@@ -1544,7 +1593,9 @@ var getAllStores=async()=>{
       console.error(error)
   });
 }
-
+function updateGenre(){
+  
+}
 getAllLabels()
 getAllStores()
 
@@ -1555,5 +1606,13 @@ var disableUntil = new Date();
 disableUntil.setDate(today.getDate() + 3);
 // Set the min attribute of the datepicker to the date 3 days from now
 document.getElementById("datepicker").min = disableUntil.toISOString().slice(0,10);
-
+function loader() {
+  var x = document.getElementById("load");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
+loader();
 </script>
