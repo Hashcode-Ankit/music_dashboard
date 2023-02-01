@@ -1,0 +1,1656 @@
+
+<style>
+  main h1 {
+    text-align: center;
+  }
+
+  main h2 {
+    margin: 0;
+  }
+
+  main .err {
+    color: red;
+    margin: 10px;
+  }
+
+  main #multi-step-form-container {
+    margin-top: 1rem;
+  }
+
+  main .text-center {
+    text-align: center;
+  }
+
+  main .mx-auto {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  main .pl-0 {
+    padding-left: 0;
+  }
+
+  main .button {
+    padding: 0.7rem 1.5rem;
+    border: 1px solid #7e3af2;
+    background-color: #7e3af2;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  main .submit-btn {
+    border: 1px solid #7e3af2;
+    background-color: #7e3af2;
+  }
+
+  main .d-none {
+    display: none;
+  }
+
+  main .form-step {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    padding-inline: 1rem;
+    padding: 25px;
+  }
+
+  main .font-normal {
+    font-weight: normal;
+  }
+
+  main ul.form-stepper {
+    counter-reset: section;
+    margin-bottom: 1rem;
+  }
+
+  main ul.form-stepper .form-stepper-circle {
+    position: relative;
+  }
+
+  main ul.form-stepper .form-stepper-circle span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateY(-50%) translateX(-50%);
+  }
+
+  main .form-stepper-horizontal {
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+  }
+
+  main ul.form-stepper>li:not(:last-of-type) {
+    margin-bottom: 0.625rem;
+    -webkit-transition: margin-bottom 0.4s;
+    -o-transition: margin-bottom 0.4s;
+    transition: margin-bottom 0.4s;
+  }
+
+  main .form-stepper-horizontal>li:not(:last-of-type) {
+    margin-bottom: 0 !important;
+  }
+
+  main .form-stepper-horizontal li {
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    -webkit-box-align: start;
+    -ms-flex-align: start;
+    align-items: start;
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+  }
+
+  main .form-stepper-horizontal li:not(:last-child):after {
+    position: relative;
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    height: 1px;
+    content: "";
+    top: 32%;
+  }
+
+  main .form-stepper-horizontal li:after {
+    background-color: #dee2e6;
+  }
+
+  main .form-stepper-horizontal li.form-stepper-completed:after {
+    background-color: #7e3af2;
+  }
+
+  main .form-stepper-horizontal li:last-child {
+    flex: unset;
+  }
+
+  main ul.form-stepper li a .form-stepper-circle {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    margin-right: 0;
+    line-height: 1.7rem;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.38);
+    border-radius: 50%;
+  }
+
+  main .form-stepper .form-stepper-active .form-stepper-circle {
+    background-color: #bcadd5;
+    color: #fff;
+  }
+
+  main .form-stepper .form-stepper-active .label {
+    color: black;
+  }
+
+  main .form-stepper .form-stepper-active .form-stepper-circle:hover {
+    background-color: #bcadd5;
+    color: #fff !important;
+  }
+
+  main .form-stepper .form-stepper-unfinished .form-stepper-circle {
+    background-color: #f8f7ff;
+  }
+
+  main .form-stepper .form-stepper-completed .form-stepper-circle {
+    background-color: #7e3af2 !important;
+    color: #fff;
+  }
+
+  main .form-stepper .form-stepper-completed .label {
+    color: #7e3af2 !important;
+  }
+
+  main .form-stepper .form-stepper-completed .form-stepper-circle:hover {
+    background-color: #7e3af2 !important;
+    color: #fff !important;
+  }
+
+  main .form-stepper .form-stepper-active span.text-muted {
+    color: #fff !important;
+  }
+
+  main .form-stepper .form-stepper-completed span.text-muted {
+    color: #fff !important;
+  }
+
+  main .form-stepper .label {
+    font-size: 1rem;
+    margin-top: 0.5rem;
+  }
+
+  .form-stepper a {
+    cursor: pointer;
+  }
+
+  main input {
+    padding-inline: 10px;
+    height: 40px;
+    width: 100%;
+    font-size: 17px;
+    font-family: Raleway;
+    border: 1px solid #a789da;
+    border-radius: 5px;
+    margin-bottom: 10px;
+  }
+
+  main label {
+    margin-bottom: 10px;
+    font-family: sans-serif;
+    font-size: 1rem;
+  }
+
+  main input.invalid {
+    background-color: #ae87f2;
+  }
+
+  main select {
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+    padding: 2px 5px;
+  }
+
+  main canvas {
+    margin: 11px;
+    height: 150px;
+    width: 172px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: black;
+  }
+  .imgNote{
+    display: flex;
+  }
+  .noteToUser{
+    padding: 10%;
+    text-align: center;
+    color: #be5959;
+  }
+  main #myInput {
+    background-image: url('/css/searchicon.png');
+    background-position: 10px 10px;
+    background-repeat: no-repeat;
+    width: 100%;
+    font-size: 16px;
+    padding: 12px 20px 12px 40px;
+    border: 1px solid #ddd;
+    margin-bottom: 12px;
+  }
+
+  main .table {
+    border-collapse: collapse;
+    width: 100%;
+    border: 1px solid #ddd;
+    font-size: 18px;
+  }
+
+  main .table th,
+  #myTable td {
+    text-align: left;
+    padding: 12px;
+    text-align: center;
+  }
+
+  main .table tr {
+    border-bottom: 1px solid #ddd;
+
+  }
+
+  main .table tr.header,
+  .table tr:hover {
+    background-color: #f1f1f1;
+  }
+
+  main td {
+    padding: 8px 16px;
+    border: 1px solid #ccc;
+    text-align: center;
+  }
+
+  main .ActionDiv {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .content {
+    position: absolute;
+    top: 49%;
+    left: 45%;
+    transform: translate(-50%, -50%);
+    width: 98%;
+    height: 90%;
+    text-align: center;
+    background-color: rgba(249, 250, 251, var(--bg-opacity));
+    box-sizing: border-box;
+    padding: 10px;
+    z-index: 100;
+    display: none;
+  }
+
+  @media only screen and (min-width: 1000px) {
+    main .container {
+      padding-inline: 10px;
+
+      display: table;
+      table-layout: fixed;
+      width: 100%;
+    }
+
+    .content {
+      position: absolute;
+      top: 49%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 60%;
+      height: 90%;
+      text-align: center;
+      background-color: rgba(249, 250, 251, var(--bg-opacity));
+      box-sizing: border-box;
+      padding: 10px;
+      z-index: 100;
+      display: none;
+      /*to hide popup initially*/
+    }
+    main .item {
+      /* float:left; */
+      display: table-cell;
+      padding-inline: 10px;
+    }
+  }
+
+  main .avatar {
+    vertical-align: middle;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+  }
+
+  main .column {
+    float: left;
+    width: 50%;
+    padding: 5px;
+  }
+
+  /* Clearfix (clear floats) */
+  main .row::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+
+  select {
+    width: 185px;
+  }
+
+  .inputwrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .inputwrap label {
+    width: 30%;
+  }
+
+
+
+  .close-btn {
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    background-color: #7e3af2;
+    color: white;
+    border-radius: 10%;
+    padding: 4 21px;
+  }
+
+  .errorShow{
+    color: red;
+  }
+  .belowLine{
+    border :none
+  }
+  #step-4  input,#step-4 select{
+    background-color: rgb(203, 203, 203);
+    color:white;
+    height: 30px;
+  }
+  #step-4 label{
+    font-size: 13px;
+  }
+  .selectionInput{
+    display: flex;
+    justify-content: space-between;
+  }
+  .selectionInput input{
+    padding-inline: 10px;
+    height: 40px;
+    font-size: 17px;
+    width: 70%;
+    font-family: Raleway;
+    border: 1px solid #a789da;
+    border-radius: 5px;
+    margin-bottom: 13px;
+    margin-top: 5px;
+  }
+  .selectionInput select{
+    padding-inline: 10px;
+    height: 30px;
+    font-size: 17px;
+    width: 63%;
+    font-family: Raleway;
+    border: 1px solid #a789da;
+    border-radius: 5px;
+    margin-top: 20px;
+  }
+#storesIcon.grid-container {
+  display: grid;
+  column-gap: 20px;
+  row-gap: 20px;
+  grid-template-columns: auto auto auto auto auto;
+  padding: 10px;
+}
+
+#storesIcon.grid-container .grid-item {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  padding: 20px;
+  font-size: 30px;
+  text-align: center;
+}
+.pointer{
+  cursor:pointer;
+}
+   .loader {
+  border: 7px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 7px solid #7e3af2;
+  width: 41px;
+  height: 41px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+</style>
+
+<main class="h-full pb-16 overflow-y-auto">
+  <div class="container px-6 mx-auto grid">
+    <!-- multistep form -->
+    <div>
+      <div id="multi-step-form-container">
+        <!-- Form Steps / Progress Bar -->
+        <ul class="form-stepper form-stepper-horizontal text-center mx-auto pl-0">
+          <!-- Step 1 -->
+          <li class="form-stepper-active text-center form-stepper-list " step="1">
+            <a  id ="clickToStep1"class="mx-2 pointer" >
+              <span class="form-stepper-circle">
+                <span>1</span>
+              </span>
+              <div class="text-lg font-semibold text-gray-600 dark:text-gray-300 py-2 ">Release</div>
+            </a>
+          </li>
+          <!-- Step 2 -->
+          <li class="form-stepper-unfinished text-center form-stepper-list" step="2">
+            <a id ="clickToStep2" class="mx-2 pointer" >
+              <span class="form-stepper-circle text-muted">
+                <span>2</span>
+              </span>
+              <div class="text-lg font-semibold text-gray-600 dark:text-gray-300 py-2 text-muted">Tracks</div>
+            </a>
+          </li>
+          <!-- Step 3 -->
+          <li class="form-stepper-unfinished text-center form-stepper-list" step="3">
+            <a id ="clickToStep3" class="mx-2 pointer" >
+              <span class="form-stepper-circle text-muted">
+                <span>3</span>
+              </span>
+              <div class="text-lg font-semibold text-gray-600 dark:text-gray-300 py-2 text-muted">Store</div>
+            </a>
+          </li>
+          <!-- Step 4 -->
+          <li class="form-stepper-unfinished text-center form-stepper-list" step="4">
+            <a id ="clickToStep4" class="mx-2 pointer">
+              <span class="form-stepper-circle text-muted">
+                <span>4</span>
+              </span>
+              <div class="text-lg font-semibold text-gray-600 dark:text-gray-300 py-2 text-muted">Preview</div>
+            </a>
+          </li>
+        </ul>
+
+        <!-- Step Wise Form Content -->
+        <!-- Step 1 Content -->
+        <section id="step-1" class="form-step text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
+          <h4 
+            style="font-size: 20px;text-align:center;margin-top:10px;margin-bottom:30px;">
+            &#127911; Release
+          </h4>
+          <div style="display:none;justify-content:center;margin-bottom:10px;vertical-align:center;"id="load1">
+          <b>loading Data...</b>
+          </div>
+          <!-- Step 1 input fields -->
+          <h1 id="errorShow"></h1>
+          <div class="mt-3">
+            <div class="container">
+            <div class="item ">
+
+                <p style="width: 195px;">
+                  Upload Album Thumbnail:
+                </p>
+                <div class="imgNote">
+                <img id="draftimage" style="display:none">    
+                <canvas id="canv1"></canvas>
+                <div class ="noteToUser">Note :<br> Image must be less then or <br> equal to 100kb</div>
+                </div>
+                <p id ="imgError" style="color: red;"></p>
+                <input  required autocomplete="on"style="border:none;width: 260px;" type="file" multiple="false" accept=".jpg,.jpeg"
+                  id="albumImage" name="imgFile" onchange="upload()">
+              </div>
+              <div class="item">
+                <label for="">Name</label>
+                <input required autocomplete="on" placeholder="ABC Track" type="" name="title" id="title"oninput="this.className = ''">
+                <label>Version/Subtitle </label><input required autocomplete="on" placeholder="Version/Subtitle" type="version_subtitle"
+                  name="version" id="version" oninput="this.className = ''">
+                <label>Primary Artist </label><input  required autocomplete="on" placeholder="" type="" name="primary_artist" id="primary_artist"
+                  oninput="this.className = ''">
+                <p>
+              </div>
+            </div>
+            <div class="container">
+              <div class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800 belowLine ">
+                <div class="selectionInput">
+                <label required style="margin-right: 42px;" for="pet-select">Genre </label>
+                <select required name="genre" id="genre">
+                  <option value="">--Select Genre--</option>
+                  <option value="dog">Dog</option>
+                  <option value="cat">Cat</option>
+                </select>
+                </div>
+                <div class="selectionInput">
+                <label for="pet-select" style="margin-right: 23px;">SubGenre </label>
+                <select required name="subgenre" id="subgenre">
+                  <option value="">--Select SubGenre--</option>
+                  <option value="dog">Dog</option>
+                  <option value="cat">Cat</option>
+                </select>
+                </div>
+                <div class="selectionInput">
+                <label for="pet-select">Lable Name </label>
+                <select name="lable_name" id="lable_name">
+                  <option value="">--Select Lable Name--</option>
+                  <option value="dog">Dog</option>
+                  <option value="cat">Cat</option>
+                </select> 
+                </div>
+                <div class="selectionInput">
+                <label for="pet-select" style="margin-right: 35px;">Format </label>
+                <select name="format" id="format">
+                  <option value="">--Single--</option>
+                  <option value="dog">Dog</option>
+                  <option value="cat">Cat</option>
+                </select> 
+                </div>
+                <div class="selectionInput">
+                <label for="pet-select">Production Year </label>
+                <select name="production_year" id="production_year">
+                  <option value="">--2022--</option>
+                  <option value="dog">Dog</option>
+                  <option value="cat">Cat</option>
+                </select> 
+                </div>
+                <label>Actor </label><input  autocomplete="on" style="margin-bottom: 29px;" placeholder="Featuring" type="" name="actor" id="actor"
+                  oninput="this.className = ''">
+              </div>
+              <div class="item ">
+                <label>Producer Catalogue Number </label>
+                <input  autocomplete="on" placeholder="Producer Catalogue Number" type="" id="producer_catalogue_number"name="producer_catalogue_number"
+                  oninput="this.className = ''">
+                <label>Phisical/Original release date </label><input id ="datepicker"
+             type="date" name="physical_release_date" oninput="this.className = ''">
+                <label>Line1 </label><input  autocomplete="on" placeholder="Line" type="" name="line1" id="line1"
+                  oninput="this.className = ''">
+                <label>Line2 </label><input  autocomplete="on" placeholder="Line" type="" name="line2" id="line2"
+                  oninput="this.className = ''">
+                <label>UPC/EAN </label><input  autocomplete="on" placeholder="UPC/EAN" type="" name="upc" id="upc"
+                  oninput="this.className = ''">
+               
+              </div>
+
+            </div>
+
+          </div>
+          <div class="mt-3" style="display: flex;
+        justify-content:end">
+              <div class="loader" id="load"></div>
+            <button class="button btn-navigate-form-step" type="button"  onclick="clickedNext()" id = "next-1" step_number="2">Next</button>
+          </div>
+        </section>
+
+        <!-- Step 2 Content, default hidden on page load. -->
+        <section id="step-2" class="form-step d-none">
+          <h4 class="text-lg font-semibold text-gray-600 dark:text-gray-300"
+            style="font-size: 20px;text-align:center;margin-top: 21px;">
+            &#127911; Upload Assets
+          </h4>
+          <!-- Step 2 input fields -->
+          <h1 id="errorShow2" style="color:red"></h1>
+          <div class="mt-3">
+            <div>
+              <button @click="openModal" onclick="updateSaveSongFunction()" style="width: 158px;"
+                class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+                Add Track +
+              </button>
+            </div>
+          </div>
+          {{!-- table --}}
+          <div class="container grid px-6 mx-auto">
+            <div class="w-full mb-8 overflow-hidden rounded-lg shadow-xs">
+              <div class="w-full overflow-x-auto">
+                <table id="myTable" class="table" style="margin:5 0px">
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-3" style="display: flex;
+        justify-content: space-between;">
+            <button class="button btn-navigate-form-step" onclick="clickedPrev()" type="button" step_number="1">Prev</button>
+            <button class="button btn-navigate-form-step" type="button"  id = "next-2" onclick="clickedNext()" step_number="3">Next</button>
+          </div>
+        </section>
+        <!-- Step 3 Content, default hidden on page load. -->
+        <section id="step-3" class="form-step d-none">
+           <h4 class="text-lg font-semibold text-gray-600 dark:text-gray-300"
+            style="font-size: 20px;text-align:center;margin-top: 21px;">
+            Select Companies To Store
+          </h4>
+          <!-- Step 4 input fields -->
+            <div class="grid-container" id ="storesIcon">
+                
+            </div>
+         <div class="mt-3" style="display: flex;
+        justify-content: space-between;">
+            <button class="button btn-navigate-form-step" onclick="clickedPrev()" type="button" step_number="2">Prev</button>
+            <button class="button btn-navigate-form-step" type="button" onclick="clickedNext()" id = "next-3"  step_number="4">Preview</button>
+          </div>
+          
+        </section>
+        <!-- Step 4 Content, default hidden on page load. -->
+        <section id="step-4" class="form-step d-none text-xs font-semibold tracking-wide text-left text-gray-500  border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
+            <h4 style="font-size: 20px;text-align:center;margin-top:10px;margin-bottom:30px;">
+            &#127911; Release
+          </h4>
+          <!-- Step 1 data fields -->
+            <div class="mt-3" id="previewData">
+            </div>
+            <h4 class="text-lg font-semibold text-gray-600 dark:text-gray-300"
+            style="font-size: 20px;text-align:center;margin-top: 21px;">
+            &#127911; Tracks
+          </h4>
+              <div class="container grid px-6 mx-auto dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
+                  <div class="w-full mb-8 overflow-hidden rounded-lg shadow-xs">
+                    <div class="w-full overflow-x-auto">
+                        <table class="w-full whitespace-no-wrap">
+                          <thead>
+                            <tr class="header text-xs font-semibold tracking-wide text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
+                              <th class="px-4 py-3">Id</th>
+                              <th class="px-4 py-3">Writer</th>
+                              <th class="px-4 py-3">Language</th>
+                              <th class="px-4 py-3">File Name</th>
+                            </tr>
+                          </thead>
+                          <tbody id="previewTableRows" class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
+                          </tbody>
+                        </table>
+                     </div>
+                  </div>
+                </div>
+              <div class="mt-3" style="display: flex;
+                  justify-content: space-between;">
+                <button class="button btn-navigate-form-step" type="button" step_number="3">Edit Forms</button>
+                <button class="button btn-navigate-form-step" type="button" onclick="saveCompletedAlbum()" step_number="5">Submit</button>
+              </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+{{!-- Model for Uploading Assets --}}
+<style>
+  #myInput {
+    background-image: url('/css/searchicon.png');
+    background-position: 10px 10px;
+    background-repeat: no-repeat;
+    width: 100%;
+    font-size: 16px;
+    padding: 12px 20px 12px 40px;
+    border: 1px solid #ddd;
+    margin-bottom: 12px;
+  }
+
+  .container2 {
+    margin-top: 100px;
+    position: relative;
+    max-height: 600px;
+    width: 100%;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    background-color: #fcfcfc;
+  }
+
+  .card {
+    border-radius: 10px;
+    box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.3);
+    width: 100%;
+    height: 100%;
+    background-color: #ffffff;
+    padding: 10px 30px 40px;
+  }
+
+  .card h3 {
+    font-size: 22px;
+    font-weight: 600;
+
+  }
+
+  .drop_box {
+    margin: 10px 0;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    border: 3px dotted #a3a3a3;
+    border-radius: 5px;
+  }
+
+  .drop_box h4 {
+    font-size: 16px;
+    font-weight: 400;
+    color: #2e2e2e;
+  }
+
+  .drop_box p {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    font-size: 12px;
+    color: #a3a3a3;
+  }
+
+  .btn {
+    text-decoration: none;
+    background-color: #005af0;
+    color: #ffffff;
+    padding: 10px 20px;
+    border: none;
+    outline: none;
+    transition: 0.3s;
+  }
+
+  .btn:hover {
+    text-decoration: none;
+    background-color: #ffffff;
+    color: #005af0;
+    padding: 10px 20px;
+    border: none;
+    outline: 1px solid #010101;
+  }
+
+  .form input {
+    margin: 10px 0;
+    width: 100%;
+    background-color: #e2e2e2;
+    border: none;
+    outline: none;
+    padding: 12px 20px;
+    border-radius: 4px;
+  }
+
+  .scrolable {
+    overflow-y: scroll;
+  }
+
+  .above {
+    margin-bottom: 160px;
+  }
+</style>
+<div x-show="isModalOpen" x-transition:enter="transition ease-out duration-150" x-transition:enter-start="opacity-0"
+  x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-150"
+  x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
+  class="fixed inset-0 z-30 flex items-end bg-black bg-opacity-50 sm:items-center sm:justify-center">
+  <!-- Modal -->
+  <div x-show="isModalOpen" x-transition:enter="transition ease-out duration-150"
+    x-transition:enter-start="opacity-0 transform translate-y-1/2" x-transition:enter-end="opacity-100"
+    x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100"
+    x-transition:leave-end="opacity-0  transform translate-y-1/2" @click.away="closeModal" @keydown.escape="closeModal"
+    class="w-full px-6 py-4 overflow-hidden bg-white rounded-t-lg dark:bg-gray-800 sm:rounded-lg sm:m-4 sm:max-w-xl"
+    role="dialog" id="modal">
+    <!-- Remove header if you don't want a close icon. Use modal body to place modal tile. -->
+    <header class="flex justify-end">
+      <button
+        class="inline-flex items-center justify-center w-6 h-6 text-gray-400 transition-colors duration-150 rounded dark:hover:text-gray-200 hover: hover:text-gray-700"
+        aria-label="close" @click="closeModal">
+        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" role="img" aria-hidden="true">
+          <path
+            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+            clip-rule="evenodd" fill-rule="evenodd"></path>
+        </svg>
+      </button>
+    </header>
+    <!-- Modal body -->
+    <div class="mt-4 mb-6 scrolable">
+      <!-- Modal title -->
+      <p class="above font-semibold text-gray-700 dark:text-gray-300 my-6 text-xl font-semibold">
+        Add Track Details
+      </p>
+      <!-- Modal description -->
+      <div class="container2">
+        <div class="card">
+          <label class="block text-sm">
+            <span class="text-gray-700 dark:text-gray-400 my-6">Writer</span>
+            <input  autocomplete="on" name="writer"
+              id ="songWriter"
+              class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+              placeholder="Karan Aujila" required />
+          </label>
+          <label class="block text-sm">
+            <span class="text-gray-700 dark:text-gray-400 my-6"> Composer </span>
+            <input  autocomplete="on" name="composer"
+             id ="songComposer"
+              class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+              placeholder="Rehan Records" required />
+          </label>
+          <label class="block text-sm">
+            <span class="text-gray-700 dark:text-gray-400 my-6"> Music Director </span>
+            <input  autocomplete="on" name="director"
+             id ="songDirector"
+              class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+              placeholder="Sandeep Rehan" required />
+          </label>
+          <label class="block text-sm">
+            <span class="text-gray-700 dark:text-gray-400 my-6"> Producer </span>
+            <input  autocomplete="on" name="producer"
+             id ="songProducer"
+              class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+              placeholder="Musical Doctor" required />
+          </label>
+          <label class="block text-sm">
+            <span class="text-gray-700 dark:text-gray-400 my-6"> ISRC </span>
+            <input  autocomplete="on" name="isrc"
+             id ="songISRC"
+              class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+              placeholder="ixbt-axbx" />
+          </label>
+          <label class="block text-sm">
+            <span class="text-gray-700 dark:text-gray-400 my-6"> Parental Advisory </span>
+            <input  autocomplete="on" name="parent"
+             id ="songParent"
+              class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+              placeholder="T-Series" required />
+          </label>
+          <label class="block text-sm">
+            <span class="text-gray-700 dark:text-gray-400 my-6"> Track Language </span>
+            <input  autocomplete="on" name="language"
+             id ="songLanguage"
+              class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+              placeholder="Punjabi" required />
+          </label>
+          <label class="block text-sm">
+            <span class="text-gray-700 dark:text-gray-400 my-6"> Add Track Lyrics </span>
+            <input  autocomplete="on" name="lyrics"
+             id ="songLyrics"
+              class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+              placeholder="Hukam" required />
+          </label>
+          <label class="block text-sm">
+            <span class="text-gray-700 dark:text-gray-400 my-6"> Tiktok Preview </span>
+            <input  autocomplete="on" name="tiktok"
+             id ="songTiktok"
+              class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+              placeholder="15 sec" required />
+          </label>
+          <label class="text-gray-700 dark:text-gray-400">Upload Track File</label>
+          <div class="drop_box">
+            <header>
+              <h4>Select File here</h4>
+            </header>
+            <p>Files Supported:  .wav, .flac</p>
+            <input  autocomplete="on" name="filePath" type="file" class="form-control" hidden accept=".mp3,.wav,.flac" id="songFile"
+              style="display:none;">
+            <button class="btn" type="button">Choose File</button>
+          </div>
+          <div class="recent-file" id ="updatedSongFile"></div>
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;justify-content:space-between">
+      <button @click="closeModal"
+        class="w-full px-5 py-3 text-sm font-medium leading-5 text-white text-gray-700 transition-colors duration-150 border border-gray-300 rounded-lg dark:text-gray-400 sm:px-4 sm:py-2 sm:w-auto active:bg-transparent hover:border-gray-500 focus:border-gray-500 active:text-gray-500 focus:outline-none focus:shadow-outline-gray">
+        Cancel
+      </button>
+      <button @click="closeModal"
+        id="saveSongButton"
+        class="w-full px-5 py-3 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg sm:w-auto sm:px-4 sm:py-2 active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+        Save Track
+      </button>
+    </div>
+  </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<script src="https://www.dukelearntoprogram.com/course1/common/js/image/SimpleImage.js"></script>
+<script>
+  var songn = 2;
+  var id = 1;
+  var isAlbumSaved = false
+  var isSongsDataSaved = false
+  let songsArray = []
+  let stores = []
+  let savedAlbum = {}
+  let albumDataSaved 
+  let prevBtnClicked = false;
+  let nextBtnClicked = false;
+  let sizeLimitExceed = false
+  function clickedPrev(){
+    console.log("prev clicked")
+    prevBtnClicked = true
+    nextBtnClicked = false
+  }
+  function clickedNext(){
+    console.log("next clicked")
+    prevBtnClicked = false
+    nextBtnClicked = true
+  }
+  
+  // Add Song Model Functions
+  const dropArea = document.querySelector(".drop_box")
+  const dropArea2 = document.querySelector(".recent-file"),
+  button = dropArea.querySelector("button"),
+  dragText = dropArea.querySelector("header"),
+  input = dropArea.querySelector("input");
+  let file;
+  var filename;
+  // when clicked add song then the model save function will create new object
+  function updateSaveSongFunction(){
+    document.getElementById('saveSongButton').onclick = addSongInArray;
+    clearForm()
+  }
+  function clearForm(){
+    document.getElementById('songWriter').value = ""
+    document.getElementById('songComposer').value = ""
+    document.getElementById('songDirector').value = ""
+    document.getElementById('songProducer').value = ""
+    document.getElementById('songISRC').value = ""
+    document.getElementById('songParent').value = ""
+    document.getElementById('songLanguage').value =""
+    document.getElementById('songLyrics').value = ""
+    document.getElementById('songTiktok').value = ""
+    document.getElementById('updatedSongFile').innerHTML = `File Added :`
+  }
+  button.onclick = () => {
+    console.log("btnset")
+    input.click();
+  };
+  input.addEventListener("change", function (e) {
+    var fileName = e.target.files[0].name;
+    let filedata = `
+    <h4> File Added : ${fileName}</h4>`;
+    dropArea2.innerHTML = filedata;
+  });
+function editSongDataInFormToUpdate(idx){
+  document.getElementById('songWriter').value = songsArray[idx].writer
+  document.getElementById('songComposer').value = songsArray[idx].composer
+  document.getElementById('songDirector').value = songsArray[idx].director
+  document.getElementById('songProducer').value = songsArray[idx].producer
+  document.getElementById('songISRC').value = songsArray[idx].isrc
+  document.getElementById('songParent').value = songsArray[idx].parent
+  document.getElementById('songLanguage').value = songsArray[idx].language
+  document.getElementById('songLyrics').value = songsArray[idx].lyrics
+  document.getElementById('songTiktok').value = songsArray[idx].tiktok
+  document.getElementById('updatedSongFile').innerHTML = `Choosen Previously : ${songsArray[idx].filePath.name}`
+  document.getElementById('saveSongButton').onclick = (function(index) {
+        return function() {
+            updateSongData(index);
+            updateTable()
+        }
+    })(idx);
+}
+function updateSongData(idx){
+      console.log("got idx here : ",idx)
+      let fileSelect = document.getElementById("songFile").files[0];
+      songsArray[idx].filePath = fileSelect,
+      songsArray[idx].writer = $(`input[name="writer"]`).val(),
+      songsArray[idx].composer = $(`input[name="composer"]`).val(),
+      songsArray[idx].director = $(`input[name="director"]`).val(),
+      songsArray[idx].producer = $(`input[name="producer"]`).val(),
+      songsArray[idx].isrc = $(`input[name="isrc"]`).val(),
+      songsArray[idx].parent = $(`input[name="parent"]`).val(),
+      songsArray[idx].language = $(`input[name="language"]`).val(),
+      songsArray[idx].lyrics = $(`input[name="lyrics"]`).val(),
+      songsArray[idx].tiktok = $(`input[name="tiktok"]`).val(),
+      songsArray[idx].updated = true
+  }
+  // <------------ model function end ---------->
+  // <-------------Function for Album Only------>
+  function getAndVerifyAlbumValues() {
+    const albumImageObject = document.getElementById("albumImage").files[0]
+    let albumValues = {
+      title: $('input[name="title"]').val(),
+      subTitle: $('input[name="version"]').val(),
+      albumImage: albumImageObject,
+      primaryArtist: $('input[name="primary_artist"]').val(),
+      actor: $('input[name="actor"]').val(),
+      genre: $('select[name="genre"]').children("option:selected").val(),
+      subGenre: $('select[name="subgenre"]').children("option:selected").val(),
+      labelID: $('select[name="lable_name"]').children("option:selected").val(),
+      format: $('select[name="format"]').children("option:selected").val(),
+      originalReleaseDate: $('input[name="physical_release_date"]').val(),
+      productionYear: $('select[name="production_year"]').children("option:selected").val(),
+    }
+    albumDataSaved = albumValues
+    return albumValues
+  }
+  const saveAlbumData = async (albumData) => {
+    let savedAlbum = {}
+    const formData = new FormData();
+    for (const key in albumData) {
+      formData.append(key, albumData[key]);
+    }
+    loader();
+    await fetch('/album-manage/addAlbum', {
+      method: 'POST',
+      body: formData
+    }).then(response => {
+      if (response.ok) {
+        return response.json()
+      }
+    }).then(async (data) => {
+      if (data.album) {
+        savedAlbum = data.album;
+        console.log("response data", savedAlbum)
+      }
+    }).catch((error) => {
+      console.error(error)
+      return savedAlbum
+    });
+    loader();
+    return savedAlbum
+  }
+  const updateAlbumData = async (albumData,savedAlbumData)=> {
+    const formData = new FormData();
+    for (const key in albumData) {
+      formData.append(key, albumData[key]);
+    }
+    formData.append("albumId", savedAlbumData.id);
+    await fetch('/album-manage/updateAlbum', {
+      method: 'POST',
+      body: formData
+    }).then(response => {
+      if (response.ok) {
+        return response.json()
+      }
+    }).then(async (data) => {
+      console.log("Album Updated")
+    }).catch((error) => {
+      console.error(error)
+    });
+  }
+  // <-------------Function for Album Only End------>
+
+  function addSongInArray() {
+    let fileSelect = document.getElementById("songFile").files[0];
+    let song = {
+      albumID: savedAlbum.id,
+      title: savedAlbum.title,
+      filePath: fileSelect,
+      songIDInDB: 0,
+      updated: false,
+      writer: $(`input[name="writer"]`).val(),
+      composer: $(`input[name="composer"]`).val(),
+      director: $(`input[name="director"]`).val(),
+      producer: $(`input[name="producer"]`).val(),
+      isrc: $(`input[name="isrc"]`).val(),
+      parent: $(`input[name="parent"]`).val(),
+      language: $(`input[name="language"]`).val(),
+      lyrics: $(`input[name="lyrics"]`).val(),
+      tiktok: $(`input[name="tiktok"]`).val(),
+    }
+    console.log("saved Song Data :", song)
+    songsArray.push(song);
+    updateTable()
+  }
+  const updateSongInDB = async(idx)=>{
+    const formData = new FormData();
+    for (const key in songsArray[idx]) {
+        formData.append(key, songsArray[idx][key]);
+    }
+    await fetch('/album-manage/updateSong', {
+    method: 'POST',
+    body: formData
+    }).then(response => {
+     if (response.ok) {
+        return response.json()
+      }
+    }).then(()=> {
+      songsArray[idx].updated = false
+      console.log('Successfully updated SongsData');
+    }).catch((error) => {
+      console.error(error)
+    });
+  }
+  const saveSongsData = async (savedAlbumData) => {
+    for(let i=0;i<songsArray.length;i++){
+    console.log(songsArray[i])
+    if(songsArray[i].updated) {
+      console.log("updating song",songsArray[i].songIDInDB)
+      await updateSongInDB(i)
+      isSongsDataSaved = true
+      continue
+    }
+    if(songsArray[i].songIDInDB != 0 ) continue
+    const formData = new FormData();
+    for (const key in songsArray[i]) {
+        formData.append(key, songsArray[i][key]);
+    }
+    await fetch('/album-manage/addSong', {
+    method: 'POST',
+    body: formData
+    }).then(response => {
+     if (response.ok) {
+        return response.json()
+      }
+    }).then(data => {
+      console.log('Successfully saved SongsData:', data);
+      songsArray[i].songIDInDB = data.songID
+    }).catch((error) => {
+      console.error(error)
+    });
+    }
+    let savedSongsID =[]
+    for(let i=0;i<songsArray.length;i++){
+    if( songsArray[i].songIDInDB != 0)
+     {
+      savedSongsID.push(songsArray[i].songIDInDB)
+      continue
+     }
+    else
+       return 
+    }
+    const formData = new FormData();
+    formData.append("songs",JSON.stringify(savedSongsID))
+    formData.append("albumID",savedAlbum.id)
+    await fetch('/album-manage/updateSongArray', {
+    method: 'POST',
+    body: formData
+    }).then(response => {
+     if (response.ok) {
+        return response.json()
+      }
+    }).then(data => {
+      console.log('Successfully saved songsArray:', data);
+      isSongsDataSaved = true
+    }).catch((error) => {
+      console.error(error)
+    });
+  }
+  const getClickStoreID =() =>{
+    console.log("get click store id")
+    let clickStoresID = []
+    for(let i=0;i<stores.length;i++){
+      if(document.getElementById(`store-${i}`).checked){
+        clickStoresID.push(stores[i].id)
+      }
+    }
+    console.log("clicked Stores",clickStoresID)
+    return clickStoresID
+  }
+  const saveStoresForSavedAlbum = async(clickedStores)=>{
+    let isStoreSaved = false
+    const formData = new FormData();
+    formData.append("stores",JSON.stringify(clickedStores))
+    formData.append("albumID",savedAlbum.id)
+    await fetch('/album-manage/updateStoresArray', {
+    method: 'POST',
+    body: formData
+    }).then(response => {
+     if (response.ok) {
+        return response.json()
+      }
+    }).then(data => {
+      console.log('Successfully saved storesArray:', data);
+       isStoreSaved = true
+    }).catch((error) => {
+      console.error(error)
+      isStoreSaved = false
+    });
+    return isStoreSaved
+  }
+  function saveCompletedAlbum(){
+    const formData = new FormData();
+    formData.append("albumID",savedAlbum.id)
+    fetch(`/album-manage/completed`, {
+    method: 'POST',
+    body: formData
+    }).then(response => {
+     if (response.ok) {
+        return response.json()
+      }
+    }).then(() => {
+       window.location.href ="/"
+    }).catch((error) => {
+      console.error(error)
+    });
+  }
+  const navigateToFormStep = async (stepNumber) => {
+    if (stepNumber == 2 && nextBtnClicked ) {
+      nextBtnClicked = false
+      document.getElementById("next-1").disabled = true;
+      albumData = getAndVerifyAlbumValues()
+      console.log(albumData)
+      let missingData = false
+      if(sizeLimitExceed){
+        document.getElementById("next-1").disabled = false;
+        return
+      }
+      let text = `<p class ="err">Missing Fields :`
+      for (const key in albumData) {
+        if (albumData[key] == "") {
+          text = text + `${key}, `
+          missingData = true
+        }
+      }
+      if (missingData) {
+        document.getElementById("errorShow").innerHTML = text + `<p>`
+        document.getElementById("next-1").disabled = false;
+        return
+      } else {
+        document.getElementById("errorShow").innerHTML = ``
+      }
+      if(isAlbumSaved == false){
+        savedAlbum = await saveAlbumData(albumData)
+      }
+      else{
+         updateAlbumData(albumData,savedAlbum)
+      }
+      if (Object.keys(savedAlbum) === 0) {
+        console.log("Album Not Saved")
+        document.getElementById("next-1").disabled = false;
+        return
+      } else {
+        document.getElementById("errorShow").innerHTML = ``
+        isAlbumSaved = true
+        console.log("savedAlbumID: ", savedAlbum.title)
+      }
+      document.getElementById("next-1").disabled = false;
+    }
+
+    // checking for second page
+    if (stepNumber == 3 && nextBtnClicked && Object.keys(savedAlbum) != 0 ) {
+      nextBtnClicked = false
+      document.getElementById("next-2").disabled = true;
+      await saveSongsData(savedAlbum) 
+      if(!isSongsDataSaved) {
+          console.log("songs not saved")
+          document.getElementById("errorShow").innerHTML = `An Error Occure While Saving Assets`
+          document.getElementById("next-2").disabled = false;
+          return
+      }
+      document.getElementById("next-2").disabled = false;
+    }
+    if(stepNumber == 4 && nextBtnClicked && Object.keys(savedAlbum) != 0 ){
+      nextBtnClicked = false
+      document.getElementById("next-3").disabled = true;
+      clickedStore = getClickStoreID()
+      savedStore = await saveStoresForSavedAlbum(clickedStore)
+      if(!savedStore){
+          console.log("unable to save stores")
+          document.getElementById("next-3").disabled = false;
+          return
+      }
+      document.getElementById("next-3").disabled = false;
+      preview()
+
+    }
+    document.querySelectorAll(".form-step").forEach((formStepElement) => {
+      formStepElement.classList.add("d-none");
+    });
+    document.querySelectorAll(".form-stepper-list").forEach((formStepHeader) => {
+      formStepHeader.classList.add("form-stepper-unfinished");
+      formStepHeader.classList.remove("form-stepper-active", "form-stepper-completed");
+    });
+
+    document.querySelector("#step-" + stepNumber).classList.remove("d-none");
+
+    const formStepCircle = document.querySelector('li[step="' + stepNumber + '"]');
+
+    formStepCircle.classList.remove("form-stepper-unfinished", "form-stepper-completed");
+    formStepCircle.classList.add("form-stepper-active");
+
+    for (let index = 0; index < stepNumber; index++) {
+
+      const formStepCircle = document.querySelector('li[step="' + index + '"]');
+
+      if (formStepCircle) {
+
+        formStepCircle.classList.remove("form-stepper-unfinished", "form-stepper-active");
+        formStepCircle.classList.add("form-stepper-completed");
+      }
+    }
+  };
+  document.querySelectorAll(".btn-navigate-form-step").forEach((formNavigationBtn) => {
+    formNavigationBtn.addEventListener("click", () => {
+      const stepNumber = parseInt(formNavigationBtn.getAttribute("step_number"));
+      navigateToFormStep(stepNumber);
+    });
+  });
+
+  //script for image Uploader
+  function upload() {
+    let imgcanvas = document.getElementById("canv1");
+    let fileinput = document.getElementById("albumImage");
+    console.log("size :",fileinput.files[0].size)
+    if(fileinput.files[0].size > 100*1024){
+      document.getElementById("imgError").innerHTML =  `image is too large`
+      sizeLimitExceed = true
+    }else{
+      document.getElementById("imgError").innerHTML =``
+      sizeLimitExceed = false
+    }
+    let image = new SimpleImage(fileinput);
+    image.drawTo(imgcanvas);
+    showCanvas()
+  }
+  function priviewimg() {
+    var imgcanvas2 = document.getElementById("canv2");
+    var fileinput;
+    if( document.getElementById("canv1").style.display=='none'){
+      fileinput = document.getElementById("draftimage");
+    }
+    else{
+      fileinput = document.getElementById("albumImage")
+    }
+    var image = new SimpleImage(fileinput);
+    image.drawTo(imgcanvas2);
+  }
+
+  //for company selection
+  function getCheckboxValue() {
+    var lang1 = document.getElementById("s1");
+    var lang2 = document.getElementById("s2");
+    var result = " ";
+    if (lang1.checked == true) {
+      var lg1 = document.getElementById("s1").value;
+      result += lg1 + " ";
+    }
+    if (lang2.checked == true) {
+      var lg2 = document.getElementById("s2").value;
+      result += lg2 + " ";
+    }
+    return document.getElementById("result").innerHTML = "You have selected " + result + " Companies to Release";
+  }
+  function selects() {
+    var ele = document.getElementsByClassName('lg');
+    for (var i = 0; i < ele.length; i++) {
+      if (ele[i].type == 'checkbox')
+        ele[i].checked = true;
+    }
+  }
+  function deSelect() {
+    var ele = document.getElementsByClassName('lg');
+    for (var i = 0; i < ele.length; i++) {
+      if (ele[i].type == 'checkbox')
+        ele[i].checked = false;
+    }
+  }
+  
+  function preview() {
+    if(Object.keys(savedAlbum) != 0){
+    document.getElementById('previewData').innerHTML = ` 
+            <div class="container">
+              <div class="item">
+                <p style="width: 195px;">
+                   Album Thumbnail:
+                </p>
+                <canvas id="canv2"></canvas>
+              </div>
+              <div class="item">
+                <label for="">Name</label>
+                <input value = ${albumDataSaved.title}  readonly autocomplete="on" placeholder="ABC Track" type="" name="title" oninput="this.className = ''">
+                <label>Version/Subtitle </label><input value = ${albumDataSaved.subTitle} readonly autocomplete="on" placeholder="Version/Subtitle" type="version_subtitle"
+                  name="version" oninput="this.className = ''">
+                <label>Primary Artist </label><input value = ${albumDataSaved.primaryArtist} readonly  autocomplete="on" placeholder="" type="" name="primary_artist"
+                  oninput="this.className = ''">
+                <p>
+              </div>
+            </div>
+            <div class="container">
+              <div class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800 belowLine ">
+                <div class="selectionInput">
+                <label style="margin-right: 42px;" for="pet-select">Genre </label>
+                <input value = ${albumDataSaved.genre} disabled name="genre" id="pet-select">
+                </input>
+                </div>
+                <div class="selectionInput">
+                <label for="pet-select" style="margin-right: 23px;">SubGenre </label>
+                <input value = ${albumDataSaved.subgenre} disabled name="subgenre" id="pet-select">
+                </input>
+                </div>
+                <div class="selectionInput">
+                <label for="pet-select">Lable Name </label>
+                <input value = ${albumDataSaved.labelID} disabled name="lable_name" id="pet-select">
+                </input> 
+                </div>
+                <div class="selectionInput">
+                <label for="pet-select" style="margin-right: 35px;">Format </label>
+                <input value = ${albumDataSaved.format} disabled name="format" id="pet-select" >
+                </input>
+                </div>
+                <div class="selectionInput">
+                <label for="pet-select">Production Year </label>
+                <input value = ${albumDataSaved.productionYear} disabled name="production_year" id="pet-select">
+                </input> 
+                </div>
+                 <label>Actor </label><input  value = ${albumDataSaved.actor} readonly autocomplete="on" style="margin-bottom: 29px;" placeholder="Featuring" type="" name="actor"
+                  oninput="this.className = ''">
+              </div>
+              <div class="item ">
+                <label>Producer Catalogue Number </label>
+                <input value = ${albumDataSaved.producer} readonly autocomplete="on" placeholder="Producer Catalogue Number" type="" name="producer_catalogue_number"
+                  oninput="this.className = ''">
+                <label>Phisical/Original release date </label><input value = ${albumDataSaved.originalReleaseDate} readonly id ="datepicker"
+                  placeholder="Version/Subtitle" type="date" name="physical_release_date" oninput="this.className = ''">
+                <label>Line1 </label><input value = "${albumDataSaved.copyright}" readonly autocomplete="on" placeholder="Line" type="" name="line1"
+                  oninput="this.className = ''">
+                <label>Line2 </label><input value = ${albumDataSaved.copyright2} readonly  autocomplete="on" placeholder="Line" type="" name="line2"
+                  oninput="this.className = ''">
+                <label>UPC/EAN </label><input value = "fill by admin" readonly autocomplete="on" placeholder="UPC/EAN" type="" name="upc"
+                  oninput="this.className = ''">
+              </div>
+            </div>`
+    priviewimg();
+    }
+    document.getElementById('previewTableRows').innerHTML =``
+    for (let i = 0; i < songsArray.length; i++) {
+          document.getElementById('previewTableRows').innerHTML += `
+          <tr id="row${i}" class="text-gray-700 dark:text-gray-400">
+                  <td class="px-4 py-3">
+                      ${i + 1}
+                  </td>
+                  <td class="px-4 py-3 text-sm">
+                    ${songsArray[i].writer}
+                  </td>
+                  <td class="px-4 py-3 text-sm">
+                    ${songsArray[i].language}
+                  </td>
+                  <td class="px-4 py-3 text-sm">
+                    ${songsArray[i].filePath.name}
+                  </td>`
+      }
+    document.getElementById("clickToStep1").onclick =()=>{
+      navigateToFormStep(1)
+    }
+     document.getElementById("clickToStep2").onclick =()=>{
+      navigateToFormStep(2)
+    } 
+    document.getElementById("clickToStep3").onclick =()=>{
+      navigateToFormStep(3)
+    } 
+    document.getElementById("clickToStep4").onclick =()=>{
+      navigateToFormStep(4)
+    }
+
+  }
+
+  // Updating the table
+  function updateTable() {
+    document.getElementById('myTable').innerHTML = `
+    <table class="w-full whitespace-no-wrap">
+          <thead>
+            <tr
+              class="header text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
+              <th class="px-4 py-3">Id</th>
+              <th class="px-4 py-3">Writer</th>
+              <th class="px-4 py-3">Language</th>
+              <th class="px-4 py-3">File Name</th>
+              <th class="px-4 py-3">Action</th>
+            </tr>
+          </thead>
+          <tbody id="myTableTableRow" class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
+            
+          </tbody>
+        </table>
+    `;
+    console.log("Here are song Details: ", songsArray)
+    for (let i = 0; i < songsArray.length; i++) {
+      document.getElementById('myTableTableRow').innerHTML += `
+       <tr id="row${i}" class="text-gray-700 dark:text-gray-400">
+              <td class="px-4 py-3">
+                   ${i + 1}
+              </td>
+              <td class="px-4 py-3 text-sm">
+                ${songsArray[i].writer}
+              </td>
+              <td class="px-4 py-3 text-sm">
+                ${songsArray[i].language}
+              </td>
+              <td class="px-4 py-3 text-sm">
+                ${songsArray[i].filePath.name}
+              </td>
+              <td class="px-4 py-3">
+              <div class="ActionDiv flex items-center space-x-4 text-sm">
+               <button
+                    id="${i}"
+                    onclick="editSongDataInFormToUpdate(${i})"
+                    @click="openModal"
+                    class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                    aria-label="Edit">
+                    <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
+                      <path
+                        d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z">
+                      </path>
+                    </svg>
+               </button> 
+               </td>`
+  
+    }
+  }
+// option selection
+let labelArray = []
+ const getAllLabels=async()=>{
+     await fetch('/label-manage/labels').then(response => {
+      if (response.ok) {
+        return response.json()
+      }
+    }).then((data) => {
+      if (data.labelData) {
+        labelArray = data.labelData;
+        console.log("response data", labelArray)
+      }
+    }).catch((error) => {
+      console.error(error)
+    });
+   /*document.getElementById("label_name").innerHTML = `<option value="">--Select Label--</option>`
+   for(let i = 0;i<labelArray.length;i++){
+      document.getElementById("select-label").innerHTML += `<option value="${labelArray[i].title}">${labelArray[i].title}</option>`
+   }*/
+}
+var getAllStores=async()=>{
+  await fetch('/albumStores').then(response => {
+      if (response.ok) {
+        return response.json()
+      }
+    }).then((data) => {
+      if (data.stores) {
+        stores = data.stores;
+        console.log(stores)
+        document.getElementById("storesIcon").innerHTML =``
+        for(let i = 0;i<stores.length;i++){
+        document.getElementById("storesIcon").innerHTML += `
+                        <div class="grid-item"> <img
+                          src="${stores[i].img}"
+                          alt="${stores[i].name}">
+                        <input  type="checkbox" id="store-${i}" style = "height :20px" value="${stores[i].name}">
+                      </div>`
+        }
+      }
+    }).catch((error) => {
+      console.error(error)
+  });
+}
+
+getAllLabels()
+getAllStores()
+
+// disable three more days in calender
+let today = new Date();
+// Add 3 days to today's date
+var disableUntil = new Date();
+disableUntil.setDate(today.getDate() + 3);
+// Set the min attribute of the datepicker to the date 3 days from now
+document.getElementById("datepicker").min = disableUntil.toISOString().slice(0,10);
+
+
+
+function fillInputs(draft){
+    console.log(draft);
+    document.getElementById("title").value = draft.title;
+    document.getElementById("version").value = draft.subTitle;
+    document.getElementById("primary_artist").value = draft.primaryArtist;
+    document.getElementById("actor").value = draft.actor;
+    //document.getElementById("label_name").value = 'Dog';
+    document.getElementById("producer_catalogue_number").value = draft.producerCatalogueNumber;
+    document.getElementById("genre").value = draft.genre;
+    document.getElementById("subgenre").value = draft.subgenre;
+    document.getElementById("format").value = draft.format;
+    document.getElementById("production_year").value = draft.productionYear;
+    document.getElementById("datepicker").value = draft.originalReleaseDate;
+
+    showDraftImage(draft.imageUrl);
+    document.getElementById('load1').style.display='none'; 
+
+
+  }
+
+function showDraftImage(url){
+document.getElementById('draftimage').src = '.'+url;
+document.getElementById('draftimage').style = 'margin-top:10px;margin-bottom:10px;display:block;height:140px;width:140px;border:solid;';
+document.getElementById('canv1').style.display = 'none';
+}
+function showCanvas(){
+  document.getElementById('draftimage').style.display = 'none';
+  document.getElementById('canv1').style.display = 'block';
+}
+
+ const getAllDrafts=async(draftId)=>{
+     document.getElementById('load1').style.display='flex'; 
+     await fetch('/album-drafts').then(response => {
+      if (response.ok) {
+        return response.json()
+      }
+    }).then(async (data) => {
+      if (data.album) {
+        DraftArray = data.album;
+        console.log("yes")
+        for (let i = 0; i < DraftArray.length; i++) {
+          if(DraftArray[i].id==draftId){
+            var draft = DraftArray[i];
+            fillInputs(draft);
+          }
+        }
+      }
+    }).catch((error) => {
+      console.error(error)
+    });
+  }
+//Editing Draft 
+var draftId = "{{ draftId }}";
+if(draftId){
+  getAllDrafts(draftId);
+}
+function loader() {
+  var x = document.getElementById("load");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
+loader();
+</script>
