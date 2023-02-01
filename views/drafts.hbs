@@ -88,24 +88,36 @@
       padding: 12px 20px;
       border-radius: 4px;
     }
-    td{text-align: center;}
-    th{text-align: center;}
+
+    td {
+      text-align: center;
+    }
+
+    th {
+      text-align: center;
+    }
 
     .loader {
-  border: 7px solid #f3f3f3;
-  border-radius: 50%;
-  border-top: 7px solid #7e3af2;
-  width: 100px;
-  height: 100px;
-  -webkit-animation: spin 2s linear infinite; /* Safari */
-  animation: spin 2s linear infinite;
-  margin: 30 0px;
-}
+      border: 7px solid #f3f3f3;
+      border-radius: 50%;
+      border-top: 7px solid #7e3af2;
+      width: 100px;
+      height: 100px;
+      -webkit-animation: spin 2s linear infinite;
+      /* Safari */
+      animation: spin 2s linear infinite;
+      margin: 30 0px;
+    }
 
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
   </style>
   <div class="container px-6 mx-auto grid">
     <h4 class="text-lg font-semibold text-gray-600 dark:text-gray-300 py-2">
@@ -128,44 +140,44 @@
               <th class="px-4 py-3">Action</th>
             </tr>
           </thead>
-          <tbody id = "tableOfDrafts" class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
+          <tbody id="tableOfDrafts" class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
 
           </tbody>
         </table>
 
         {{#if errorMessage}}
-            <span
-                  class="px-2 py-1 font-semibold leading-tight text-orange-700 bg-orange-100 rounded-full dark:text-white dark:bg-orange-600">
-                  {{errorMessage}}
-                </span>
-            {{/if}}
+        <span
+          class="px-2 py-1 font-semibold leading-tight text-orange-700 bg-orange-100 rounded-full dark:text-white dark:bg-orange-600">
+          {{errorMessage}}
+        </span>
+        {{/if}}
       </div>
       <div style="display: flex;
     text-align: center;
     justify-content: center;">
-      <div class="loader" id="load"></div>
+        <div class="loader" id="load"></div>
       </div>
 
 </main>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 <script>
   let DraftArray = []
-  function cleanNullValues(){
+  function cleanNullValues() {
     for (let i = 0; i < DraftArray.length; i++) {
-      if(DraftArray[i].title == null) DraftArray[i].title =""
-      if(DraftArray[i].labelName == null) DraftArray[i].labelName =""
-      if(DraftArray[i].originalReleaseDate == null) DraftArray[i].originalReleaseDate =""
+      if (DraftArray[i].title == null) DraftArray[i].title = ""
+      if (DraftArray[i].labelName == null) DraftArray[i].labelName = ""
+      if (DraftArray[i].originalReleaseDate == null) DraftArray[i].originalReleaseDate = ""
     }
   }
-  function updateTableData(){
-   cleanNullValues()
-   DraftArray.sort(function(a, b) {
+  function updateTableData() {
+    cleanNullValues()
+    DraftArray.sort(function (a, b) {
       return a.id - b.id;
-   });
-   document.getElementById("tableOfDrafts").innerHTML=``
-   for (let i = 0; i < DraftArray.length; i++) {
-        let draft = DraftArray[i].id;
-        document.getElementById("tableOfDrafts").innerHTML += `
+    });
+    document.getElementById("tableOfDrafts").innerHTML = ``
+    for (let i = 0; i < DraftArray.length; i++) {
+      let draft = DraftArray[i].id;
+      document.getElementById("tableOfDrafts").innerHTML += `
         <tr class="text-gray-700 dark:text-gray-400">
               <td class="px-4 py-3">
                ${i + 1}
@@ -206,11 +218,11 @@
                 </div>
               </td>
             </tr>`
-        }
-        document.getElementById("load").style.display = "none";
+    }
+    document.getElementById("load").style.display = "none";
   }
-  const getAllDrafts=async()=>{
-     await fetch('/album-drafts').then(response => {
+  const getAllDrafts = async () => {
+    await fetch('/album-drafts').then(response => {
       if (response.ok) {
         return response.json()
       }
@@ -226,12 +238,12 @@
   }
 
 
-function priviewimg() {
+  function priviewimg() {
     var imgcanvas2 = document.getElementById("canv2");
     var fileinput = document.getElementById("imagefile")
     var image = new SimpleImage(fileinput);
     image.drawTo(imgcanvas2);
-  
+
   }
 
 
@@ -255,6 +267,6 @@ function priviewimg() {
     }
   }
   getAllDrafts()
- 
+
 </script>
 <!-- End of modal backdrop -->

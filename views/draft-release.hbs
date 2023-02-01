@@ -449,251 +449,357 @@
 </style>
 
 <main class="h-full pb-16 overflow-y-auto">
-  <div class="container px-6 mx-auto grid">
-    <!-- multistep form -->
-    <div>
-      <div id="multi-step-form-container">
-        <!-- Form Steps / Progress Bar -->
-        <ul class="form-stepper form-stepper-horizontal text-center mx-auto pl-0">
-          <!-- Step 1 -->
-          <li class="form-stepper-active text-center form-stepper-list " step="1">
-            <a  id ="clickToStep1"class="mx-2 pointer" >
-              <span class="form-stepper-circle">
-                <span>1</span>
-              </span>
-              <div class="text-lg font-semibold text-gray-600 dark:text-gray-300 py-2 ">Release</div>
-            </a>
-          </li>
-          <!-- Step 2 -->
-          <li class="form-stepper-unfinished text-center form-stepper-list" step="2">
-            <a id ="clickToStep2" class="mx-2 pointer" >
-              <span class="form-stepper-circle text-muted">
-                <span>2</span>
-              </span>
-              <div class="text-lg font-semibold text-gray-600 dark:text-gray-300 py-2 text-muted">Tracks</div>
-            </a>
-          </li>
-          <!-- Step 3 -->
-          <li class="form-stepper-unfinished text-center form-stepper-list" step="3">
-            <a id ="clickToStep3" class="mx-2 pointer" >
-              <span class="form-stepper-circle text-muted">
-                <span>3</span>
-              </span>
-              <div class="text-lg font-semibold text-gray-600 dark:text-gray-300 py-2 text-muted">Store</div>
-            </a>
-          </li>
-          <!-- Step 4 -->
-          <li class="form-stepper-unfinished text-center form-stepper-list" step="4">
-            <a id ="clickToStep4" class="mx-2 pointer">
-              <span class="form-stepper-circle text-muted">
-                <span>4</span>
-              </span>
-              <div class="text-lg font-semibold text-gray-600 dark:text-gray-300 py-2 text-muted">Preview</div>
-            </a>
-          </li>
-        </ul>
+    <div class="container px-6 mx-auto grid">
+        <!-- multistep form -->
+        <div>
+            <div id="multi-step-form-container">
+                <!-- Form Steps / Progress Bar -->
+                <ul class="form-stepper form-stepper-horizontal text-center
+                    mx-auto pl-0">
+                    <!-- Step 1 -->
+                    <li class="form-stepper-active text-center form-stepper-list
+                        " step="1">
+                        <a class="mx-2 pointer" onclick="navigateToFormStep(1)">
+                            <span class="form-stepper-circle">
+                                <span>1</span>
+                            </span>
+                            <div class="text-lg font-semibold text-gray-600
+                                dark:text-gray-300 py-2 ">Release</div>
+                        </a>
+                    </li>
+                    <!-- Step 2 -->
+                    <li class="form-stepper-unfinished text-center
+                        form-stepper-list" step="2">
+                        <a id="clickToStep2" class="mx-2 pointer"
+                            onclick="navigateToFormStep(2)">
+                            <span class="form-stepper-circle text-muted">
+                                <span>2</span>
+                            </span>
+                            <div class="text-lg font-semibold text-gray-600
+                                dark:text-gray-300 py-2 text-muted">Tracks</div>
+                        </a>
+                    </li>
+                    <!-- Step 3 -->
+                    <li class="form-stepper-unfinished text-center
+                        form-stepper-list" step="3">
+                        <a id="clickToStep3" class="mx-2 pointer"
+                            onclick="navigateToFormStep(3)">
+                            <span class="form-stepper-circle text-muted">
+                                <span>3</span>
+                            </span>
+                            <div class="text-lg font-semibold text-gray-600
+                                dark:text-gray-300 py-2 text-muted">Store</div>
+                        </a>
+                    </li>
+                    <!-- Step 4 -->
+                    <li class="form-stepper-unfinished text-center
+                        form-stepper-list" step="4">
+                        <a id="clickToStep4" class="mx-2 pointer"
+                            onclick="navigateToFormStep(4)">
+                            <span class="form-stepper-circle text-muted">
+                                <span>4</span>
+                            </span>
+                            <div class="text-lg font-semibold text-gray-600
+                                dark:text-gray-300 py-2 text-muted">Preview</div>
+                        </a>
+                    </li>
+                </ul>
 
-        <!-- Step Wise Form Content -->
-        <!-- Step 1 Content -->
-        <section id="step-1" class="form-step text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
-          <h4 
-            style="font-size: 20px;text-align:center;margin-top:10px;margin-bottom:30px;">
-            &#127911; Release
-          </h4>
-          <div style="display:none;justify-content:center;margin-bottom:10px;vertical-align:center;"id="load1">
-          <b>loading Data...</b>
-          </div>
-          <!-- Step 1 input fields -->
-          <h1 id="errorShow"></h1>
-          <div class="mt-3">
-            <div class="container">
-            <div class="item ">
+                <!-- Step Wise Form Content -->
+                <!-- Step 1 Content -->
+                <section id="step-1" class="form-step text-xs font-semibold
+                    tracking-wide text-left text-gray-500 uppercase border-b
+                    dark:border-gray-700 bg-gray-50 dark:text-gray-400
+                    dark:bg-gray-800">
+                    <h4
+                        style="font-size:
+                        20px;text-align:center;margin-top:10px;margin-bottom:30px;">
+                        &#127911; Release
+                    </h4>
+                    <div
+                        style="display:none;justify-content:center;margin-bottom:10px;vertical-align:center;"
+                        id="load1">
+                        <b>loading Data...</b>
+                    </div>
+                    <!-- Step 1 input fields -->
+                    <h1 id="errorShow"></h1>
+                    <div class="mt-3">
+                        <div class="container">
+                            <div class="item ">
 
-                <p style="width: 195px;">
-                  Upload Album Thumbnail:
-                </p>
-                <div class="imgNote">
-                <img id="draftimage" style="display:none">    
-                <canvas id="canv1"></canvas>
-                <div class ="noteToUser">Note :<br> Image must be less then or <br> equal to 100kb</div>
+                                <p style="width: 195px;">
+                                    Upload Album Thumbnail:
+                                </p>
+                                <div class="imgNote">
+                                    <img id="draftimage" style="display:none">
+                                    <canvas id="canv1"></canvas>
+                                    <div class="noteToUser">Note :<br> Image
+                                        must be less then or <br> equal to 100kb</div>
+                                </div>
+                                <p id="imgError" style="color: red;"></p>
+                                <input required autocomplete="on"
+                                    style="border:none;width: 260px;"
+                                    type="file" multiple="false"
+                                    accept=".jpg,.jpeg"
+                                    id="albumImage" name="imgFile"
+                                    onchange="upload()">
+                            </div>
+                            <div class="item">
+                                <label for="">Name</label>
+                                <input required autocomplete="on"
+                                    placeholder="ABC Track" type="" name="title"
+                                    id="title" oninput="this.className= ''">
+                                <label>Version/Subtitle </label><input required
+                                    autocomplete="on"
+                                    placeholder="Version/Subtitle"
+                                    type="version_subtitle"
+                                    name="version" id="version"
+                                    oninput="this.className= ''">
+                                <label>Primary Artist </label><input required
+                                    autocomplete="on" placeholder="" type=""
+                                    name="primary_artist" id="primary_artist"
+                                    oninput="this.className= ''">
+                                <p>
+                                </div>
+                            </div>
+                            <div class="container">
+                                <div class="text-xs font-semibold tracking-wide
+                                    text-left text-gray-500 uppercase border-b
+                                    dark:border-gray-700 bg-gray-50
+                                    dark:text-gray-400 dark:bg-gray-800
+                                    belowLine ">
+                                    <div class="selectionInput">
+                                        <label required style="margin-right:
+                                            42px;" for="pet-select">Genre
+                                        </label>
+                                        <select required name="genre"
+                                            id="genre">
+                                            <option value="">--Select Genre--</option>
+                                            <option value="dog">Dog</option>
+                                            <option value="cat">Cat</option>
+                                        </select>
+                                    </div>
+                                    <div class="selectionInput">
+                                        <label for="pet-select"
+                                            style="margin-right: 23px;">SubGenre
+                                        </label>
+                                        <select required name="subgenre"
+                                            id="subgenre">
+                                            <option value="">--Select SubGenre--</option>
+                                            <option value="dog">Dog</option>
+                                            <option value="cat">Cat</option>
+                                        </select>
+                                    </div>
+                                    <div class="selectionInput">
+                                        <label for="pet-select">Lable Name
+                                        </label>
+                                        <select name="lable_name"
+                                            id="lable_name">
+                                            <option value="">--Select Lable
+                                                Name--</option>
+                                            <option value="dog">Dog</option>
+                                            <option value="cat">Cat</option>
+                                        </select>
+                                    </div>
+                                    <div class="selectionInput">
+                                        <label for="pet-select"
+                                            style="margin-right: 35px;">Format
+                                        </label>
+                                        <select name="format" id="format">
+                                            <option value="">--Single--</option>
+                                            <option value="dog">Dog</option>
+                                            <option value="cat">Cat</option>
+                                        </select>
+                                    </div>
+                                    <div class="selectionInput">
+                                        <label for="pet-select">Production Year
+                                        </label>
+                                        <select name="production_year"
+                                            id="production_year">
+                                            <option value="">--2022--</option>
+                                            <option value="dog">Dog</option>
+                                            <option value="cat">Cat</option>
+                                        </select>
+                                    </div>
+                                    <label>Actor </label><input
+                                        autocomplete="on" style="margin-bottom:
+                                        29px;" placeholder="Featuring" type=""
+                                        name="actor" id="actor"
+                                        oninput="this.className= ''">
+                                </div>
+                                <div class="item ">
+                                    <label>Producer Catalogue Number </label>
+                                    <input autocomplete="on"
+                                        placeholder="Producer Catalogue Number"
+                                        type="" id="producer_catalogue_number"
+                                        name="producer_catalogue_number"
+                                        oninput="this.className= ''">
+                                    <label>Phisical/Original release date
+                                    </label><input id="datepicker"
+                                        type="date" name="physical_release_date"
+                                        oninput="this.className= ''">
+                                    <label>Line1 </label><input
+                                        autocomplete="on" placeholder="Line"
+                                        type="" name="line1" id="line1"
+                                        oninput="this.className= ''">
+                                    <label>Line2 </label><input
+                                        autocomplete="on" placeholder="Line"
+                                        type="" name="line2" id="line2"
+                                        oninput="this.className= ''">
+                                    <label>UPC/EAN </label><input
+                                        autocomplete="on" placeholder="UPC/EAN"
+                                        type="" name="upc" id="upc"
+                                        oninput="this.className= ''">
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <div class="mt-3" style="display: flex;
+                            justify-content:end">
+                            <div class="loader" id="load"></div>
+                            <button class="button btn-navigate-form-step"
+                                type="button" onclick="clickedNext()" id="next-1"
+                                step_number="2">Next</button>
+                        </div>
+                    </section>
+
+                    <!-- Step 2 Content, default hidden on page load. -->
+                    <section id="step-2" class="form-step d-none">
+                        <h4 class="text-lg font-semibold text-gray-600
+                            dark:text-gray-300"
+                            style="font-size: 20px;text-align:center;margin-top:
+                            21px;">
+                            &#127911; Upload Assets
+                        </h4>
+                        <!-- Step 2 input fields -->
+                        <h1 id="errorShow2" style="color:red"></h1>
+                        <div class="mt-3">
+                            <div>
+                                <button @click="openModal"
+                                    onclick="updateSaveSongFunction()"
+                                    style="width: 158px;"
+                                    class="px-4 py-2 text-sm font-medium
+                                    leading-5 text-white transition-colors
+                                    duration-150 bg-purple-600 border
+                                    border-transparent rounded-lg
+                                    active:bg-purple-600 hover:bg-purple-700
+                                    focus:outline-none
+                                    focus:shadow-outline-purple">
+                                    Add Track +
+                                </button>
+                            </div>
+                        </div>
+                        {{!-- table --}}
+                        <div class="container grid px-6 mx-auto">
+                            <div class="w-full mb-8 overflow-hidden rounded-lg
+                                shadow-xs">
+                                <div class="w-full overflow-x-auto">
+                                    <table id="myTable" class="table"
+                                        style="margin:5 0px">
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-3" style="display: flex;
+                            justify-content: space-between;">
+                            <button class="button btn-navigate-form-step"
+                                onclick="clickedPrev()" type="button"
+                                step_number="1">Prev</button>
+                            <button class="button btn-navigate-form-step"
+                                type="button" id="next-2"
+                                onclick="clickedNext()" step_number="3">Next</button>
+                        </div>
+                    </section>
+                    <!-- Step 3 Content, default hidden on page load. -->
+                    <section id="step-3" class="form-step d-none">
+                        <h4 class="text-lg font-semibold text-gray-600
+                            dark:text-gray-300"
+                            style="font-size: 20px;text-align:center;margin-top:
+                            21px;">
+                            Select Companies To Store
+                        </h4>
+                        <!-- Step 4 input fields -->
+                        <div class="grid-container" id="storesIcon">
+
+                        </div>
+                        <div class="mt-3" style="display: flex;
+                            justify-content: space-between;">
+                            <button class="button btn-navigate-form-step"
+                                onclick="clickedPrev()" type="button"
+                                step_number="2">Prev</button>
+                            <button class="button btn-navigate-form-step"
+                                type="button" onclick="clickedNext()" id="next-3"
+                                step_number="4">Preview</button>
+                        </div>
+
+                    </section>
+                    <!-- Step 4 Content, default hidden on page load. -->
+                    <section id="step-4" class="form-step d-none text-xs
+                        font-semibold tracking-wide text-left text-gray-500
+                        border-b dark:border-gray-700 bg-gray-50
+                        dark:text-gray-400 dark:bg-gray-800">
+                        <h4 style="font-size:
+                            20px;text-align:center;margin-top:10px;margin-bottom:30px;">
+                            &#127911; Release
+                        </h4>
+                        <!-- Step 1 data fields -->
+                        <div class="mt-3" id="previewData">
+                        </div>
+                        <h4 class="text-lg font-semibold text-gray-600
+                            dark:text-gray-300"
+                            style="font-size: 20px;text-align:center;margin-top:
+                            21px;">
+                            &#127911; Tracks
+                        </h4>
+                        <div class="container grid px-6 mx-auto
+                            dark:border-gray-700 bg-gray-50 dark:text-gray-400
+                            dark:bg-gray-800">
+                            <div class="w-full mb-8 overflow-hidden rounded-lg
+                                shadow-xs">
+                                <div class="w-full overflow-x-auto">
+                                    <table class="w-full whitespace-no-wrap">
+                                        <thead>
+                                            <tr class="header text-xs
+                                                font-semibold tracking-wide
+                                                text-gray-500 uppercase border-b
+                                                dark:border-gray-700 bg-gray-50
+                                                dark:text-gray-400
+                                                dark:bg-gray-800">
+                                                <th class="px-4 py-3">Id</th>
+                                                <th class="px-4 py-3">Writer</th>
+                                                <th class="px-4 py-3">Language</th>
+                                                <th class="px-4 py-3">File Name</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="previewTableRows"
+                                            class="bg-white divide-y
+                                            dark:divide-gray-700
+                                            dark:bg-gray-800">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-3" style="display: flex;
+                            justify-content: space-between;">
+                            <button class="button btn-navigate-form-step"
+                                type="button" step_number="3">Edit Forms</button>
+                            <button class="button btn-navigate-form-step"
+                                type="button" onclick="saveCompletedAlbum()"
+                                step_number="5">Submit</button>
+                        </div>
+                    </section>
                 </div>
-                <p id ="imgError" style="color: red;"></p>
-                <input  required autocomplete="on"style="border:none;width: 260px;" type="file" multiple="false" accept=".jpg,.jpeg"
-                  id="albumImage" name="imgFile" onchange="upload()">
-              </div>
-              <div class="item">
-                <label for="">Name</label>
-                <input required autocomplete="on" placeholder="ABC Track" type="" name="title" id="title"oninput="this.className = ''">
-                <label>Version/Subtitle </label><input required autocomplete="on" placeholder="Version/Subtitle" type="version_subtitle"
-                  name="version" id="version" oninput="this.className = ''">
-                <label>Primary Artist </label><input  required autocomplete="on" placeholder="" type="" name="primary_artist" id="primary_artist"
-                  oninput="this.className = ''">
-                <p>
-              </div>
             </div>
-            <div class="container">
-              <div class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800 belowLine ">
-                <div class="selectionInput">
-                <label required style="margin-right: 42px;" for="pet-select">Genre </label>
-                <select required name="genre" id="genre">
-                  <option value="">--Select Genre--</option>
-                  <option value="dog">Dog</option>
-                  <option value="cat">Cat</option>
-                </select>
-                </div>
-                <div class="selectionInput">
-                <label for="pet-select" style="margin-right: 23px;">SubGenre </label>
-                <select required name="subgenre" id="subgenre">
-                  <option value="">--Select SubGenre--</option>
-                  <option value="dog">Dog</option>
-                  <option value="cat">Cat</option>
-                </select>
-                </div>
-                <div class="selectionInput">
-                <label for="pet-select">Lable Name </label>
-                <select name="lable_name" id="lable_name">
-                  <option value="">--Select Lable Name--</option>
-                  <option value="dog">Dog</option>
-                  <option value="cat">Cat</option>
-                </select> 
-                </div>
-                <div class="selectionInput">
-                <label for="pet-select" style="margin-right: 35px;">Format </label>
-                <select name="format" id="format">
-                  <option value="">--Single--</option>
-                  <option value="dog">Dog</option>
-                  <option value="cat">Cat</option>
-                </select> 
-                </div>
-                <div class="selectionInput">
-                <label for="pet-select">Production Year </label>
-                <select name="production_year" id="production_year">
-                  <option value="">--2022--</option>
-                  <option value="dog">Dog</option>
-                  <option value="cat">Cat</option>
-                </select> 
-                </div>
-                <label>Actor </label><input  autocomplete="on" style="margin-bottom: 29px;" placeholder="Featuring" type="" name="actor" id="actor"
-                  oninput="this.className = ''">
-              </div>
-              <div class="item ">
-                <label>Producer Catalogue Number </label>
-                <input  autocomplete="on" placeholder="Producer Catalogue Number" type="" id="producer_catalogue_number"name="producer_catalogue_number"
-                  oninput="this.className = ''">
-                <label>Phisical/Original release date </label><input id ="datepicker"
-             type="date" name="physical_release_date" oninput="this.className = ''">
-                <label>Line1 </label><input  autocomplete="on" placeholder="Line" type="" name="line1" id="line1"
-                  oninput="this.className = ''">
-                <label>Line2 </label><input  autocomplete="on" placeholder="Line" type="" name="line2" id="line2"
-                  oninput="this.className = ''">
-                <label>UPC/EAN </label><input  autocomplete="on" placeholder="UPC/EAN" type="" name="upc" id="upc"
-                  oninput="this.className = ''">
-               
-              </div>
+        </div>
 
-            </div>
+    </main>
 
-          </div>
-          <div class="mt-3" style="display: flex;
-        justify-content:end">
-              <div class="loader" id="load"></div>
-            <button class="button btn-navigate-form-step" type="button"  onclick="clickedNext()" id = "next-1" step_number="2">Next</button>
-          </div>
-        </section>
-
-        <!-- Step 2 Content, default hidden on page load. -->
-        <section id="step-2" class="form-step d-none">
-          <h4 class="text-lg font-semibold text-gray-600 dark:text-gray-300"
-            style="font-size: 20px;text-align:center;margin-top: 21px;">
-            &#127911; Upload Assets
-          </h4>
-          <!-- Step 2 input fields -->
-          <h1 id="errorShow2" style="color:red"></h1>
-          <div class="mt-3">
-            <div>
-              <button @click="openModal" onclick="updateSaveSongFunction()" style="width: 158px;"
-                class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
-                Add Track +
-              </button>
-            </div>
-          </div>
-          {{!-- table --}}
-          <div class="container grid px-6 mx-auto">
-            <div class="w-full mb-8 overflow-hidden rounded-lg shadow-xs">
-              <div class="w-full overflow-x-auto">
-                <table id="myTable" class="table" style="margin:5 0px">
-                </table>
-              </div>
-            </div>
-          </div>
-
-          <div class="mt-3" style="display: flex;
-        justify-content: space-between;">
-            <button class="button btn-navigate-form-step" onclick="clickedPrev()" type="button" step_number="1">Prev</button>
-            <button class="button btn-navigate-form-step" type="button"  id = "next-2" onclick="clickedNext()" step_number="3">Next</button>
-          </div>
-        </section>
-        <!-- Step 3 Content, default hidden on page load. -->
-        <section id="step-3" class="form-step d-none">
-           <h4 class="text-lg font-semibold text-gray-600 dark:text-gray-300"
-            style="font-size: 20px;text-align:center;margin-top: 21px;">
-            Select Companies To Store
-          </h4>
-          <!-- Step 4 input fields -->
-            <div class="grid-container" id ="storesIcon">
-                
-            </div>
-         <div class="mt-3" style="display: flex;
-        justify-content: space-between;">
-            <button class="button btn-navigate-form-step" onclick="clickedPrev()" type="button" step_number="2">Prev</button>
-            <button class="button btn-navigate-form-step" type="button" onclick="clickedNext()" id = "next-3"  step_number="4">Preview</button>
-          </div>
-          
-        </section>
-        <!-- Step 4 Content, default hidden on page load. -->
-        <section id="step-4" class="form-step d-none text-xs font-semibold tracking-wide text-left text-gray-500  border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
-            <h4 style="font-size: 20px;text-align:center;margin-top:10px;margin-bottom:30px;">
-            &#127911; Release
-          </h4>
-          <!-- Step 1 data fields -->
-            <div class="mt-3" id="previewData">
-            </div>
-            <h4 class="text-lg font-semibold text-gray-600 dark:text-gray-300"
-            style="font-size: 20px;text-align:center;margin-top: 21px;">
-            &#127911; Tracks
-          </h4>
-              <div class="container grid px-6 mx-auto dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
-                  <div class="w-full mb-8 overflow-hidden rounded-lg shadow-xs">
-                    <div class="w-full overflow-x-auto">
-                        <table class="w-full whitespace-no-wrap">
-                          <thead>
-                            <tr class="header text-xs font-semibold tracking-wide text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
-                              <th class="px-4 py-3">Id</th>
-                              <th class="px-4 py-3">Writer</th>
-                              <th class="px-4 py-3">Language</th>
-                              <th class="px-4 py-3">File Name</th>
-                            </tr>
-                          </thead>
-                          <tbody id="previewTableRows" class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-                          </tbody>
-                        </table>
-                     </div>
-                  </div>
-                </div>
-              <div class="mt-3" style="display: flex;
-                  justify-content: space-between;">
-                <button class="button btn-navigate-form-step" type="button" step_number="3">Edit Forms</button>
-                <button class="button btn-navigate-form-step" type="button" onclick="saveCompletedAlbum()" step_number="5">Submit</button>
-              </div>
-        </section>
-      </div>
-    </div>
-  </div>
-
-</main>
-
-{{!-- Model for Uploading Assets --}}
-<style>
+    {{!-- Model for Uploading Assets --}}
+    <style>
   #myInput {
     background-image: url('/css/searchicon.png');
     background-position: 10px 10px;
@@ -792,131 +898,207 @@
     margin-bottom: 160px;
   }
 </style>
-<div x-show="isModalOpen" x-transition:enter="transition ease-out duration-150" x-transition:enter-start="opacity-0"
-  x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-150"
-  x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
-  class="fixed inset-0 z-30 flex items-end bg-black bg-opacity-50 sm:items-center sm:justify-center">
-  <!-- Modal -->
-  <div x-show="isModalOpen" x-transition:enter="transition ease-out duration-150"
-    x-transition:enter-start="opacity-0 transform translate-y-1/2" x-transition:enter-end="opacity-100"
-    x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100"
-    x-transition:leave-end="opacity-0  transform translate-y-1/2" @click.away="closeModal" @keydown.escape="closeModal"
-    class="w-full px-6 py-4 overflow-hidden bg-white rounded-t-lg dark:bg-gray-800 sm:rounded-lg sm:m-4 sm:max-w-xl"
-    role="dialog" id="modal">
-    <!-- Remove header if you don't want a close icon. Use modal body to place modal tile. -->
-    <header class="flex justify-end">
-      <button
-        class="inline-flex items-center justify-center w-6 h-6 text-gray-400 transition-colors duration-150 rounded dark:hover:text-gray-200 hover: hover:text-gray-700"
-        aria-label="close" @click="closeModal">
-        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" role="img" aria-hidden="true">
-          <path
-            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-            clip-rule="evenodd" fill-rule="evenodd"></path>
-        </svg>
-      </button>
-    </header>
-    <!-- Modal body -->
-    <div class="mt-4 mb-6 scrolable">
-      <!-- Modal title -->
-      <p class="above font-semibold text-gray-700 dark:text-gray-300 my-6 text-xl font-semibold">
-        Add Track Details
-      </p>
-      <!-- Modal description -->
-      <div class="container2">
-        <div class="card">
-          <label class="block text-sm">
-            <span class="text-gray-700 dark:text-gray-400 my-6">Writer</span>
-            <input  autocomplete="on" name="writer"
-              id ="songWriter"
-              class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-              placeholder="Karan Aujila" required />
-          </label>
-          <label class="block text-sm">
-            <span class="text-gray-700 dark:text-gray-400 my-6"> Composer </span>
-            <input  autocomplete="on" name="composer"
-             id ="songComposer"
-              class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-              placeholder="Rehan Records" required />
-          </label>
-          <label class="block text-sm">
-            <span class="text-gray-700 dark:text-gray-400 my-6"> Music Director </span>
-            <input  autocomplete="on" name="director"
-             id ="songDirector"
-              class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-              placeholder="Sandeep Rehan" required />
-          </label>
-          <label class="block text-sm">
-            <span class="text-gray-700 dark:text-gray-400 my-6"> Producer </span>
-            <input  autocomplete="on" name="producer"
-             id ="songProducer"
-              class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-              placeholder="Musical Doctor" required />
-          </label>
-          <label class="block text-sm">
-            <span class="text-gray-700 dark:text-gray-400 my-6"> ISRC </span>
-            <input  autocomplete="on" name="isrc"
-             id ="songISRC"
-              class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-              placeholder="ixbt-axbx" />
-          </label>
-          <label class="block text-sm">
-            <span class="text-gray-700 dark:text-gray-400 my-6"> Parental Advisory </span>
-            <input  autocomplete="on" name="parent"
-             id ="songParent"
-              class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-              placeholder="T-Series" required />
-          </label>
-          <label class="block text-sm">
-            <span class="text-gray-700 dark:text-gray-400 my-6"> Track Language </span>
-            <input  autocomplete="on" name="language"
-             id ="songLanguage"
-              class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-              placeholder="Punjabi" required />
-          </label>
-          <label class="block text-sm">
-            <span class="text-gray-700 dark:text-gray-400 my-6"> Add Track Lyrics </span>
-            <input  autocomplete="on" name="lyrics"
-             id ="songLyrics"
-              class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-              placeholder="Hukam" required />
-          </label>
-          <label class="block text-sm">
-            <span class="text-gray-700 dark:text-gray-400 my-6"> Tiktok Preview </span>
-            <input  autocomplete="on" name="tiktok"
-             id ="songTiktok"
-              class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-              placeholder="15 sec" required />
-          </label>
-          <label class="text-gray-700 dark:text-gray-400">Upload Track File</label>
-          <div class="drop_box">
-            <header>
-              <h4>Select File here</h4>
+    <div x-show="isModalOpen" x-transition:enter="transition ease-out
+        duration-150" x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100" x-transition:leave="transition
+        ease-in duration-150"
+        x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0"
+        class="fixed inset-0 z-30 flex items-end bg-black bg-opacity-50
+        sm:items-center sm:justify-center">
+        <!-- Modal -->
+        <div x-show="isModalOpen" x-transition:enter="transition ease-out
+            duration-150"
+            x-transition:enter-start="opacity-0 transform translate-y-1/2"
+            x-transition:enter-end="opacity-100"
+            x-transition:leave="transition ease-in duration-150"
+            x-transition:leave-start="opacity-100"
+            x-transition:leave-end="opacity-0 transform translate-y-1/2"
+            @click.away="closeModal" @keydown.escape="closeModal"
+            class="w-full px-6 py-4 overflow-hidden bg-white rounded-t-lg
+            dark:bg-gray-800 sm:rounded-lg sm:m-4 sm:max-w-xl"
+            role="dialog" id="modal">
+            <!-- Remove header if you don't want a close icon. Use modal body to place modal tile. -->
+            <header class="flex justify-end">
+                <button
+                    class="inline-flex items-center justify-center w-6 h-6
+                    text-gray-400 transition-colors duration-150 rounded
+                    dark:hover:text-gray-200 hover: hover:text-gray-700"
+                    aria-label="close" @click="closeModal">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"
+                        role="img" aria-hidden="true">
+                        <path
+                            d="M4.293 4.293a1 1 0 011.414 0L10
+                            8.586l4.293-4.293a1 1 0 111.414 1.414L11.414
+                            10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293
+                            4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1
+                            0 010-1.414z"
+                            clip-rule="evenodd" fill-rule="evenodd"></path>
+                    </svg>
+                </button>
             </header>
-            <p>Files Supported:  .wav, .flac</p>
-            <input  autocomplete="on" name="filePath" type="file" class="form-control" hidden accept=".mp3,.wav,.flac" id="songFile"
-              style="display:none;">
-            <button class="btn" type="button">Choose File</button>
-          </div>
-          <div class="recent-file" id ="updatedSongFile"></div>
+            <!-- Modal body -->
+            <div class="mt-4 mb-6 scrolable">
+                <!-- Modal title -->
+                <p class="above font-semibold text-gray-700 dark:text-gray-300
+                    my-6 text-xl font-semibold">
+                    Add Track Details
+                </p>
+                <!-- Modal description -->
+                <div class="container2">
+                    <div class="card">
+                        <label class="block text-sm">
+                            <span class="text-gray-700 dark:text-gray-400 my-6">Writer</span>
+                            <input autocomplete="on" name="writer"
+                                id="songWriter"
+                                class="block w-full mt-1 text-sm
+                                dark:border-gray-600 dark:bg-gray-700
+                                focus:border-purple-400 focus:outline-none
+                                focus:shadow-outline-purple dark:text-gray-300
+                                dark:focus:shadow-outline-gray form-input"
+                                placeholder="Karan Aujila" required />
+                        </label>
+                        <label class="block text-sm">
+                            <span class="text-gray-700 dark:text-gray-400 my-6">
+                                Composer </span>
+                            <input autocomplete="on" name="composer"
+                                id="songComposer"
+                                class="block w-full mt-1 text-sm
+                                dark:border-gray-600 dark:bg-gray-700
+                                focus:border-purple-400 focus:outline-none
+                                focus:shadow-outline-purple dark:text-gray-300
+                                dark:focus:shadow-outline-gray form-input"
+                                placeholder="Rehan Records" required />
+                        </label>
+                        <label class="block text-sm">
+                            <span class="text-gray-700 dark:text-gray-400 my-6">
+                                Music Director </span>
+                            <input autocomplete="on" name="director"
+                                id="songDirector"
+                                class="block w-full mt-1 text-sm
+                                dark:border-gray-600 dark:bg-gray-700
+                                focus:border-purple-400 focus:outline-none
+                                focus:shadow-outline-purple dark:text-gray-300
+                                dark:focus:shadow-outline-gray form-input"
+                                placeholder="Sandeep Rehan" required />
+                        </label>
+                        <label class="block text-sm">
+                            <span class="text-gray-700 dark:text-gray-400 my-6">
+                                Producer </span>
+                            <input autocomplete="on" name="producer"
+                                id="songProducer"
+                                class="block w-full mt-1 text-sm
+                                dark:border-gray-600 dark:bg-gray-700
+                                focus:border-purple-400 focus:outline-none
+                                focus:shadow-outline-purple dark:text-gray-300
+                                dark:focus:shadow-outline-gray form-input"
+                                placeholder="Musical Doctor" required />
+                        </label>
+                        <label class="block text-sm">
+                            <span class="text-gray-700 dark:text-gray-400 my-6">
+                                ISRC </span>
+                            <input autocomplete="on" name="isrc"
+                                id="songISRC"
+                                class="block w-full mt-1 text-sm
+                                dark:border-gray-600 dark:bg-gray-700
+                                focus:border-purple-400 focus:outline-none
+                                focus:shadow-outline-purple dark:text-gray-300
+                                dark:focus:shadow-outline-gray form-input"
+                                placeholder="ixbt-axbx" />
+                        </label>
+                        <label class="block text-sm">
+                            <span class="text-gray-700 dark:text-gray-400 my-6">
+                                Parental Advisory </span>
+                            <input autocomplete="on" name="parent"
+                                id="songParent"
+                                class="block w-full mt-1 text-sm
+                                dark:border-gray-600 dark:bg-gray-700
+                                focus:border-purple-400 focus:outline-none
+                                focus:shadow-outline-purple dark:text-gray-300
+                                dark:focus:shadow-outline-gray form-input"
+                                placeholder="T-Series" required />
+                        </label>
+                        <label class="block text-sm">
+                            <span class="text-gray-700 dark:text-gray-400 my-6">
+                                Track Language </span>
+                            <input autocomplete="on" name="language"
+                                id="songLanguage"
+                                class="block w-full mt-1 text-sm
+                                dark:border-gray-600 dark:bg-gray-700
+                                focus:border-purple-400 focus:outline-none
+                                focus:shadow-outline-purple dark:text-gray-300
+                                dark:focus:shadow-outline-gray form-input"
+                                placeholder="Punjabi" required />
+                        </label>
+                        <label class="block text-sm">
+                            <span class="text-gray-700 dark:text-gray-400 my-6">
+                                Add Track Lyrics </span>
+                            <input autocomplete="on" name="lyrics"
+                                id="songLyrics"
+                                class="block w-full mt-1 text-sm
+                                dark:border-gray-600 dark:bg-gray-700
+                                focus:border-purple-400 focus:outline-none
+                                focus:shadow-outline-purple dark:text-gray-300
+                                dark:focus:shadow-outline-gray form-input"
+                                placeholder="Hukam" required />
+                        </label>
+                        <label class="block text-sm">
+                            <span class="text-gray-700 dark:text-gray-400 my-6">
+                                Tiktok Preview </span>
+                            <input autocomplete="on" name="tiktok"
+                                id="songTiktok"
+                                class="block w-full mt-1 text-sm
+                                dark:border-gray-600 dark:bg-gray-700
+                                focus:border-purple-400 focus:outline-none
+                                focus:shadow-outline-purple dark:text-gray-300
+                                dark:focus:shadow-outline-gray form-input"
+                                placeholder="15 sec" required />
+                        </label>
+                        <label class="text-gray-700 dark:text-gray-400">Upload
+                            Track File</label>
+                        <div class="drop_box">
+                            <header>
+                                <h4>Select File here</h4>
+                            </header>
+                            <p>Files Supported: .wav, .flac</p>
+                            <input autocomplete="on" name="filePath" type="file"
+                                class="form-control" hidden
+                                accept=".mp3,.wav,.flac" id="songFile"
+                                style="display:none;">
+                            <button class="btn" type="button">Choose File</button>
+                        </div>
+                        <div class="recent-file" id="updatedSongFile"></div>
+                    </div>
+                </div>
+            </div>
+            <div style="display:flex;justify-content:space-between">
+                <button @click="closeModal"
+                    class="w-full px-5 py-3 text-sm font-medium leading-5
+                    text-white text-gray-700 transition-colors duration-150
+                    border border-gray-300 rounded-lg dark:text-gray-400 sm:px-4
+                    sm:py-2 sm:w-auto active:bg-transparent
+                    hover:border-gray-500 focus:border-gray-500
+                    active:text-gray-500 focus:outline-none
+                    focus:shadow-outline-gray">
+                    Cancel
+                </button>
+                <button @click="closeModal"
+                    id="saveSongButton"
+                    class="w-full px-5 py-3 text-sm font-medium leading-5
+                    text-white transition-colors duration-150 bg-purple-600
+                    border border-transparent rounded-lg sm:w-auto sm:px-4
+                    sm:py-2 active:bg-purple-600 hover:bg-purple-700
+                    focus:outline-none focus:shadow-outline-purple">
+                    Save Track
+                </button>
+            </div>
         </div>
-      </div>
     </div>
-    <div style="display:flex;justify-content:space-between">
-      <button @click="closeModal"
-        class="w-full px-5 py-3 text-sm font-medium leading-5 text-white text-gray-700 transition-colors duration-150 border border-gray-300 rounded-lg dark:text-gray-400 sm:px-4 sm:py-2 sm:w-auto active:bg-transparent hover:border-gray-500 focus:border-gray-500 active:text-gray-500 focus:outline-none focus:shadow-outline-gray">
-        Cancel
-      </button>
-      <button @click="closeModal"
-        id="saveSongButton"
-        class="w-full px-5 py-3 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg sm:w-auto sm:px-4 sm:py-2 active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
-        Save Track
-      </button>
-    </div>
-  </div>
-</div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-<script src="https://www.dukelearntoprogram.com/course1/common/js/image/SimpleImage.js"></script>
-<script>
+    <script
+        src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script
+        src="https://www.dukelearntoprogram.com/course1/common/js/image/SimpleImage.js"></script>
+    <script>
   var songn = 2;
   var id = 1;
   var isAlbumSaved = false
@@ -1463,18 +1645,6 @@ function updateSongData(idx){
                     ${songsArray[i].filePath.name}
                   </td>`
       }
-    document.getElementById("clickToStep1").onclick =()=>{
-      navigateToFormStep(1)
-    }
-     document.getElementById("clickToStep2").onclick =()=>{
-      navigateToFormStep(2)
-    } 
-    document.getElementById("clickToStep3").onclick =()=>{
-      navigateToFormStep(3)
-    } 
-    document.getElementById("clickToStep4").onclick =()=>{
-      navigateToFormStep(4)
-    }
 
   }
 
@@ -1546,10 +1716,10 @@ let labelArray = []
     }).catch((error) => {
       console.error(error)
     });
-   /*document.getElementById("label_name").innerHTML = `<option value="">--Select Label--</option>`
+   document.getElementById("label_name").innerHTML = `<option value="">--Select Label--</option>`
    for(let i = 0;i<labelArray.length;i++){
       document.getElementById("select-label").innerHTML += `<option value="${labelArray[i].title}">${labelArray[i].title}</option>`
-   }*/
+   }
 }
 var getAllStores=async()=>{
   await fetch('/albumStores').then(response => {
