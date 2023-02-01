@@ -28,7 +28,7 @@ app.use(express.static('public'));
 const ndaStorage = multer.diskStorage({
   destination: (req, file, cb) => {
     // Choose the destination based on data in the request
-    const destination =`./uploads/${req.session.user.email}/nda/Label-${req.body.title}/`;
+    const destination =`.assets/uploads/${req.session.user.email}/nda/Label-${req.body.title}/`;
     if (!fs.existsSync(destination)) {
       fs.mkdirSync(destination, { recursive: true, mode: 0o777})
     }
@@ -45,7 +45,7 @@ const albumImageStorage = multer.diskStorage({
   
   destination: (req, file, cb) => {
     // Choose the destination based on data in the request
-    const destination = `./uploads/${req.session.user.email}/albums/${req.body.title}/`;
+    const destination = `.assets/uploads/${req.session.user.email}/albums/${req.body.title}/`;
     if (!fs.existsSync(destination)) {
       fs.mkdirSync(destination, { recursive: true, mode: 0o777 });
     }
@@ -59,7 +59,7 @@ const albumImageStorage = multer.diskStorage({
 const songFileStorage = multer.diskStorage({
   destination: (req, file, cb) => {
     // Choose the destination based on data in the request
-    const destination =  `./uploads/${req.session.user.email}/albums/${req.body.title}/Songs/`
+    const destination =  `.assets/uploads/${req.session.user.email}/albums/${req.body.title}/Songs/`
     if (!fs.existsSync(destination)) {
       fs.mkdirSync(destination, { recursive: true, mode: 0o777 });
     }
@@ -74,7 +74,7 @@ const artistDocumentStorage = multer.diskStorage({
   
   destination: (req, file, cb) => {
     // Choose the destination based on data in the request
-    const destination =   req.body.filePath = `./uploads/artist/${req.session.user.email}/${req.body.id}/`;
+    const destination =   req.body.filePath = `.assets/uploads/artist/${req.session.user.email}/${req.body.id}/`;
     if (!fs.existsSync(destination)) {
       fs.mkdirSync(destination, { recursive: true, mode: 0o777 });
     }
