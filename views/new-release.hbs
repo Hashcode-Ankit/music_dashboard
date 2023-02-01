@@ -322,9 +322,6 @@
       display: none;
       /*to hide popup initially*/
     }
-
-
-
     main .item {
       /* float:left; */
       display: table-cell;
@@ -446,7 +443,7 @@
         <ul class="form-stepper form-stepper-horizontal text-center mx-auto pl-0">
           <!-- Step 1 -->
           <li class="form-stepper-active text-center form-stepper-list " step="1">
-            <a class="mx-2 pointer" onclick="navigateToFormStep(1)">
+            <a  id ="clickToStep1"class="mx-2 pointer" >
               <span class="form-stepper-circle">
                 <span>1</span>
               </span>
@@ -455,7 +452,7 @@
           </li>
           <!-- Step 2 -->
           <li class="form-stepper-unfinished text-center form-stepper-list" step="2">
-            <a class="mx-2 pointer" onclick="navigateToFormStep(2)">
+            <a id ="clickToStep2" class="mx-2 pointer" >
               <span class="form-stepper-circle text-muted">
                 <span>2</span>
               </span>
@@ -464,7 +461,7 @@
           </li>
           <!-- Step 3 -->
           <li class="form-stepper-unfinished text-center form-stepper-list" step="3">
-            <a class="mx-2 pointer" onclick="navigateToFormStep(3)">
+            <a id ="clickToStep3" class="mx-2 pointer" >
               <span class="form-stepper-circle text-muted">
                 <span>3</span>
               </span>
@@ -473,7 +470,7 @@
           </li>
           <!-- Step 4 -->
           <li class="form-stepper-unfinished text-center form-stepper-list" step="4">
-            <a class="mx-2 pointer" onclick="navigateToFormStep(4)">
+            <a id ="clickToStep4" class="mx-2 pointer">
               <span class="form-stepper-circle text-muted">
                 <span>4</span>
               </span>
@@ -1265,8 +1262,9 @@ function updateSongData(idx){
           return
       }
       document.getElementById("next-3").disabled = false;
+      preview()
+
     }
-    preview()
     document.querySelectorAll(".form-step").forEach((formStepElement) => {
       formStepElement.classList.add("d-none");
     });
@@ -1302,8 +1300,8 @@ function updateSongData(idx){
 
   //script for image Uploader
   function upload() {
-    var imgcanvas = document.getElementById("canv1");
-    var fileinput = document.getElementById("albumImage");
+    let imgcanvas = document.getElementById("canv1");
+    let fileinput = document.getElementById("albumImage");
     console.log("size :",fileinput.files[0].size)
     if(fileinput.files[0].size > 100*1024){
       document.getElementById("imgError").innerHTML =  `image is too large`
@@ -1312,14 +1310,14 @@ function updateSongData(idx){
       document.getElementById("imgError").innerHTML =``
       sizeLimitExceed = false
     }
-    var image = new SimpleImage(fileinput);
+    let image = new SimpleImage(fileinput);
     image.drawTo(imgcanvas);
 
   }
   function priviewimg() {
-    var imgcanvas2 = document.getElementById("canv2");
-    var fileinput = document.getElementById("albumImage")
-    var image = new SimpleImage(fileinput);
+    let imgcanvas2 = document.getElementById("canv2");
+    let fileinput = document.getElementById("albumImage")
+    let image = new SimpleImage(fileinput);
     image.drawTo(imgcanvas2);
   }
 
@@ -1435,6 +1433,18 @@ function updateSongData(idx){
                     ${songsArray[i].filePath.name}
                   </td>`
       }
+    document.getElementById("clickToStep1").onclick =()=>{
+      navigateToFormStep(1)
+    }
+     document.getElementById("clickToStep2").onclick =()=>{
+      navigateToFormStep(2)
+    } 
+    document.getElementById("clickToStep3").onclick =()=>{
+      navigateToFormStep(3)
+    } 
+    document.getElementById("clickToStep4").onclick =()=>{
+      navigateToFormStep(4)
+    }
 
   }
 
