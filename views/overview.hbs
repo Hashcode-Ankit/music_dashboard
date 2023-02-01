@@ -350,63 +350,9 @@
               </th>         
             </tr>
           </thead>
-          <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-            <tr class="text-gray-700 dark:text-gray-400">
-              <td class="px-4 py-3">
-                <div class="flex items-center text-sm">
-                  <!-- Avatar with inset shadow -->
-                  <p style="font-size: 20px;margin-inline:20px">&#10061;</p>
-                  <div>
-
-                    <p class="text-xs text-gray-600 dark:text-gray-400">
-                     Created on 6/10/2020
-                    </p>
-                  </div>
-                </div>
-              </td>
-            </tr>
-            <tr class="text-gray-700 dark:text-gray-400">
-              <td class="px-4 py-3">
-                <div class="flex items-center text-sm">
-                  <!-- Avatar with inset shadow -->
-                  <p style="font-size: 20px;margin-inline:20px">&#10061;</p>
-                  <div>
-
-                    <p class="text-xs text-gray-600 dark:text-gray-400">
-                     Created on 6/10/2020
-                    </p>
-                  </div>
-                </div>
-              </td>
-            </tr>
-            <tr class="text-gray-700 dark:text-gray-400">
-              <td class="px-4 py-3">
-                <div class="flex items-center text-sm">
-                  <!-- Avatar with inset shadow -->
-                  <p style="font-size: 20px;margin-inline:20px">&#10061;</p>
-                  <div>
-
-                    <p class="text-xs text-gray-600 dark:text-gray-400">
-                     Created on 6/10/2020
-                    </p>
-                  </div>
-                </div>
-              </td>
-            </tr>
-            <tr class="text-gray-700 dark:text-gray-400">
-              <td class="px-4 py-3">
-                <div class="flex items-center text-sm">
-                  <!-- Avatar with inset shadow -->
-                  <p style="font-size: 20px;margin-inline:20px">&#10061;</p>
-                  <div>
-
-                    <p class="text-xs text-gray-600 dark:text-gray-400">
-                     Created on 6/10/2020
-                    </p>
-                  </div>
-                </div>
-              </td>
-            </tr>
+          <tbody id ="draftDataFill" class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
+            
+            
           </tbody>
         </table>
       </div>
@@ -436,3 +382,54 @@
 </div>
 </div>
 </main>
+
+
+<script>
+  let DraftArray = []
+  function cleanNullValues() {
+    for (let i = 0; i < DraftArray.length; i++) {
+      if (DraftArray[i].title == null) DraftArray[i].title = ""
+      if (DraftArray[i].labelName == null) DraftArray[i].labelName = ""
+      if (DraftArray[i].originalReleaseDate == null) DraftArray[i].originalReleaseDate = ""
+    }
+  }
+  function updateTableData() {
+    cleanNullValues()
+    DraftArray.sort(function (a, b) {
+      return a.id - b.id;
+    });
+    document.getElementById("draftDataFill").innerHTML = ``
+    for (let i = 0; i < DraftArray.length; i++) {
+      document.getElementById("draftDataFill").innerHTML += `
+      <tr class="text-gray-700 dark:text-gray-400">
+              <td class="px-4 py-3">
+                <div class="flex items-center text-sm">
+                  <!-- Avatar with inset shadow -->
+                  <p style="font-size: 20px;margin-inline:20px">&#10061;</p>
+                  <div>
+                    <p class="text-xs text-gray-600 dark:text-gray-400">
+                     ${DraftArray[i].title} Last Updated on ${DraftArray[i].updatedAt}
+                    </p>
+                  </div>
+                </div>
+              </td>
+            </tr>`
+    }
+  }
+  const getAllDrafts = async () => {
+    await fetch('/album-drafts').then(response => {
+      if (response.ok) {
+        return response.json()
+      }
+    }).then(async (data) => {
+      if (data.album) {
+        DraftArray = data.album;
+        updateTableData()
+        console.log("response data", DraftArray)
+      }
+    }).catch((error) => {
+      console.error(error)
+    });
+  }
+getAllDrafts()
+</script>
