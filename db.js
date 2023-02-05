@@ -49,6 +49,9 @@ var Album = sq.define('Album', {
     approved: {
         type: Sequelize.BOOLEAN,
     },
+    submitted: {
+        type: Sequelize.BOOLEAN,
+    },
     imageUrl: {
         type: Sequelize.STRING,
     },
@@ -89,7 +92,6 @@ var Album = sq.define('Album', {
     },
     producerCatalogueNumber: {
         type: Sequelize.STRING,
-        required: true,
     },
     songs: {
         type: Sequelize.ARRAY(Sequelize.INTEGER),
@@ -241,6 +243,16 @@ function getCompletedAlbumsForUser(userID) {
         where: {
             userID: userID,
             draft: false,
+            approved: true,
+        }
+    })
+}
+function getSubmittedAlbumsForUser(userID) {
+    return Album.findAll({
+        where: {
+            userID: userID,
+            submitted: true,
+            approved: false,
         }
     })
 }
@@ -290,14 +302,21 @@ function updateAlbum(albumId, updateInfo) {
     })
 }
 function migrateToCompleted(album) {
-    return Album.update({ draft: false }, {
+    return Album.update({ draft: false, submitted: true }, {
         where: {
             id: album.albumID,
             userID: album.userID
         }
     })
 }
-
+function migrateToDraft(album) {
+    return Album.update({ draft: true }, {
+        where: {
+            id: album.albumID,
+            userID: album.userID
+        }
+    })
+}
 //delete an Album
 function deleteAlbum(albumId, userID) {
     return Album.destroy({
@@ -379,7 +398,23 @@ function getArtist(artistId) {
 
 
 //create an artist
-function addArtist(artistData) {
+async function addArtist(artistData) {
+    let found = false
+    await Artist.findAll({
+        where: {
+            userID: artistData.userID,
+            name: artistData.name
+        }
+    }).then(data => {
+        if (data.length > 0) {
+            found = true
+        }
+    })
+    if (found) {
+        return new Promise((resolve, reject) => {
+            resolve("already present")
+        })
+    }
     return Artist.create(artistData)
 }
 
@@ -390,7 +425,14 @@ function updateArtist(artistId, artist) {
         where: { id: artistId }
     })
 }
-
+function deleteSong(userID, songID) {
+    return Song.destroy({
+        where: {
+            id: songID,
+            userID: userID
+        }
+    })
+}
 //delete an artist
 function deleteArtist(artistId) {
     return Artist.destroy({
@@ -400,5 +442,28 @@ function deleteArtist(artistId) {
     })
 }
 
-
-module.exports = { connectDb, initialize, getAllSongForUser, getAllSongsForAlbum, migrateToCompleted, updateSong, updateStoresArrayInAlbum, addAlbum, getDraftAlbumsForUser, getCompletedAlbumsForUser, addSong, updateSongArrayOfAlbum, getAllAlbums, deleteAlbum, updateAlbum, getAlbum, addLabel, getAllLabelsForUserID, getLabel, updateLabel, deleteLabel, getArtist, addArtist, updateArtist, deleteArtist, getArtistForUser }
+// extraordinary functions 
+function getTotalAlbums(userID) {
+    return Album.count({
+        where: {
+            userID: userID
+        }
+    });
+}
+function getTotalProcessedAlbums(userID) {
+    return Album.count({
+        where: {
+            userID: userID,
+            submitted: true,
+        }
+    });
+}
+function getFinalReleasedAlbums(userID) {
+    return Album.count({
+        where: {
+            userID: userID,
+            approved: true,
+        }
+    });
+}
+module.exports = { connectDb, getTotalAlbums, getTotalProcessedAlbums, getFinalReleasedAlbums, initialize, deleteSong, getSubmittedAlbumsForUser, getAllSongForUser, getAllSongsForAlbum, migrateToCompleted, updateSong, updateStoresArrayInAlbum, addAlbum, getDraftAlbumsForUser, getCompletedAlbumsForUser, addSong, updateSongArrayOfAlbum, getAllAlbums, deleteAlbum, updateAlbum, getAlbum, addLabel, getAllLabelsForUserID, getLabel, updateLabel, deleteLabel, getArtist, addArtist, updateArtist, deleteArtist, getArtistForUser }

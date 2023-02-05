@@ -502,7 +502,8 @@
                                    >
                                 <label>IFSC Code </label><input autocomplete="on" placeholder="ifsc code" type="" name="ifsc"
                                    >
-                               
+                                <label>Swift Code</label>
+                                <input autocomplete="on" placeholder="swift" type=""
                             </div>
                         </div>
 
@@ -518,5 +519,26 @@
 </main>
 
 <script>
-
+ function getProfileDetails() {
+    const profileImageObject = document.getElementById("albumImage").files[0]
+    let albumValues = {
+      title: $('input[name="title"]').val(),
+      subTitle: $('input[name="version"]').val(),
+      albumImage: profileImageObject,
+      primaryArtist: $('input[name="primary_artist"]').val(),
+      actor: $('input[name="actor"]').val(),
+      genre: $('select[name="genre"]').children("option:selected").val(),
+      subGenre: $('select[name="subgenre"]').children("option:selected").val(),
+      labelID: $('select[name="lable_name"]').children("option:selected").val(),
+      format: $('select[name="format"]').children("option:selected").val(),
+      originalReleaseDate: $('input[name="physical_release_date"]').val(),
+      productionYear: $('select[name="production_year"]').children("option:selected").val(),
+      producerNumber : $('input[name="producer_catalogue_number"]').val(),
+      publisherLine :$('input[name="line1"]').val(),
+      copyrightLine : $('input[name="line2"]').val(),
+    }
+    albumDataSaved = albumValues
+    return albumValues
+  }
+///update-user
 </script>

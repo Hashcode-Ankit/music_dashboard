@@ -69,11 +69,17 @@ function getDraftAlbumsForUser(userID) {
     return db.getDraftAlbumsForUser(userID)
 }
 function getCompletedAlbumsForUser(userID) {
-
     return db.getCompletedAlbumsForUser(userID)
 }
 function getNews() {
 
+}
+
+function getSubmittedAlbumsForUser(userID) {
+    return db.getSubmittedAlbumsForUser(userID)
+}
+function deleteSong(userID, songID) {
+    return db.deleteSong(userID, songID)
 }
 function getStores() {
     return new Promise((resolve, reject) => {
@@ -137,9 +143,14 @@ function saveAlbum(albumData) {
         "format": albumData.format,
         "labelName": albumData.labelID,
         "originalReleaseDate": albumData.originalReleaseDate,
+        "productionYear": albumData.productionYear,
+        "publisherCopyright": albumData.publisherLine,
+        "copyright": albumData.copyrightLine,
+        "producerCatalogueNumber": albumData.producerNumber,
         "userID": albumData.userID,
         "approved": false,
-        "draft": true
+        "draft": true,
+        "submitted": false
     }
 
     return new Promise((resolve, reject) => {
@@ -149,6 +160,7 @@ function saveAlbum(albumData) {
                 "title": savedAlbumData.title
             }
             saveArtist(albumData.primaryArtist, albumData.userID).then((savedAlbumData) => {
+                console.log("all done till here")
                 resolve(response)
             }).catch((err) => {
                 reject(err)
@@ -159,6 +171,9 @@ function saveAlbum(albumData) {
     })
 }
 
+function getAlbumWithId(id) {
+    return db.getAlbum(id)
+}
 function saveArtist(artistName, userID) {
     artist = {
         "name": artistName,
@@ -237,7 +252,8 @@ function updateAlbum(albumData) {
         "originalReleaseDate": albumData.originalReleaseDate,
         "userID": albumData.userID,
         "approved": false,
-        "draft": true
+        "draft": true,
+        "submitted": false
     }
     return new Promise((resolve, reject) => {
         db.updateAlbum(albumData.albumId, album).then((savedAlbumData) => {
@@ -245,7 +261,7 @@ function updateAlbum(albumData) {
                 "id": savedAlbumData.id,
                 "title": savedAlbumData.title
             }
-            saveArtist(albumData.primaryArtist, albumData.userID).then((savedAlbumData) => {
+            saveArtist(albumData.primaryArtist, albumData.userID).then(() => {
                 resolve(response)
             }).catch((err) => {
                 reject(err)
@@ -331,4 +347,31 @@ function getGenre() {
 function login(userData) {
     return mongo.loginUser(userData)
 }
-module.exports = { getGenre, connectWithDB, getAllSongsForUser, getSongsForAlbum, initializeDatabase, updateLabel, deleteAlbum, updateToCompletedAlbum, updateStoresArrayInAlbum, getStores, updateSongData, updateSongsArrayInAlbum, getCompletedAlbumsForUser, saveSongData, updateArtist, deleteArtist, getAllAlbumsForUser, getAllSongsForAlbum, getDraftAlbumsForUser, getNonApprovedAlbums, getPrimaryArtistForUserID, registerUser, deleteLabel, albumApproved, removeDraft, login, addLabelForUserWithID, saveArtist, getAllLabelsForUserIDForUser, saveAlbum, connectMongoDB, getAllArtistsWithUserID, addSongForUser, updateAlbum }
+function updateUserDetails(userID, userData) {
+    return mongo.updateUser(userID, userData)
+}
+async function getUserData(userID) {
+    let User = {}
+    await db.getTotalProcessedAlbums(userID).then((count) => {
+        User.processed = count
+    }).catch((err) => {
+        console.log(err)
+        User.processed = 0
+    })
+    await db.getFinalReleasedAlbums(userID).then((count) => {
+        User.final = count
+    }).catch((err) => {
+        console.log(err)
+        User.final = 0
+    })
+    await db.getTotalAlbums(userID).then((count) => {
+        User.total = count
+    }).catch((err) => {
+        console.log(err)
+        User.total = 0
+    })
+    return new Promise((resolve, reject) => {
+        resolve(User)
+    })
+}
+module.exports = { getGenre, updateUserDetails, connectWithDB, deleteSong, getUserData, getSubmittedAlbumsForUser, getAlbumWithId, getAllSongsForUser, getSongsForAlbum, initializeDatabase, updateLabel, deleteAlbum, updateToCompletedAlbum, updateStoresArrayInAlbum, getStores, updateSongData, updateSongsArrayInAlbum, getCompletedAlbumsForUser, saveSongData, updateArtist, deleteArtist, getAllAlbumsForUser, getAllSongsForAlbum, getDraftAlbumsForUser, getNonApprovedAlbums, getPrimaryArtistForUserID, registerUser, deleteLabel, albumApproved, removeDraft, login, addLabelForUserWithID, saveArtist, getAllLabelsForUserIDForUser, saveAlbum, connectMongoDB, getAllArtistsWithUserID, addSongForUser, updateAlbum }

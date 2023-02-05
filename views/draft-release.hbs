@@ -517,11 +517,11 @@
                         20px;text-align:center;margin-top:10px;margin-bottom:30px;">
                         &#127911; Release
                     </h4>
-                    <div
+                    {{!-- <div
                         style="display:none;justify-content:center;margin-bottom:10px;vertical-align:center;"
                         id="load1">
                         <b>loading Data...</b>
-                    </div>
+                    </div> --}}
                     <!-- Step 1 input fields -->
                     <h1 id="errorShow"></h1>
                     <div class="mt-3">
@@ -575,9 +575,6 @@
                                         </label>
                                         <select required name="genre"
                                             id="genre">
-                                            <option value="">--Select Genre--</option>
-                                            <option value="dog">Dog</option>
-                                            <option value="cat">Cat</option>
                                         </select>
                                     </div>
                                     <div class="selectionInput">
@@ -586,9 +583,6 @@
                                         </label>
                                         <select required name="subgenre"
                                             id="subgenre">
-                                            <option value="">--Select SubGenre--</option>
-                                            <option value="dog">Dog</option>
-                                            <option value="cat">Cat</option>
                                         </select>
                                     </div>
                                     <div class="selectionInput">
@@ -596,10 +590,6 @@
                                         </label>
                                         <select name="lable_name"
                                             id="lable_name">
-                                            <option value="">--Select Lable
-                                                Name--</option>
-                                            <option value="dog">Dog</option>
-                                            <option value="cat">Cat</option>
                                         </select>
                                     </div>
                                     <div class="selectionInput">
@@ -607,9 +597,9 @@
                                             style="margin-right: 35px;">Format
                                         </label>
                                         <select name="format" id="format">
-                                            <option value="">--Single--</option>
-                                            <option value="dog">Dog</option>
-                                            <option value="cat">Cat</option>
+                                           <option value="">--Choose Format--</option>
+                                            <option value="dog">Single</option>
+                                            <option value="cat">Album</option>
                                         </select>
                                     </div>
                                     <div class="selectionInput">
@@ -617,9 +607,13 @@
                                         </label>
                                         <select name="production_year"
                                             id="production_year">
-                                            <option value="">--2022--</option>
-                                            <option value="dog">Dog</option>
-                                            <option value="cat">Cat</option>
+                                           <option value="">--Year--</option>
+                                            <option value="2023">2023</option>
+                                            <option value="2022">2022</option>
+                                            <option value="2019">2019</option>
+                                            <option value="2019">2019</option>
+                                            <option value="2017">2017</option>
+                                            <option value="2016">2016</option>
                                         </select>
                                     </div>
                                     <label>Actor </label><input
@@ -639,11 +633,11 @@
                                     </label><input id="datepicker"
                                         type="date" name="physical_release_date"
                                         oninput="this.className= ''">
-                                    <label>Line1 </label><input
+                                    <label>Line1&#8471; </label><input
                                         autocomplete="on" placeholder="Line"
                                         type="" name="line1" id="line1"
                                         oninput="this.className= ''">
-                                    <label>Line2 </label><input
+                                    <label>Line2&#169; </label><input
                                         autocomplete="on" placeholder="Line"
                                         type="" name="line2" id="line2"
                                         oninput="this.className= ''">
@@ -1107,6 +1101,10 @@
   let prevBtnClicked = false;
   let nextBtnClicked = false;
   let sizeLimitExceed = false
+  let genre = []
+  let labelArray = []
+
+
   function clickedPrev(){
     console.log("prev clicked")
     prevBtnClicked = true
@@ -1153,26 +1151,137 @@
     <h4> File Added : ${fileName}</h4>`;
     dropArea2.innerHTML = filedata;
   });
-function updateAlbumDataBeforeEditing(draft){
-    console.log(draft);
-    saveAlbum = {
+ const getAllGenre=async()=>{
+     await fetch('/genre').then(response => {
+      if (response.ok) {
+        return response.json()
+      }
+    }).then((data) => {
+      if (data.genre) {
+        genre = data.genre.genres;
+        console.log("genre data", genre)
+      }
+    }).catch((error) => {
+      console.error(error)
+    });
+   document.getElementById("genre").innerHTML = `<option value="">--Select Genre--</option>`
+   document.getElementById("subgenre").innerHTML = `<option value="">--Select SubGenre--</option>`
+   for(let i = 0;i<genre.length;i++){
+      document.getElementById("genre").innerHTML += `<option value="${genre[i].name}">${genre[i].name}</option>`
+   }
+}
+function updateSubgenre(){
+   document.getElementById("subgenre").innerHTML = `<option value="">--Select SubGenre--</option>`
+   for(let i = 0;i<genre.length;i++){
+     if(genre[i].name == $('select[name="genre"]').children("option:selected").val()){
+      document.getElementById("subgenre").innerHTML = `<option value="">--Select SubGenre--</option>`
+      for(let j = 0;j<genre[i].subgenres.length;j++)
+      document.getElementById("subgenre").innerHTML += `<option value="${genre[i].subgenres[j]}">${genre[i].subgenres[j]}</option>`
+      break
+     }
+   }
+}
+document.getElementById("genre").addEventListener('change',updateSubgenre())
+
+ const getAllLabels=async()=>{
+     await fetch('/label-manage/labels').then(response => {
+      if (response.ok) {
+        return response.json()
+      }
+    }).then((data) => {
+      if (data.labelData) {
+        labelArray = data.labelData;
+        console.log("response data", labelArray)
+      }
+    }).catch((error) => {
+      console.error(error)
+    });
+    document.getElementById("lable_name").innerHTML =`<option value="select_label">--Select Label--</option>`
+   for(let i = 0;i<labelArray.length;i++){
+      document.getElementById("lable_name").innerHTML += `<option value="${labelArray[i].title}">${labelArray[i].title}</option>`
+   }
+}
+async function updateLabel(labelName){
+    await getAllLabels()
+    for(let i=0;i<labelArray.length;i++){
+        if(labelArray[i].title == labelName){
+            document.getElementById("lable_name").options[i+1].selected = true;
+            break
+        }
+    }
+}
+async function updateGenreAndSubgenre(genrename,subGenreName){
+    await getAllGenre()
+    for(let i=0;i<genre.length;i++){
+        if(genre[i].name == genrename){
+            document.getElementById("genre").options[i+1].selected = true;
+            updateSubgenre()
+            for(let j =0;j<genre[i].subgenres.length;j++){
+                if(genre[i].subgenres[j] == subGenreName){
+                     document.getElementById("subgenre").options[j+1].selected = true;
+                     break
+                }
+            }
+            break
+        }
+    }
+}
+const getSongsWithAlbumID =async(albumID)=>{
+  await fetch(`/album-song/${albumID}`).then(response => {
+      if (response.ok) {
+        return response.json()
+      }
+    }).then(async (data) => {
+      if (data.songs) {
+        songsArray = data.songs;
+        updateTable(true)
+        console.log("response data", songsArray)
+      }
+    }).catch((error) => {
+      console.error(error)
+    });
+}
+function updateFormatAndYear(format,year){
+    if(format == "Single"){
+       document.getElementById("format").options[1].selected = true;
+    }else{
+    document.getElementById("format").options[2].selected = true;
+    }
+   productionYearsArray =["2023","2022","2021","2020","2019","2018","2017","2016"]
+   for(let i=0;i<productionYearsArray.length;i++){
+    if(productionYearsArray[i]==year){
+    document.getElementById("production_year").options[i+1].selected = true;
+    }
+   }
+}
+async function updateAlbumDataBeforeEditing(draft){
+    console.log("get ",draft);
+    savedAlbum = {
         id : draft.id,
         title: draft.title 
     }
+    isAlbumSaved = true
+    albumDataSaved = draft
+    isSongsDataSaved = true
+    console.log("savedAlbum",savedAlbum)
     document.getElementById("title").value = draft.title;
     document.getElementById("version").value = draft.subTitle;
     document.getElementById("primary_artist").value = draft.primaryArtist;
     document.getElementById("actor").value = draft.actor;
-    document.getElementById("label_name").value = draft.labelID;
+    updateLabel(draft.labelName)
     document.getElementById("producer_catalogue_number").value = draft.producerCatalogueNumber;
-    document.getElementById("genre").value = draft.genre;
-    document.getElementById("subgenre").value = draft.subgenre;
-    document.getElementById("format").value = draft.format;
-    document.getElementById("production_year").value = draft.productionYear;
+    updateGenreAndSubgenre(draft.genre,draft.subGenre)
+    updateFormatAndYear(draft.format,draft.productionYear)
+   
+    document.getElementById("line1").value = draft.publisherCopyright;
+    document.getElementById("line2").value = draft.copyright;
+
     document.getElementById("datepicker").value = draft.originalReleaseDate;
     showDraftImage(draft.imageUrl);
-    document.getElementById('load1').style.display='none'; 
+    getSongsWithAlbumID(savedAlbum.id)
+    //document.getElementById('load1').style.display='none'; 
 }
+
 function editSongDataInFormToUpdate(idx){
   document.getElementById('songWriter').value = songsArray[idx].writer
   document.getElementById('songComposer').value = songsArray[idx].composer
@@ -1184,10 +1293,13 @@ function editSongDataInFormToUpdate(idx){
   document.getElementById('songLyrics').value = songsArray[idx].lyrics
   document.getElementById('songTiktok').value = songsArray[idx].tiktok
   document.getElementById('updatedSongFile').innerHTML = `Choosen Previously : ${songsArray[idx].filePath.name}`
+  if(songsArray[idx].filePath.name === undefined){
+  document.getElementById('updatedSongFile').innerHTML = `Choosen Previously : ${songsArray[idx].songName}`
+  }
   document.getElementById('saveSongButton').onclick = (function(index) {
         return function() {
             updateSongData(index);
-            updateTable()
+            updateTable(false)
         }
     })(idx);
 }
@@ -1210,7 +1322,7 @@ function updateSongData(idx){
   // <-------------Function for Album Only------>
 const getAllDrafts=async(draftId)=>{
     //document.getElementById('load1').style.display='flex'; 
-    await fetch('/album-drafts').then(response => {
+    await fetch(`/album-manage/${draftId}`).then(response => {
       if (response.ok) {
         return response.json()
       }
@@ -1223,7 +1335,11 @@ const getAllDrafts=async(draftId)=>{
       console.error(error)
     });
   }
-  getAllDrafts(savedAlbum.id);
+  if("{{draftId}}"){
+  getAllDrafts("{{ draftId }}");
+  }else{
+    console.log("Error: No Draft found")
+  }
 
   function getAndVerifyAlbumValues() {
     const albumImageObject = document.getElementById("albumImage").files[0]
@@ -1239,6 +1355,12 @@ const getAllDrafts=async(draftId)=>{
       format: $('select[name="format"]').children("option:selected").val(),
       originalReleaseDate: $('input[name="physical_release_date"]').val(),
       productionYear: $('select[name="production_year"]').children("option:selected").val(),
+      producerCatalogueNumber : $('input[name="producer_catalogue_number"]').val(),
+      publisherCopyright :$('input[name="line1"]').val(),
+      copyright : $('input[name="line2"]').val(),
+      producerNumber : $('input[name="producer_catalogue_number"]').val(),
+      publisherLine :$('input[name="line1"]').val(),
+      copyrightLine : $('input[name="line2"]').val(),
     }
     albumDataSaved = albumValues
     return albumValues
@@ -1311,7 +1433,7 @@ const getAllDrafts=async(draftId)=>{
     }
     console.log("saved Song Data :", song)
     songsArray.push(song);
-    updateTable()
+    updateTable(false)
   }
   const updateSongInDB = async(idx)=>{
     const formData = new FormData();
@@ -1441,7 +1563,6 @@ const getAllDrafts=async(draftId)=>{
       loader();
       document.getElementById("next-1").disabled = true;
       albumData = getAndVerifyAlbumValues()
-      console.log(albumData)
       let missingData = false
       if(sizeLimitExceed){
         loader();
@@ -1450,7 +1571,7 @@ const getAllDrafts=async(draftId)=>{
       }
       let text = `<p class ="err">Missing Fields :`
       for (const key in albumData) {
-        if (albumData[key] == "") {
+        if (albumData[key] == ""  ) {
           text = text + `${key}, `
           missingData = true
         }
@@ -1469,7 +1590,7 @@ const getAllDrafts=async(draftId)=>{
       else{
          updateAlbumData(albumData,savedAlbum)
       }
-      if (Object.keys(savedAlbum) === 0) {
+      if (Object.keys(savedAlbum).length === 0) {
         console.log("Album Not Saved")
         loader();
         document.getElementById("next-1").disabled = false;
@@ -1484,7 +1605,7 @@ const getAllDrafts=async(draftId)=>{
     }
 
     // checking for second page
-    if (stepNumber == 3 && nextBtnClicked && Object.keys(savedAlbum) != 0 ) {
+    if (stepNumber == 3 && nextBtnClicked && Object.keys(savedAlbum).length != 0 ) {
       nextBtnClicked = false
       loader()
       document.getElementById("next-2").disabled = true;
@@ -1499,7 +1620,7 @@ const getAllDrafts=async(draftId)=>{
       loader();
       document.getElementById("next-2").disabled = false;
     }
-    if(stepNumber == 4 && nextBtnClicked && Object.keys(savedAlbum) != 0 ){
+    if(stepNumber == 4 && nextBtnClicked && Object.keys(savedAlbum).length != 0 ){
       nextBtnClicked = false
       loader();
       document.getElementById("next-3").disabled = true;
@@ -1513,9 +1634,10 @@ const getAllDrafts=async(draftId)=>{
       }
       loader();
       document.getElementById("next-3").disabled = false;
-      preview()
-
     }
+    if(Object.keys(savedAlbum).length!=0){
+    preview()
+    } 
     document.querySelectorAll(".form-step").forEach((formStepElement) => {
       formStepElement.classList.add("d-none");
     });
@@ -1636,12 +1758,12 @@ const getAllDrafts=async(draftId)=>{
                 </div>
                 <div class="selectionInput">
                 <label for="pet-select" style="margin-right: 23px;">SubGenre </label>
-                <input value = ${albumDataSaved.subgenre} disabled name="subgenre" id="pet-select">
+                <input value = ${albumDataSaved.subGenre} disabled name="subgenre" id="pet-select">
                 </input>
                 </div>
                 <div class="selectionInput">
                 <label for="pet-select">Lable Name </label>
-                <input value = ${albumDataSaved.labelID} disabled name="lable_name" id="pet-select">
+                <input value = ${albumDataSaved.labelName} disabled name="lable_name" id="pet-select">
                 </input> 
                 </div>
                 <div class="selectionInput">
@@ -1659,13 +1781,13 @@ const getAllDrafts=async(draftId)=>{
               </div>
               <div class="item ">
                 <label>Producer Catalogue Number </label>
-                <input value = ${albumDataSaved.producer} readonly autocomplete="on" placeholder="Producer Catalogue Number" type="" name="producer_catalogue_number"
+                <input value = ${albumDataSaved.producerCatalogueNumber} readonly autocomplete="on" placeholder="Producer Catalogue Number" type="" name="producer_catalogue_number"
                   oninput="this.className = ''">
                 <label>Phisical/Original release date </label><input value = ${albumDataSaved.originalReleaseDate} readonly id ="datepicker"
                   placeholder="Version/Subtitle" type="date" name="physical_release_date" oninput="this.className = ''">
-                <label>Line1 </label><input value = "${albumDataSaved.copyright}" readonly autocomplete="on" placeholder="Line" type="" name="line1"
+                <label>Line1&#8471; </label><input value = "${albumDataSaved.publisherCopyright}" readonly autocomplete="on" placeholder="Line" type="" name="line1"
                   oninput="this.className = ''">
-                <label>Line2 </label><input value = ${albumDataSaved.copyright2} readonly  autocomplete="on" placeholder="Line" type="" name="line2"
+                <label>Line2&#169; </label><input value = ${albumDataSaved.copyright} readonly  autocomplete="on" placeholder="Line" type="" name="line2"
                   oninput="this.className = ''">
                 <label>UPC/EAN </label><input value = "fill by admin" readonly autocomplete="on" placeholder="UPC/EAN" type="" name="upc"
                   oninput="this.className = ''">
@@ -1674,6 +1796,12 @@ const getAllDrafts=async(draftId)=>{
     priviewimg();
     document.getElementById('previewTableRows').innerHTML =``
     for (let i = 0; i < songsArray.length; i++) {
+      if(songsArray[i].songIDInDB == 0) continue
+          songsArray[i].songName = songsArray[i].filePath.name
+          if(songsArray[i].songName === undefined){
+            let  filename = songsArray[i].filePath.split("/")
+            songsArray[i].songName = filename[filename.length-1]
+          }
           document.getElementById('previewTableRows').innerHTML += `
           <tr id="row${i}" class="text-gray-700 dark:text-gray-400">
                   <td class="px-4 py-3">
@@ -1686,14 +1814,14 @@ const getAllDrafts=async(draftId)=>{
                     ${songsArray[i].language}
                   </td>
                   <td class="px-4 py-3 text-sm">
-                    ${songsArray[i].filePath.name}
+                    ${songsArray[i].songName}
                   </td>`
       }
 
   }
 
   // Updating the table
-  function updateTable() {
+  function updateTable(isSongFetchedThroughAPI) {
     document.getElementById('myTable').innerHTML = `
     <table class="w-full whitespace-no-wrap">
           <thead>
@@ -1713,6 +1841,11 @@ const getAllDrafts=async(draftId)=>{
     `;
     console.log("Here are song Details: ", songsArray)
     for (let i = 0; i < songsArray.length; i++) {
+      songsArray[i].songName = songsArray[i].filePath.name
+      if(songsArray[i].songName === undefined){
+         let  filename = songsArray[i].filePath.split("/")
+         songsArray[i].songName = filename[filename.length-1]
+      }
       document.getElementById('myTableTableRow').innerHTML += `
        <tr id="row${i}" class="text-gray-700 dark:text-gray-400">
               <td class="px-4 py-3">
@@ -1724,8 +1857,8 @@ const getAllDrafts=async(draftId)=>{
               <td class="px-4 py-3 text-sm">
                 ${songsArray[i].language}
               </td>
-              <td class="px-4 py-3 text-sm">
-                ${songsArray[i].filePath.name}
+              <td class="px-4 py-3 text-sm" id="file-${i}" >
+                ${songsArray[i].songName}
               </td>
               <td class="px-4 py-3">
               <div class="ActionDiv flex items-center space-x-4 text-sm">
@@ -1741,30 +1874,32 @@ const getAllDrafts=async(draftId)=>{
                       </path>
                     </svg>
                </button> 
+                <button  onclick="deleteSongFromTable(${i})"
+                    class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                    aria-Artist="Delete">
+                    <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd"
+                        d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+                        clip-rule="evenodd"></path>
+                    </svg>
+                  </button>
                </td>`
-  
     }
   }
-// option selection
-let labelArray = []
- const getAllLabels=async()=>{
-     await fetch('/label-manage/labels').then(response => {
-      if (response.ok) {
-        return response.json()
-      }
-    }).then((data) => {
-      if (data.labelData) {
-        labelArray = data.labelData;
-        console.log("response data", labelArray)
-      }
-    }).catch((error) => {
-      console.error(error)
-    });
-   document.getElementById("label_name").innerHTML = `<option value="">--Select Label--</option>`
-   for(let i = 0;i<labelArray.length;i++){
-      document.getElementById("select-label").innerHTML += `<option value="${labelArray[i].title}">${labelArray[i].title}</option>`
-   }
+
+  const deleteSongFromTable = async(idx)=>{
+    fetch(`/song-manage/${songsArray[idx].id}`, {
+    method: 'DELETE'
+    })
+    .then(response => response.json())
+    .then(data => {
+      songsArray.splice(idx, 1);
+      updateTable(false)
+      console.log("after delete",data);
+    }).catch(error => console.error(error));
 }
+// option selection
+
 var getAllStores=async()=>{
   await fetch('/albumStores').then(response => {
       if (response.ok) {
@@ -1789,7 +1924,7 @@ var getAllStores=async()=>{
   });
 }
 
-getAllLabels()
+
 getAllStores()
 
 // disable three more days in calender

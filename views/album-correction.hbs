@@ -121,7 +121,7 @@
   </style>
   <div class="container px-6 mx-auto grid">
     <h4 class="text-lg font-semibold text-gray-600 dark:text-gray-300 py-2">
-      Drafts
+      Albums For Correction
     </h4>
 
     <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for Draft.." title="Type in a name">
@@ -176,6 +176,7 @@
     });
     document.getElementById("tableOfDrafts").innerHTML = ``
     for (let i = 0; i < DraftArray.length; i++) {
+        if(DraftArray[i].submitted)
       document.getElementById("tableOfDrafts").innerHTML += `
         <tr class="text-gray-700 dark:text-gray-400">
               <td class="px-4 py-3">
@@ -234,15 +235,6 @@
     }).catch((error) => {
       console.error(error)
     });
-  }
-
-
-  function priviewimg() {
-    var imgcanvas2 = document.getElementById("canv2");
-    var fileinput = document.getElementById("imagefile")
-    var image = new SimpleImage(fileinput);
-    image.drawTo(imgcanvas2);
-
   }
 
 const deleteAlbum = async(idx)=>{

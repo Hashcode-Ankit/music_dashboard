@@ -506,7 +506,7 @@ main .loader {
                 </p>
                 <div class="imgNote">
                 <canvas id="canv1"></canvas>
-                <div class ="noteToUser">Note :<br> Image must be less then or <br> equal to 100kb</div>
+                <div class ="noteToUser">Note :<br> Image must be less then or <br> equal to 10mb</div>
                 </div>
                 <p id ="imgError" style="color: red;"></p>
                 <input  required autocomplete="on" style="border:none;width: 260px;" type="file" multiple="false" accept=".jpg,.jpeg"
@@ -533,29 +533,29 @@ main .loader {
                 <select required id="subgenre" name="subgenre" ></select>
                 </div>
                 <div class="selectionInput">
-                <label for="pet-select">Lable Name </label>
+                <label >Lable Name </label>
                 <select name="lable_name" id="select-label">
                   <option value="">--Select Lable Name--</option>
                 </select> 
                 </div>
                 <div class="selectionInput">
                 <label  style="margin-right: 35px;">Format </label>
-                <select name="format" id="pet-select">
+                <select name="format" >
                   <option value="">--Choose Format--</option>
-                  <option value="dog">Single</option>
-                  <option value="cat">Album</option>
+                  <option value="Single">Single</option>
+                  <option value="Album">Album</option>
                 </select> 
                 </div>
                 <div class="selectionInput">
-                <label for="pet-select">Production Year </label>
-                <select name="production_year" id="pet-select">
+                <label >Production Year </label>
+                <select name="production_year">
                   <option value="">--2023--</option>
-                  <option value="dog">2023</option>
-                  <option value="dog">2022</option>
-                  <option value="cat">2019</option>
-                  <option value="cat">2018</option>
-                  <option value="cat">2017</option>
-                  <option value="cat">2016</option>
+                  <option value="2023">2023</option>
+                  <option value="2022">2022</option>
+                  <option value="2019">2019</option>
+                  <option value="2019">2019</option>
+                  <option value="2017">2017</option>
+                  <option value="2016">2016</option>
 
                 </select> 
                 </div>
@@ -568,12 +568,12 @@ main .loader {
                   oninput="this.className = ''">
                 <label>Phisical/Original release date </label><input id ="datepicker"
                   placeholder="Version/Subtitle" type="date" name="physical_release_date" oninput="this.className = ''">
-                <label>Line1 </label><input  autocomplete="on" placeholder="Line" type="" name="line1"
+                <label>Line1&#8471;</label><input  autocomplete="on" placeholder="Line" type="" name="line1"
                   oninput="this.className = ''">
-                <label>Line2 </label><input  autocomplete="on" placeholder="Line" type="" name="line2"
+                <label>Line2&#169; </label><input  autocomplete="on" placeholder="Line" type="" name="line2"
                   oninput="this.className = ''">
                 <label>UPC/EAN </label><input  autocomplete="on" placeholder="UPC/EAN" type="" name="upc"
-                  oninput="this.className = ''">
+                  oninput="this.className = ''" readonly>
                
               </div>
 
@@ -1008,6 +1008,9 @@ function updateSongData(idx){
       format: $('select[name="format"]').children("option:selected").val(),
       originalReleaseDate: $('input[name="physical_release_date"]').val(),
       productionYear: $('select[name="production_year"]').children("option:selected").val(),
+      producerNumber : $('input[name="producer_catalogue_number"]').val(),
+      publisherLine :$('input[name="line1"]').val(),
+      copyrightLine : $('input[name="line2"]').val(),
     }
     albumDataSaved = albumValues
     return albumValues
@@ -1216,7 +1219,7 @@ function updateSongData(idx){
       }
       let text = `<p class ="err">Missing Fields :`
       for (const key in albumData) {
-        if (albumData[key] == "") {
+        if (albumData[key] == "" || albumData[key] == undefined ) {
           text = text + `${key}, `
           missingData = true
         }
@@ -1235,7 +1238,7 @@ function updateSongData(idx){
       else{
          updateAlbumData(albumData,savedAlbum)
       }
-      if (Object.keys(savedAlbum) === 0) {
+      if (Object.keys(savedAlbum).length === 0) {
         console.log("Album Not Saved")
         loader()
         document.getElementById("next-1").disabled = false;
@@ -1250,7 +1253,7 @@ function updateSongData(idx){
     }
 
     // checking for second page
-    if (stepNumber == 3 && nextBtnClicked && Object.keys(savedAlbum) != 0 ) {
+    if (stepNumber == 3 && nextBtnClicked && Object.keys(savedAlbum).length != 0 ) {
       nextBtnClicked = false
       loader()
       document.getElementById("next-2").disabled = true;
@@ -1265,7 +1268,7 @@ function updateSongData(idx){
       loader()
       document.getElementById("next-2").disabled = false;
     }
-    if(stepNumber == 4 && nextBtnClicked && Object.keys(savedAlbum) != 0 ){
+    if(stepNumber == 4 && nextBtnClicked && Object.keys(savedAlbum).length != 0 ){
       nextBtnClicked = false
       loader()
       document.getElementById("next-3").disabled = true;
@@ -1320,7 +1323,7 @@ function updateSongData(idx){
     let imgcanvas = document.getElementById("canv1");
     let fileinput = document.getElementById("albumImage");
     console.log("size :",fileinput.files[0].size)
-    if(fileinput.files[0].size > 100*1024){
+    if(fileinput.files[0].size > 10*1024*1024){
       document.getElementById("imgError").innerHTML =  `image is too large`
       sizeLimitExceed = true
     }else{
@@ -1368,7 +1371,7 @@ function updateSongData(idx){
     }
   }
   function preview() {
-    if(Object.keys(savedAlbum) != 0){
+    if(Object.keys(savedAlbum).length != 0){
     document.getElementById('previewData').innerHTML = ` 
             <div class="container">
               <div class="item">
@@ -1390,28 +1393,28 @@ function updateSongData(idx){
             <div class="container">
               <div class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800 belowLine ">
                 <div class="selectionInput">
-                <label style="margin-right: 42px;" for="pet-select">Genre </label>
-                <input value = ${albumDataSaved.genre} disabled name="genre" id="pet-select">
+                <label style="margin-right: 42px;" >Genre </label>
+                <input value = ${albumDataSaved.genre} disabled name="genre" >
                 </input>
                 </div>
                 <div class="selectionInput">
                 <label  style="margin-right: 23px;">SubGenre </label>
-                <input value = ${albumDataSaved.subgenre} disabled name="subgenre" id="pet-select">
+                <input value = ${albumDataSaved.subGenre} disabled name="subgenre" >
                 </input>
                 </div>
                 <div class="selectionInput">
-                <label for="pet-select">Lable Name </label>
-                <input value = ${albumDataSaved.labelID} disabled name="lable_name" id="pet-select">
+                <label >Lable Name </label>
+                <input value = ${albumDataSaved.labelID} disabled name="lable_name" >
                 </input> 
                 </div>
                 <div class="selectionInput">
                 <label  style="margin-right: 35px;">Format </label>
-                <input value = ${albumDataSaved.format} disabled name="format" id="pet-select" >
+                <input value = ${albumDataSaved.format} disabled name="format" >
                 </input>
                 </div>
                 <div class="selectionInput">
-                <label for="pet-select">Production Year </label>
-                <input value = ${albumDataSaved.productionYear} disabled name="production_year" id="pet-select">
+                <label >Production Year </label>
+                <input value = ${albumDataSaved.productionYear} disabled name="production_year" >
                 </input> 
                 </div>
                  <label>Actor </label><input  value = ${albumDataSaved.actor} readonly autocomplete="on" style="margin-bottom: 29px;" placeholder="Featuring" type="" name="actor"
@@ -1419,13 +1422,13 @@ function updateSongData(idx){
               </div>
               <div class="item ">
                 <label>Producer Catalogue Number </label>
-                <input value = ${albumDataSaved.producer} readonly autocomplete="on" placeholder="Producer Catalogue Number" type="" name="producer_catalogue_number"
+                <input value = ${albumDataSaved.producerNumber} readonly autocomplete="on" placeholder="Producer Catalogue Number" type="" name="producer_catalogue_number"
                   oninput="this.className = ''">
                 <label>Phisical/Original release date </label><input value = ${albumDataSaved.originalReleaseDate} readonly id ="datepicker"
                   placeholder="Version/Subtitle" type="date" name="physical_release_date" oninput="this.className = ''">
-                <label>Line1 </label><input value = "${albumDataSaved.copyright}" readonly autocomplete="on" placeholder="Line" type="" name="line1"
+                <label>Line1&#8471; </label><input value = "${albumDataSaved.publisherLine}" readonly autocomplete="on" placeholder="Line" type="" name="line1"
                   oninput="this.className = ''">
-                <label>Line2 </label><input value = ${albumDataSaved.copyright2} readonly  autocomplete="on" placeholder="Line" type="" name="line2"
+                <label>Line2&#169; </label><input value = ${albumDataSaved.copyrightLine} readonly  autocomplete="on" placeholder="Line" type="" name="line2"
                   oninput="this.className = ''">
                 <label>UPC/EAN </label><input value = "fill by admin" readonly autocomplete="on" placeholder="UPC/EAN" type="" name="upc"
                   oninput="this.className = ''">

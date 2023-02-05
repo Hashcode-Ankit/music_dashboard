@@ -44,12 +44,11 @@
           </svg>
         </div>
       <div>
-          <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-            Total Created Albums
-          </p>
+          <div class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400" style="display: flex;justify-content:space-between">
+            <p>Processe Albums</p>  <p style="font-size: 20px;margin-" id ="processed-album">0</p>
+          </div>
           <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
-            {{data.total_albums}}
-            <a href=""style="color:#7e3af2;margin-left: 18px;font-size: initial;">View info &#8594</a>
+            <a href="/album-submitted" style="color:#7e3af2;margin-left: 18px;font-size: initial;">Check Submitted &#8594</a>
           </p>  
         </div>
     </div>
@@ -63,12 +62,12 @@
           </svg>
         </div>
         <div>
-          <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-            Total Processed Albums
-          </p>
+          <div class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400" style="display: flex;justify-content:space-between">
+             <p>Finalised Albums</p>
+             <p style="font-size: 20px;margin-" id ="final-album">0</p>
+          </div>
           <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
-            {{data.account_balance}}
-             <a href=""style="color:#7e3af2;margin-left: 18px;font-size: initial;">View info &#8594</a>
+             <a href="/completes"style="color:#7e3af2;margin-left: 18px;font-size: initial;">Check Completed &#8594</a>
           </p>
         </div>
       </div>
@@ -82,12 +81,12 @@
           </svg>
         </div>
         <div>
-          <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-           Total Final Release Albums
-          </p>
+          <div class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400" style="display: flex;justify-content:space-between">
+             <p>Total Album</p>
+             <p style="font-size: 20px;margin-" id ="total-album">0</p>
+          </div>
           <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
-            {{data.account_balance}}
-             <a href=""style="color:#7e3af2;margin-left: 18px;font-size: initial;">View info &#8594</a>
+             <a href="/drafts"style="color:#7e3af2;margin-left: 18px;font-size: initial;">Check Drafts &#8594</a>
           </p>
         </div>
       </div>
@@ -118,9 +117,9 @@
                     <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
                   </div>
                   <div>
-                    <p class="font-semibold">Hans Burger</p>
+                    <p class="font-semibold">Music Dashboard</p>
                     <p class="text-xs text-gray-600 dark:text-gray-400">
-                      10x Developer
+                      Ready To Use
                     </p>
                   </div>
                 </div>
@@ -129,88 +128,7 @@
                 <span
                   class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
                   high
-                  <a href=""style="color:#7e3af2;margin-left: 18px;font-size: small;">View &#8594</a>
-                </span>
-
-              </td>
-            </tr>
-            <tr class="text-gray-700 dark:text-gray-400">
-              <td class="px-4 py-3">
-                <div class="flex items-center text-sm">
-                  <!-- Avatar with inset shadow -->
-                  <div class="relative hidden w-8 h-8 mr-3 rounded-full md:block">
-                    <img class="object-cover w-full h-full rounded-full"
-                      src="https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
-                      alt="" loading="lazy" />
-                    <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
-                  </div>
-                  <div>
-                    <p class="font-semibold">Hans Burger</p>
-                    <p class="text-xs text-gray-600 dark:text-gray-400">
-                      10x Developer
-                    </p>
-                  </div>
-                </div>
-              </td>
-              <td class="px-4 py-3 text-xs">
-                <span
-                  class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
-                  high
-                  <a href=""style="color:#7e3af2;margin-left: 18px;font-size: small;">View &#8594</a>
-                </span>
-
-              </td>
-            </tr>
-            <tr class="text-gray-700 dark:text-gray-400">
-              <td class="px-4 py-3">
-                <div class="flex items-center text-sm">
-                  <!-- Avatar with inset shadow -->
-                  <div class="relative hidden w-8 h-8 mr-3 rounded-full md:block">
-                    <img class="object-cover w-full h-full rounded-full"
-                      src="https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
-                      alt="" loading="lazy" />
-                    <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
-                  </div>
-                  <div>
-                    <p class="font-semibold">Hans Burger</p>
-                    <p class="text-xs text-gray-600 dark:text-gray-400">
-                      10x Developer
-                    </p>
-                  </div>
-                </div>
-              </td>
-              <td class="px-4 py-3 text-xs">
-                <span
-                  class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
-                  high
-                  <a href=""style="color:#7e3af2;margin-left: 18px;font-size: small;">View &#8594</a>
-                </span>
-
-              </td>
-            </tr>
-            <tr class="text-gray-700 dark:text-gray-400">
-              <td class="px-4 py-3">
-                <div class="flex items-center text-sm">
-                  <!-- Avatar with inset shadow -->
-                  <div class="relative hidden w-8 h-8 mr-3 rounded-full md:block">
-                    <img class="object-cover w-full h-full rounded-full"
-                      src="https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
-                      alt="" loading="lazy" />
-                    <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
-                  </div>
-                  <div>
-                    <p class="font-semibold">Hans Burger</p>
-                    <p class="text-xs text-gray-600 dark:text-gray-400">
-                      10x Developer
-                    </p>
-                  </div>
-                </div>
-              </td>
-              <td class="px-4 py-3 text-xs">
-                <span
-                  class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
-                  high
-                  <a href=""style="color:#7e3af2;margin-left: 18px;font-size: small;">View &#8594</a>
+                  <a href="/" style="color:#7e3af2;margin-left: 18px;font-size: small;">View &#8594</a>
                 </span>
 
               </td>
@@ -232,103 +150,8 @@
             <th>Albums 	&#38; Labels</th>
           </tr>
           </thead>
-          <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-            <tr class="text-gray-700 dark:text-gray-400">
-              <td class="px-4 py-3">
-                <button
-                    style="float:right ;"
-                    class="flex items-center justify-between px-2 py-2 text-sm font-sm leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-full active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
-                    aria-label="Edit">
-                    <svg class="w-3 h-3" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
-                    <path
-                     d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z">
-                    </path>
-                    </svg>
-                </button>
-                <div class="flex items-center text-sm">
-                  <!-- Avatar with inset shadow -->
-                  <p style="font-size: 20px;margin-inline:20px">&#10061;</p>
-                  <div>
-                    <p>This is to be edited</p>
-                    <p class="text-xs text-gray-600 dark:text-gray-400">
-                     Created on 6/10/2020
-                    </p>
-                  </div>
-                </div>
-              </td>
-            </tr>
-            <tr class="text-gray-700 dark:text-gray-400">
-              <td class="px-4 py-3">
-                <button
-                    style="float:right ;"
-                    class="flex items-center justify-between px-2 py-2 text-sm font-sm leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-full active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
-                    aria-label="Edit">
-                    <svg class="w-3 h-3" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
-                    <path
-                     d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z">
-                    </path>
-                    </svg>
-                </button>
-                <div class="flex items-center text-sm">
-                  <!-- Avatar with inset shadow -->
-                  <p style="font-size: 20px;margin-inline:20px">&#10061;</p>
-                  <div>
-                    <p>This is to be edited</p>
-                    <p class="text-xs text-gray-600 dark:text-gray-400">
-                     Created on 6/10/2020
-                    </p>
-                  </div>
-                </div>
-              </td>
-            </tr>
-            <tr class="text-gray-700 dark:text-gray-400">
-              <td class="px-4 py-3">
-                <button
-                    style="float:right ;"
-                    class="flex items-center justify-between px-2 py-2 text-sm font-sm leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-full active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
-                    aria-label="Edit">
-                    <svg class="w-3 h-3" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
-                    <path
-                     d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z">
-                    </path>
-                    </svg>
-                </button>
-                <div class="flex items-center text-sm">
-                  <!-- Avatar with inset shadow -->
-                  <p style="font-size: 20px;margin-inline:20px">&#10061;</p>
-                  <div>
-                    <p>This is to be edited</p>
-                    <p class="text-xs text-gray-600 dark:text-gray-400">
-                     Created on 6/10/2020
-                    </p>
-                  </div>
-                </div>
-              </td>
-            </tr>
-            <tr class="text-gray-700 dark:text-gray-400">
-              <td class="px-4 py-3">
-                <button
-                    style="float:right ;"
-                    class="flex items-center justify-between px-2 py-2 text-sm font-sm leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-full active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
-                    aria-label="Edit">
-                    <svg class="w-3 h-3" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
-                    <path
-                     d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z">
-                    </path>
-                    </svg>
-                </button>
-                <div class="flex items-center text-sm">
-                  <!-- Avatar with inset shadow -->
-                  <p style="font-size: 20px;margin-inline:20px">&#10061;</p>
-                  <div>
-                    <p>This is to be edited</p>
-                    <p class="text-xs text-gray-600 dark:text-gray-400">
-                     Created on 6/10/2020
-                    </p>
-                  </div>
-                </div>
-              </td>
-            </tr>
+          <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800" id = "correctionDataFill">
+          
           </tbody>
         </table>
       </div>
@@ -386,12 +209,44 @@
 
 <script>
   let DraftArray = []
+  let userData ={}
   function cleanNullValues() {
     for (let i = 0; i < DraftArray.length; i++) {
       if (DraftArray[i].title == null) DraftArray[i].title = ""
       if (DraftArray[i].labelName == null) DraftArray[i].labelName = ""
       if (DraftArray[i].originalReleaseDate == null) DraftArray[i].originalReleaseDate = ""
     }
+  }
+  function updateTableOfCorrection(){
+     document.getElementById("correctionDataFill").innerHTML = ``
+      for (let i = 0; i < DraftArray.length; i++) {
+        if(!DraftArray[i].submitted) continue
+        document.getElementById("correctionDataFill").innerHTML += `
+          <tr class="text-gray-700 dark:text-gray-400">
+              <td class="px-4 py-3">
+                <a href ="/draft-release/${DraftArray[i].id}"
+                    style="float:right ;"
+                    class="flex items-center justify-between px-2 py-2 text-sm font-sm leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-full active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+                    aria-label="Edit">
+                    <svg class="w-3 h-3" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
+                    <path
+                     d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z">
+                    </path>
+                    </svg>
+                </a>
+                <div class="flex items-center text-sm">
+                  <!-- Avatar with inset shadow -->
+                  <p style="font-size: 20px;margin-inline:20px">&#10061;</p>
+                  <div>
+                    <p>${DraftArray[i].title}</p>
+                    <p class="text-xs text-gray-600 dark:text-gray-400">
+                      ${DraftArray[i].createdAt}
+                    </p>
+                  </div>
+                </div>
+              </td>
+            </tr>`
+     }
   }
   function updateTableData() {
     cleanNullValues()
@@ -416,6 +271,13 @@
             </tr>`
     }
   }
+  function updateAlbumData(){
+      document.getElementById("processed-album").innerText = userData.processed
+      document.getElementById("final-album").innerText = userData.final
+      document.getElementById("total-album").innerText = userData.total
+
+
+  }
   const getAllDrafts = async () => {
     await fetch('/album-drafts').then(response => {
       if (response.ok) {
@@ -425,11 +287,29 @@
       if (data.album) {
         DraftArray = data.album;
         updateTableData()
+        updateTableOfCorrection()
         console.log("response data", DraftArray)
       }
     }).catch((error) => {
       console.error(error)
     });
   }
+  const getUserAlbumDetails = async () => {
+    await fetch('/album-manage/user-data').then(response => {
+      if (response.ok) {
+        return response.json()
+      }
+    }).then(async (data) => {
+      if (data.userData) {
+        userData = data.userData;
+        updateAlbumData()
+        console.log("response data", userData)
+      }
+    }).catch((error) => {
+      console.error(error)
+    });
+  }
+getUserAlbumDetails()
 getAllDrafts()
+
 </script>

@@ -21,6 +21,7 @@
       defer></script>
     <script src="../js/charts-lines.js" defer></script>
     <script src="../js/charts-pie.js" defer></script>
+   
   </head>
   <body>
     {{#if session.user}}
@@ -38,14 +39,11 @@
             Music
           </a>
           <ul class="mt-6">
-            <li class="relative px-6 py-3">
-              <span
-                class="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg
-                rounded-br-lg"
-                aria-hidden="true"></span>
+            <li class="relative px-6 py-3" id="overview" >
+              
               <a
                 class="inline-flex items-center w-full text-sm font-semibold
-                text-gray-800 transition-colors duration-150 hover:text-gray-800
+                transition-colors duration-150 hover:text-gray-800
                 dark:hover:text-gray-200 dark:text-gray-100"
                 href="/">
                 <svg
@@ -67,7 +65,7 @@
             </li>
           </ul>
           <ul>
-            <li class="relative px-6 py-3">
+            <li class="relative px-6 py-3"  id="new-release">
               <a
                 class="inline-flex items-center w-full text-sm font-semibold
                 transition-colors duration-150 hover:text-gray-800
@@ -90,7 +88,7 @@
                 <span class="ml-4">New-Releases</span>
               </a>
             </li>
-            <li class="relative px-6 py-3">
+            <li class="relative px-6 py-3" id="music-catalog">
               <button
                 class="inline-flex items-center justify-between w-full text-sm
                 font-semibold transition-colors duration-150 hover:text-gray-800
@@ -144,7 +142,21 @@
                     hover:text-gray-800 dark:hover:text-gray-200">
                     <a class="w-full" href="/drafts">Album Drafts</a>
                   </li>
+                 <li
+                    class="px-2 py-1 transition-colors duration-150
+                    hover:text-gray-800 dark:hover:text-gray-200">
+                    <a class="w-full" href="/album-submitted">
+                      Albums Submitted
+                    </a>
+                  </li>
                   <li
+                    class="px-2 py-1 transition-colors duration-150
+                    hover:text-gray-800 dark:hover:text-gray-200">
+                    <a class="w-full" href="/album-correction">
+                      Album Correction
+                    </a>
+                  </li>
+                   <li
                     class="px-2 py-1 transition-colors duration-150
                     hover:text-gray-800 dark:hover:text-gray-200">
                     <a class="w-full" href="/completes">
@@ -155,7 +167,7 @@
               </template>
             </li>
 
-            <li class="relative px-6 py-3">
+            <li class="relative px-6 py-3" id="label-manage" >
               <a
                 class="inline-flex items-center w-full text-sm font-semibold
                 transition-colors duration-150 hover:text-gray-800
@@ -177,7 +189,7 @@
                 <span class="ml-4">Label Manage</span>
               </a>
             </li>
-            <li class="relative px-6 py-3">
+            <li class="relative px-6 py-3" id="primary-artist-manage" >
               <a
                 class="inline-flex items-center w-full text-sm font-semibold
                 transition-colors duration-150 hover:text-gray-800
@@ -200,7 +212,7 @@
                 <span class="ml-4">Primary Artist Manage</span>
               </a>
             </li>
-            <li class="relative px-6 py-3">
+            <li class="relative px-6 py-3" id="financial-manage" >
               <a
                 class="inline-flex items-center w-full text-sm font-semibold
                 transition-colors duration-150 hover:text-gray-800
@@ -223,7 +235,7 @@
                 <span class="ml-4">Financial Manage</span>
               </a>
             </li>
-            <li class="relative px-6 py-3">
+            <li class="relative px-6 py-3" id="view-analytics" >
               <a
                 class="inline-flex items-center w-full text-sm font-semibold
                 transition-colors duration-150 hover:text-gray-800
@@ -310,14 +322,14 @@
             Music
           </a>
           <ul class="mt-6">
-            <li class="relative px-6 py-3">
+            <li class="relative px-6 py-3" id="overview" >
               <span
                 class="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg
                 rounded-br-lg"
                 aria-hidden="true"></span>
               <a
                 class="inline-flex items-center w-full text-sm font-semibold
-                text-gray-800 transition-colors duration-150 hover:text-gray-800
+                 transition-colors duration-150 hover:
                 dark:hover:text-gray-200 dark:text-gray-100"
                 href="/">
                 <svg
@@ -334,12 +346,12 @@
                     2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0
                     011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
                 </svg>
-                <span class="ml-4">Dashboard</span>
+                <span class="ml-4">Overview</span>
               </a>
             </li>
           </ul>
           <ul>
-            <li class="relative px-6 py-3">
+            <li class="relative px-6 py-3" id="new-release">
               <a
                 class="inline-flex items-center w-full text-sm font-semibold
                 transition-colors duration-150 hover:text-gray-800
@@ -362,7 +374,7 @@
                 <span class="ml-4">New-Releases</span>
               </a>
             </li>
-            <li class="relative px-6 py-3">
+            <li class="relative px-6 py-3" id="music-catalog">
               <button
                 class="inline-flex items-center justify-between w-full text-sm
                 font-semibold transition-colors duration-150 hover:text-gray-800
@@ -419,6 +431,20 @@
                   <li
                     class="px-2 py-1 transition-colors duration-150
                     hover:text-gray-800 dark:hover:text-gray-200">
+                    <a class="w-full" href="/album-submitted">
+                      Albums Submitted
+                    </a>
+                  </li>
+                  <li
+                    class="px-2 py-1 transition-colors duration-150
+                    hover:text-gray-800 dark:hover:text-gray-200">
+                    <a class="w-full" href="/album-correction">
+                      Album For Correction
+                    </a>
+                  </li>
+                  <li
+                    class="px-2 py-1 transition-colors duration-150
+                    hover:text-gray-800 dark:hover:text-gray-200">
                     <a class="w-full" href="/completedAlbums">
                       Album Completed
                     </a>
@@ -426,7 +452,7 @@
                 </ul>
               </template>
             </li>
-            <li class="relative px-6 py-3">
+            <li class="relative px-6 py-3"  id="label-manage" >
               <a
                 class="inline-flex items-center w-full text-sm font-semibold
                 transition-colors duration-150 hover:text-gray-800
@@ -448,7 +474,7 @@
                 <span class="ml-4">Label Manage</span>
               </a>
             </li>
-            <li class="relative px-6 py-3">
+            <li class="relative px-6 py-3"  id="primary-artist-manage" >
               <a
                 class="inline-flex items-center w-full text-sm font-semibold
                 transition-colors duration-150 hover:text-gray-800
@@ -471,7 +497,7 @@
                 <span class="ml-4">Primary Artist Manage</span>
               </a>
             </li>
-            <li class="relative px-6 py-3">
+            <li class="relative px-6 py-3" id="financial-manage" >
               <a
                 class="inline-flex items-center w-full text-sm font-semibold
                 transition-colors duration-150 hover:text-gray-800
@@ -494,7 +520,7 @@
                 <span class="ml-4">Financial Manage</span>
               </a>
             </li>
-            <li class="relative px-6 py-3">
+            <li class="relative px-6 py-3" id="view-analytics" >
               <a
                 class="inline-flex items-center w-full text-sm font-semibold
                 transition-colors duration-150 hover:text-gray-800
