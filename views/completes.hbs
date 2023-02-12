@@ -438,7 +438,7 @@ function showpreview(index){
               <td class="px-4 py-3">
                  ${CompleteArray[i].originalReleaseDate}
               </td>
-              <td class="px-4 py-3" id ="approvalAlbum">
+              <td class="px-4 py-3" id ="approvalAlbum${CompleteArray[i].id}">
                  <span 
                   class="px-2 py-1 font-semibold leading-tight text-orange-700 bg-orange-100 rounded-full dark:text-white dark:bg-orange-600">
                   Pending
@@ -456,12 +456,12 @@ function showpreview(index){
               </td>
             </tr>`
         if(CompleteArray[i].approved){
-        document.getElementById("approvalAlbum").innerHTML = `<span
+        document.getElementById(`approvalAlbum${CompleteArray[i].id}`).innerHTML = `<span
                   class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
                   Approved
                 </span>`
         }else{
-        document.getElementById("approvalAlbum").innerHTML = `<span 
+        document.getElementById(`approvalAlbum${CompleteArray[i].id}`).innerHTML = `<span 
                   class="px-2 py-1 font-semibold leading-tight text-orange-700 bg-orange-100 rounded-full dark:text-white dark:bg-orange-600">
                   Pending
                 </span>`

@@ -17,6 +17,7 @@ function initializeDatabase() {
         })
     })
 }
+
 function connectMongoDB() {
     return new Promise((resolve, reject) => {
         mongo.initialize().then(() => {
@@ -36,22 +37,26 @@ function getAllAlbumsForUser(userID) {
 function getAllSongsForAlbum(albumID) {
     return new Promise((resolve, reject) => {
         db.getAlbum(albumID)
-            .then(function (data) {
+            .then(function(data) {
                 resolve(data.songs);
-            }).catch(function (error) {
+            }).catch(function(error) {
                 reject(Error("Unable to get songs from album :", error))
             });
     })
 }
+
 function getAllSongsForUser(userID) {
     return db.getAllSongForUser(userID)
 }
+
 function getSongsForAlbum(albumID) {
     return db.getAllSongsForAlbum(albumID)
 }
+
 function getAllLabelsForUserIDForUser(userID) {
     return db.getAllLabelsForUserID(userID)
 }
+
 function addLabelForUserWithID(labelData, userID) {
     label = {
         "title": labelData.title,
@@ -61,6 +66,7 @@ function addLabelForUserWithID(labelData, userID) {
     }
     return db.addLabel(label)
 }
+
 function updateLabel(labelData) {
     return db.updateLabel(labelData.id, labelData)
 }
@@ -68,13 +74,24 @@ function updateLabel(labelData) {
 function getDraftAlbumsForUser(userID) {
     return db.getDraftAlbumsForUser(userID)
 }
+
 function getCompletedAlbumsForUser(userID) {
 
     return db.getCompletedAlbumsForUser(userID)
 }
+
+function getPendingAlbumsForAdmin() {
+    return db.getPendingAlbumsForAdmin()
+}
+
+function getApprovedAlbumsForAdmin() {
+    return db.getApprovedAlbumsForAdmin()
+}
+
 function getNews() {
 
 }
+
 function getStores() {
     return new Promise((resolve, reject) => {
         const fs = require("fs");
@@ -84,6 +101,7 @@ function getStores() {
         });
     })
 }
+
 function getPaymentInfoForUserID(userID) {
 
 }
@@ -91,7 +109,7 @@ function getPaymentInfoForUserID(userID) {
 function getNonApprovedAlbums(userID) {
     return new Promise((resolve, reject) => {
         db.getAllAlbums(userID)
-            .then(function (data) {
+            .then(function(data) {
                 let albums = [];
                 for (let i = 0; i < data.length; i++) {
                     if (!data.approved) {
@@ -115,14 +133,25 @@ function getPrimaryArtistForUserID(userID) {
             })
     })
 }
+
 function getUserInfo(userID) {
 
 }
+
 function editUserInfo() {
 
 }
+
 function deleteUser() {
 
+}
+
+async function ApproveAlbum(albumId) {
+    await db.approveAlbum(albumId);
+}
+
+async function RejectAlbum(albumId) {
+    await db.rejectAlbum(albumId);
 }
 
 function saveAlbum(albumData) {
@@ -166,12 +195,15 @@ function saveArtist(artistName, userID) {
     }
     return db.addArtist(artist)
 }
+
 function updateArtist(artist) {
     return db.updateArtist(artist.id, artist)
 }
+
 function deleteArtist(id) {
     return db.deleteArtist(id)
 }
+
 function saveSongData(songData) {
     var song = {
         "userID": songData.userID,
@@ -196,6 +228,7 @@ function saveSongData(songData) {
         })
     })
 }
+
 function updateSongData(songData) {
     var song = {
         "userID": songData.userID,
@@ -214,15 +247,19 @@ function updateSongData(songData) {
     console.log("data of song to update : ", song)
     return db.updateSong(song, songData.songIDInDB)
 }
+
 function updateSongsArrayInAlbum(songArray) {
     return db.updateSongArrayOfAlbum(songArray)
 }
+
 function addSongForUser(songData, userID, AlbumID) {
     return db.addSong(songData)
 }
+
 function getAllArtistsWithUserID(userID) {
     return db.getArtistForUser(userID)
 }
+
 function updateAlbum(albumData) {
     album = {
         "title": albumData.title,
@@ -255,9 +292,11 @@ function updateAlbum(albumData) {
         })
     })
 }
+
 function updateToCompletedAlbum(album) {
     return db.migrateToCompleted(album)
 }
+
 function updateStoresArrayInAlbum(storeArray) {
     return db.updateStoresArrayInAlbum(storeArray)
 }
@@ -265,9 +304,11 @@ function updateStoresArrayInAlbum(storeArray) {
 function deleteLabel(labelId, userID) {
     return db.deleteLabel(labelId, userID)
 }
+
 function deleteAlbum(albumID, userID) {
     return db.deleteAlbum(albumID, userID)
 }
+
 function albumApproved(albumID) {
     return new Promise((resolve, reject) => {
         db.getAlbum(albumID)
@@ -318,6 +359,7 @@ function registerUser(userData) {
         })
     })
 }
+
 function getGenre() {
     return new Promise((resolve, reject) => {
         const fs = require("fs");
@@ -331,4 +373,4 @@ function getGenre() {
 function login(userData) {
     return mongo.loginUser(userData)
 }
-module.exports = { getGenre, connectWithDB, getAllSongsForUser, getSongsForAlbum, initializeDatabase, updateLabel, deleteAlbum, updateToCompletedAlbum, updateStoresArrayInAlbum, getStores, updateSongData, updateSongsArrayInAlbum, getCompletedAlbumsForUser, saveSongData, updateArtist, deleteArtist, getAllAlbumsForUser, getAllSongsForAlbum, getDraftAlbumsForUser, getNonApprovedAlbums, getPrimaryArtistForUserID, registerUser, deleteLabel, albumApproved, removeDraft, login, addLabelForUserWithID, saveArtist, getAllLabelsForUserIDForUser, saveAlbum, connectMongoDB, getAllArtistsWithUserID, addSongForUser, updateAlbum }
+module.exports = { getGenre, connectWithDB, getAllSongsForUser, getSongsForAlbum, initializeDatabase, updateLabel, deleteAlbum, updateToCompletedAlbum, updateStoresArrayInAlbum, getStores, updateSongData, updateSongsArrayInAlbum, getCompletedAlbumsForUser, getPendingAlbumsForAdmin, getApprovedAlbumsForAdmin, saveSongData, updateArtist, deleteArtist, getAllAlbumsForUser, getAllSongsForAlbum, getDraftAlbumsForUser, getNonApprovedAlbums, getPrimaryArtistForUserID, registerUser, deleteLabel, albumApproved, removeDraft, login, addLabelForUserWithID, saveArtist, getAllLabelsForUserIDForUser, saveAlbum, connectMongoDB, getAllArtistsWithUserID, addSongForUser, updateAlbum, ApproveAlbum, RejectAlbum }

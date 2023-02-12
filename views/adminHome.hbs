@@ -1,0 +1,617 @@
+  <style>
+     #myInput {
+      background-image: url('/css/searchicon.png');
+      background-position: 10px 10px;
+      background-repeat: no-repeat;
+      width: 100%;
+      font-size: 16px;
+      padding: 12px 20px 12px 40px;
+      border: 1px solid #ddd;
+      margin-bottom: 12px;
+    }
+
+    .container2 {
+      position: relative;
+      height: max-content;
+      width: 100%;
+      align-items: center;
+      display: flex;
+      justify-content: center;
+      background-color: #fcfcfc;
+    }
+
+    .card {
+      border-radius: 10px;
+      box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.3);
+      width: 100%;
+      height: 100%;
+      background-color: #ffffff;
+      padding: 10px 30px 40px;
+    }
+
+    .card h3 {
+      font-size: 22px;
+      font-weight: 600;
+
+    }
+
+    .drop_box {
+      margin: 10px 0;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      border: 3px dotted #a3a3a3;
+      border-radius: 5px;
+    }
+
+    .drop_box h4 {
+      font-size: 16px;
+      font-weight: 400;
+      color: #2e2e2e;
+    }
+
+    .drop_box p {
+      margin-top: 10px;
+      margin-bottom: 20px;
+      font-size: 12px;
+      color: #a3a3a3;
+    }
+
+    .btn {
+      text-decoration: none;
+      background-color: #005af0;
+      color: #ffffff;
+      padding: 10px 20px;
+      border: none;
+      outline: none;
+      transition: 0.3s;
+    }
+
+    .btn:hover {
+      text-decoration: none;
+      background-color: #ffffff;
+      color: #005af0;
+      padding: 10px 20px;
+      border: none;
+      outline: 1px solid #010101;
+    }
+
+    .form input {
+      margin: 10px 0;
+      width: 100%;
+      background-color: #e2e2e2;
+      border: none;
+      outline: none;
+      padding: 12px 20px;
+      border-radius: 4px;
+    }
+    td{text-align: center;}
+    th{text-align: center;}
+
+    .loader {
+  border: 7px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 7px solid #7e3af2;
+  width: 100px;
+  height: 100px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+  margin: 30 0px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.belowLine {
+    border: none;
+}
+  @media only screen and (min-width: 1000px) {
+    main .container {
+      padding-inline: 10px;
+
+      display: table;
+      table-layout: fixed;
+      width: 100%;
+    }
+     main .item {
+      /* float:left; */
+      display: table-cell;
+      padding-inline: 10px;
+    }
+  }
+  main canvas {
+    margin: 11px;
+    height: 150px;
+    width: 172px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: black;
+}
+   .selectionInput input{
+    padding-inline: 10px;
+    height: 40px;
+    font-size: 17px;
+    width: 70%;
+    font-family: Raleway;
+    border: 1px solid #a789da;
+    border-radius: 5px;
+    margin-bottom: 13px;
+    margin-top: 5px;
+  }
+  .selectionInput select{
+    padding-inline: 10px;
+    height: 30px;
+    font-size: 17px;
+    width: 63%;
+    font-family: Raleway;
+    border: 1px solid #a789da;
+    border-radius: 5px;
+    margin-top: 20px;
+  }
+  .selectionInput{
+    display: flex;
+    justify-content: space-between;
+  }
+  #step-4  input,#step-4 select{
+    background-color: rgb(203, 203, 203);
+    color:white;
+    height: 30px;
+  }
+  #step-4 label{
+    font-size: 13px;
+  }
+   main input {
+    padding-inline: 10px;
+    height: 40px;
+    width: 100%;
+    font-size: 17px;
+    font-family: Raleway;
+    border: 1px solid #a789da;
+    border-radius: 5px;
+    margin-bottom: 10px;
+  }
+  .inputwrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .inputwrap label {
+    width: 30%;
+  }
+  main .form-step {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    padding-inline: 1rem;
+    padding: 25px;
+}
+main label {
+    margin-bottom: 10px;
+    /* font-family: sans-serif; */
+    font-size: 1rem;
+}
+#previewData{
+  padding-inline:42px;
+}
+main ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: white;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  text-align: center;
+}
+
+main li {
+  float: left;
+  width: 50%;
+  font-weight: bold;
+}
+
+
+
+  </style>
+  <main class="h-full pb-16 overflow-y-auto">
+  <ul>
+  <li><a class="active" id="navpending"onclick="getAllPendings()">Pending Albums</a></li>
+  <li><a  id="navapproved"onclick="getAllApproved()">Approved Albums</a></li>
+  
+</ul>  
+
+  <div class="container px-6 mx-auto grid" id="completestable" style="margin-top: 60px;">
+   
+    <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search By Title.." title="Type in a name">
+
+    <div class="w-full overflow-hidden rounded-lg shadow-xs">
+      <div class="w-full overflow-x-auto" style="overflow:scroll; height:350px;">
+        
+        <table class="w-full whitespace-no-wrap" id="myTable">
+          <thead>
+            <tr
+              class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
+              <th class="px-4 py-3">Index</th>
+              <th class="px-4 py-3">Title</th>
+              <th class="px-4 py-3">Label</th>
+              <th class="px-4 py-3">Release Date</th>
+              <th class="px-4 py-3">Approval</th>
+              <th class="px-4 py-3">Action</th>
+            </tr>
+          </thead>
+      
+          <tbody id = "tableOfCompletes" class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800" style="overflow:scroll; height:400px;">
+          <div style="display: flex;
+    text-align: center;
+    justify-content: center;">
+      <b id="load">loading Please Wait...</b>
+      </div>
+          </tbody>
+
+        </table>
+        
+        {{#if errorMessage}}
+            <span
+                  class="px-2 py-1 font-semibold leading-tight text-orange-700 bg-orange-100 rounded-full dark:text-white dark:bg-orange-600">
+                  {{errorMessage}}
+                </span>
+            {{/if}}
+      </div>
+      <div style="display: flex;
+    justify-content: right;
+    margin-top: 20px;">
+      <a href="/logout"
+          class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+          LogOut
+        </a>
+        </div>
+</div>
+</div>
+
+
+{{!-- preview start --}}
+<div class="container px-6 mx-auto grid" id="previewdiv" style="display: none;" >
+ <!-- Step 4 Content, default hidden on page load. -->
+        <section id="step-4" class="form-step d-none text-xs font-semibold tracking-wide text-left text-gray-500  border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
+            <h4 style="font-size: 20px;text-align:center;margin-top:10px;margin-bottom:30px;">
+            &#127911; Release
+          </h4>
+          <!-- Step 1 data fields -->
+            <div class="mt-3" id="previewData">
+            </div>
+            <h4 class="text-lg font-semibold text-gray-600 dark:text-gray-300"
+            style="font-size: 20px;text-align:center;margin-top: 21px;">
+            &#127911; Tracks
+          </h4>
+              <div class="container grid px-6 mx-auto dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
+                  <div class="w-full mb-8 overflow-hidden rounded-lg shadow-xs">
+                    <div class="w-full overflow-x-auto">
+                        <table class="w-full whitespace-no-wrap">
+                          <thead>
+                            <tr class="header text-xs font-semibold tracking-wide text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
+                              <th class="px-4 py-3">Id</th>
+                              <th class="px-4 py-3">Writer</th>
+                              <th class="px-4 py-3">Language</th>
+                              <th class="px-4 py-3">File Name</th>
+                              <th class="px-4 py-3">Play</th>
+                              
+                            </tr>
+                          </thead>
+                          <tbody id="previewTableRows" class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
+                          </tbody>
+                        </table>
+                
+                      </div>
+        
+                  </div>
+                  <div class="mt-3" id="actions" style="display: flex; justify-content:space-between;">
+            
+                </div>
+                 </div>
+                </div>
+              
+        </section>
+</div>
+</main>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<script>
+let songsArray = []
+const getSongsWithAlbumID =async(albumID)=>{
+  await fetch(`/admin-album-song/${albumID}`).then(response => {
+      if (response.ok) {
+        return response.json()
+      }
+    }).then(async (data) => {
+      if (data.songs) {
+        songsArray = data.songs;
+        console.log("response data", songsArray)
+      }
+    }).catch((error) => {
+      console.error(error)
+    });
+}
+async function preview(albumDataSaved) {
+  console.log(albumDataSaved)
+    document.getElementById('previewData').innerHTML = ` 
+            <div class="container">
+              <div class="item">
+                <p style="width: 195px;">
+                   Album Thumbnail:
+                </p>
+            <img style="border:solid;width:140;height:140px;margin-top:8px;" src='.${albumDataSaved.imageUrl}' id="imagefile">
+
+              </div>
+              <div class="item">
+                <label for="">Name</label>
+                <input value = ${albumDataSaved.title}  readonly autocomplete="on" placeholder="ABC Track" type="" name="title" oninput="this.className = ''">
+                <label>Version/Subtitle </label><input value = ${albumDataSaved.subTitle} readonly autocomplete="on" placeholder="Version/Subtitle" type="version_subtitle"
+                  name="version" oninput="this.className = ''">
+                <label>Primary Artist </label><input value = ${albumDataSaved.primaryArtist} readonly  autocomplete="on" placeholder="" type="" name="primary_artist"
+                  oninput="this.className = ''">
+                <p>
+              </div>
+            </div>
+            <div class="container">
+              <div class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800 belowLine ">
+                <div class="selectionInput">
+                <label style="margin-right: 42px;" for="pet-select">Genre </label>
+                <input value = ${albumDataSaved.genre} disabled name="genre" id="pet-select">
+                </input>
+                </div>
+                <div class="selectionInput">
+                <label for="pet-select" style="margin-right: 23px;">SubGenre </label>
+                <input value = ${albumDataSaved.subgenre} disabled name="subgenre" id="pet-select">
+                </input>
+                </div>
+                <div class="selectionInput">
+                <label for="pet-select">Lable Name </label>
+                <input value = ${albumDataSaved.labelName} disabled name="lable_name" id="pet-select">
+                </input> 
+                </div>
+                <div class="selectionInput">
+                <label for="pet-select" style="margin-right: 35px;">Format </label>
+                <input value = ${albumDataSaved.format} disabled name="format" id="pet-select" >
+                </input>
+                </div>
+                <div class="selectionInput">
+                <label for="pet-select">Production Year </label>
+                <input value = ${albumDataSaved.productionYear} disabled name="production_year" id="pet-select">
+                </input> 
+                </div>
+                 <label>Actor </label><input  value = ${albumDataSaved.actor} readonly autocomplete="on" style="margin-bottom: 29px;" placeholder="Featuring" type="" name="actor"
+                  oninput="this.className = ''">
+              </div>
+              <div class="item ">
+                <label>Producer Catalogue Number </label>
+                <input value = ${albumDataSaved.producer} readonly autocomplete="on" placeholder="Producer Catalogue Number" type="" name="producer_catalogue_number"
+                  oninput="this.className = ''">
+                <label>Phisical/Original release date </label><input value = ${albumDataSaved.originalReleaseDate} readonly id ="datepicker"
+                  placeholder="Version/Subtitle" type="date" name="physical_release_date" oninput="this.className = ''">
+                <label>Line1 </label><input value = "${albumDataSaved.copyright}" readonly autocomplete="on" placeholder="Line" type="" name="line1"
+                  oninput="this.className = ''">
+                <label>Line2 </label><input value = ${albumDataSaved.copyright2} readonly  autocomplete="on" placeholder="Line" type="" name="line2"
+                  oninput="this.className = ''">
+                <label>UPC/EAN </label><input value = "fill by admin" readonly autocomplete="on" placeholder="UPC/EAN" type="" name="upc"
+                  oninput="this.className = ''">
+              </div>
+            </div>
+
+            `
+     await  getSongsWithAlbumID(albumDataSaved.id)
+     document.getElementById('previewTableRows').innerHTML =``
+     for (let i = 0; i < songsArray.length; i++) {
+         let songName = songsArray[i].filePath.split("/")
+          songName = songName[songName.length-1]
+          document.getElementById('previewTableRows').innerHTML += `
+          <tr id="row${i}" class="text-gray-700 dark:text-gray-400">
+                   <td class="px-4 py-3">
+                       ${i + 1}
+                  </td>
+                   <td class="px-4 py-3 text-sm">
+                    ${songsArray[i].writer}
+                  </td>
+                   <td class="px-4 py-3 text-sm">
+                     ${songsArray[i].language}
+                   </td>
+                  <td class="px-4 py-3 text-sm">
+                    ${songName.slice(0,30)}...
+                   </td>
+                  <td class="px-4 py-3 text-sm">
+
+                  <div style="display:flex;justify-content:center;align-items:center;">
+                    <audio controls>
+  <source src=".${songsArray[i].filePath}" type="audio/mpeg">
+  
+</audio>
+
+                  </div>
+                    
+                   </td>
+
+                   `
+       }
+       document.getElementById('actions').innerHTML =`
+       <button
+               onclick="showpreview(null)"
+               class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+                Back
+                </button>
+                <div>
+                <a
+               href="approve-album/${albumDataSaved.id}"
+               style="background:green;"
+               class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+                Approve
+                </a>
+                <a
+               href="reject-album/${albumDataSaved.id}"
+               style="background:red;"
+               class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+                Reject
+                </a>
+       `
+       
+
+  }
+
+  
+
+function showpreview(index){
+   var x = document.getElementById("previewdiv");
+   var y = document.getElementById("completestable");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+    y.style.display = "none";
+    preview(CompleteArray[index]);
+  } else {
+    x.style.display = "none";
+    y.style.display = "block";
+  }
+}
+
+
+  let CompleteArray = []
+  function cleanNullValues(){
+    for (let i = 0; i < CompleteArray.length; i++) {
+      if(CompleteArray[i].title == null) CompleteArray[i].title =""
+      if(CompleteArray[i].labelName == null) CompleteArray[i].labelName =""
+      if(CompleteArray[i].originalReleaseDate == null) CompleteArray[i].originalReleaseDate =""
+    }
+  }
+  function updateTableData(){
+   cleanNullValues()
+   CompleteArray.sort(function(a, b) {
+      return a.id - b.id;
+   });
+   document.getElementById("tableOfCompletes").innerHTML=``
+   for (let i = (CompleteArray.length-1); i >= 0 ; i--) {
+        document.getElementById("tableOfCompletes").innerHTML += `
+        <tr class="text-gray-700 dark:text-gray-400">
+              <td class="px-4 py-3">
+               ${i + 1}
+              </td>
+              <td class="px-4 py-3">
+                 ${CompleteArray[i].title}
+              </td>
+              <td class="px-4 py-3">
+                 ${CompleteArray[i].labelName}
+              </td>
+              <td class="px-4 py-3">
+                 ${CompleteArray[i].originalReleaseDate}
+              </td>
+              <td class="px-4 py-3" id ="approvalAlbum${CompleteArray[i].id}">
+                 <span 
+                  class="px-2 py-1 font-semibold leading-tight text-orange-700 bg-orange-100 rounded-full dark:text-white dark:bg-orange-600">
+                  Pending
+                </span>
+              </td>
+              <td class="px-4 py-3">
+                <div class="flex items-center space-x-4 text-sm" style="display:flex;justify-content: center">
+                  <button 
+                    onclick="showpreview(${i})"
+                    class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                    aria-Complete="Edit">
+                    <i class="fa fa-eye" style="font-size:28px;color:#7e3af2"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>`
+        if(CompleteArray[i].approved){
+        document.getElementById(`approvalAlbum${CompleteArray[i].id}`).innerHTML = `<span
+                  class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
+                  Approved
+                </span>`
+        }else{
+        document.getElementById(`approvalAlbum${CompleteArray[i].id}`).innerHTML = `<span 
+                  class="px-2 py-1 font-semibold leading-tight text-orange-700 bg-orange-100 rounded-full dark:text-white dark:bg-orange-600">
+                  Pending
+                </span>`
+        }
+   }
+        document.getElementById("load").style.display = "none";
+  }
+  const getAllPendings=async()=>{
+     await fetch('/pending-albums').then(response => {
+      if (response.ok) {
+        return response.json()
+      }
+    }).then(async (data) => {
+      if (data.albums) {
+        CompleteArray = data.albums;
+        updateTableData()
+        console.log("response data", CompleteArray)
+      }
+    }).catch((error) => {
+      console.error(error)
+    });
+    document.getElementById('navpending').style = `display: block;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  background-color: #7e3af2;
+  color: white;`
+    document.getElementById('navapproved').style = `display: block;
+  color: black
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;`
+  }
+
+  const getAllApproved=async()=>{
+     await fetch('/approved-albums').then(response => {
+      if (response.ok) {
+        return response.json()
+      }
+    }).then(async (data) => {
+      if (data.albums) {
+        CompleteArray = data.albums;
+        updateTableData()
+        console.log("response data", CompleteArray)
+      }
+    }).catch((error) => {
+      console.error(error)
+    });
+    document.getElementById('navapproved').style = `display: block;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  background-color: #7e3af2;
+  color: white;`
+    document.getElementById('navpending').style = `display: block;
+  color: black
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;`
+  }
+  
+
+  function myFunction() {
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("myInput");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("myTable");
+    tr = table.getElementsByTagName("tr");
+    for (i = 0; i < tr.length; i++) {
+      td = tr[i].getElementsByTagName("td")[1];
+      if (td) {
+        txtValue = td.textContent || td.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }
+    }
+  }
+  getAllPendings()
+ 
+</script>
+<script src="https://www.dukelearntoprogram.com/course1/common/js/image/SimpleImage.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<!-- End of modal backdrop -->
