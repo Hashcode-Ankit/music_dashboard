@@ -1,32 +1,152 @@
 [
     {
-      "id": "1",
-      "name":"sony",
-      "img": "https://w7.pngwing.com/pngs/831/542/png-transparent-sony-music-logo-music-industry-production-companies-sony-company-text-music-video.png"
+        "id": "1",
+        "name": "facebook",
+        "img": "../stores/facebook.png"
     },
     {
         "id": "2",
-        "name":"sony",
-        "img": "https://w7.pngwing.com/pngs/831/542/png-transparent-sony-music-logo-music-industry-production-companies-sony-company-text-music-video.png"
+        "name": "instagram",
+        "img": "../stores/instagram.png"
     },
     {
         "id": "3",
-        "name":"sony",
-        "img": "https://w7.pngwing.com/pngs/831/542/png-transparent-sony-music-logo-music-industry-production-companies-sony-company-text-music-video.png"
+        "name": "jio-savan",
+        "img": "../stores/jio-savan.png"
     },
     {
         "id": "4",
-        "name":"sony",
-        "img": "https://w7.pngwing.com/pngs/831/542/png-transparent-sony-music-logo-music-industry-production-companies-sony-company-text-music-video.png"
+        "name": "spotify",
+        "img": "../stores/spotify.png"
     },
     {
         "id": "5",
-        "name":"sony",
-        "img": "https://w7.pngwing.com/pngs/831/542/png-transparent-sony-music-logo-music-industry-production-companies-sony-company-text-music-video.png"
+        "name": "amazone-music",
+        "img": "../stores/amazon-music.png"
     },
     {
         "id": "6",
-        "name":"sony",
-        "img": "https://w7.pngwing.com/pngs/831/542/png-transparent-sony-music-logo-music-industry-production-companies-sony-company-text-music-video.png"
+        "name": "wynk",
+        "img": "../stores/wynk-music.png"
+    },
+    {
+        "id": "6",
+        "name": "hungama",
+        "img": "../stores/hungama.png"
+    },
+    {
+        "id": "7",
+        "name": "youtube-music",
+        "img": "../stores/youtube-music.png"
+    },
+    {
+        "id": "8",
+        "name": "youtube-content",
+        "img": "../stores/youtube-content.png"
+    },
+    {
+        "id": "9",
+        "name": "resso",
+        "img": "../stores/resso.png"
+    },
+    {
+        "id": "10",
+        "name": "triller",
+        "img": "../stores/triller.png"
+    },
+    {
+        "id": "snapchat",
+        "name": "spotify",
+        "img": "../stores/snapchat.png"
+    },
+    {
+        "id": "12",
+        "name": "i-tunes",
+        "img": "../stores/i-tune.png"
+    },
+    {
+        "id": "13",
+        "name": "soundcloud",
+        "img": "../stores/soundcloud.png"
+    },
+    {
+        "id": "14",
+        "name": "tiktok",
+        "img": "../stores/tiktok.png"
+    },
+    {
+        "id": "15",
+        "name": "boomplay",
+        "img": "../stores/boomplay.png"
+    },
+    {
+        "id": "16",
+        "name": "jaxsta",
+        "img": "../stores/jaxsta.png"
+    },
+    {
+        "id": "17",
+        "name": "pandora",
+        "img": "../stores/pandora.png"
+    },
+    {
+        "id": "18",
+        "name": "tridal",
+        "img": "../stores/tridal.png"
+    },
+    {
+        "id": "19",
+        "name": "deezer",
+        "img": "../stores/deezer.png"
+    },
+    {
+        "id": "20",
+        "name": "i-heart",
+        "img": "../stores/i-heart.png"
+    },
+    {
+        "id": "21",
+        "name": "mixcloud",
+        "img": "../stores/mixcloud.png"
+    },
+    {
+        "id": "23",
+        "name": "netease",
+        "img": "../stores/netease.png"
+    },
+    {
+        "id": "24",
+        "name": "musixmatch",
+        "img": "../stores/musixmatch.png"
+    },
+    {
+        "id": "25",
+        "name": "acr-cloud",
+        "img": "../stores/acr-cloud.png"
+    },
+    {
+        "id": "26",
+        "name": "kk-box",
+        "img": "../stores/kk-box.png"
+    },
+    {
+        "id": "27",
+        "name": "napster",
+        "img": "../stores/napster.png"
+    },
+    {
+        "id": "28",
+        "name": "7-digital",
+        "img": "../stores/7-digital.png"
+    },
+    {
+        "id": "29",
+        "name": "touch-tunes",
+        "img": "../stores/touch-tunes.png"
+    },
+    {
+        "id": "30",
+        "name": "anghami",
+        "img": "../stores/anghamai.png"
     }
-  ]
+]

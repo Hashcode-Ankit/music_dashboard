@@ -457,6 +457,7 @@
                     class="form-step text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                     <h4 style="font-size: 20px;text-align:center;margin-top:10px;margin-bottom:30px;">
                          User Details
+                        <div id ="updateDone" style="font-size: 12px;color:green"></div>
                     </h4>
                     <!-- Step 1 input fields -->
                     <h1 id="errorShow"></h1>
@@ -469,47 +470,31 @@
                                 </p>
                                 <div class="imgNote">
                                     <canvas id="canv1"></canvas>
-                                    <div class="noteToUser">Note :<br> Image must be less then or <br> equal to 100kb
-                                    </div>
+                                    <div class="noteToUser">Note :<br> Image must be less then or <br> equal to 100kb</div>
                                 </div>
                                 <p id="imgError" style="color: red;"></p>
-                                <input required autocomplete="on" style="border:none;width: 260px;" type="file"
-                                    multiple="false" accept=".jpg,.jpeg" id="albumImage" name="imgFile"
-                                    onchange="upload()">
+                                <input required autocomplete="on" style="border:none;width: 260px;" type="file" multiple="false" accept=".jpg,.jpeg" id="profileImage" name="imgFile" onchange="upload()">
                             </div>
                             <div class="item">
-                                <label for="">First Name</label>
-                                <input required autocomplete="on" placeholder="first name" type="" name="title"
-                                    oninput="this.className = ''">
-                                <label>Last Name </label><input required autocomplete="on"
-                                    placeholder="last name" type="version_subtitle" name="version"
-                                    oninput="this.className = ''">
-                                <label>Contact Number </label><input required autocomplete="on" placeholder="contact" type=""
-                                    name="primary_artist">
-                            <label>Email </label><input autocomplete="on" placeholder="email" type="" name="email"
-                                   >
+                                <label for="">First Name</label> <input required autocomplete="on" placeholder="First Name" type="" name="firstName" id ="firstName"  oninput="this.className = ''">
+                                <label>Last Name </label><input  autocomplete="on" placeholder="last name" type="lastName" name="lastName" id ="lastName">
+                                <label>Contact Number </label><input  autocomplete="on" placeholder="contact" type="" name="contact"  id="contact">
+                                <label>Email </label><input autocomplete="on" placeholder="email" type="" name="email" readonly  id = "email">
                             </div>
                         </div>
                         <div class="container">
                             <div class="item ">
                                 <label>Address</label>
-                                <input autocomplete="on" placeholder="address" type=""
-                                    name="producer_catalogue_number">
-                                <label>UPI ID</label><input 
-                                    placeholder="upi" type="" name="upi"
-                                    >
-                                <label>Account Number </label><input autocomplete="on" placeholder="bank account" type="" name="account"
-                                   >
-                                <label>IFSC Code </label><input autocomplete="on" placeholder="ifsc code" type="" name="ifsc"
-                                   >
-                                <label>Swift Code</label>
-                                <input autocomplete="on" placeholder="swift" type=""
+                                <input autocomplete="on" placeholder="address" type="" name="address" id="address">
+                                <label>UPI ID</label><input placeholder="upi" type="" name="upi" id ="upi" >
+                                <label>Account Number </label><input autocomplete="on" placeholder="bank account" type="" name="accountNumber" id ="accountNumber" >
+                                <label>IFSC Code </label><input autocomplete="on" placeholder="ifsc code" type="" name="ifsc" id ="ifsc" >
+                                <label>Swift Code</label><input name = "swift" id = "swift" autocomplete="on" placeholder="swift" type="">
                             </div>
                         </div>
-
                     </div>
                     <div class="mt-3" style="display: flex;justify-content:center;margin-top:10px;font-size: 15px;">
-                        <button class="button btn-navigate-form-step" type="button" onclick="saveDetails()" id="next-1">Update Details</button>
+                        <button class="button btn-navigate-form-step" type="button" onclick="updateDetails()" id="updateButton">Update Details</button>
                     </div>
                 </section>
             </div>
@@ -517,28 +502,102 @@
     </div>
     </div>
 </main>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<script src="https://www.dukelearntoprogram.com/course1/common/js/image/SimpleImage.js"></script>
 <script>
+let userData = {}
+function updateUserDetails(){
+    document.getElementById("firstName").value = userData.firstName
+    document.getElementById("lastName").value = userData.lastName
+    document.getElementById("contact").value = userData.contact
+    document.getElementById("email").value = userData.email
+    document.getElementById("upi").value = userData.upi
+    document.getElementById("address").value = userData.address
+    document.getElementById("accountNumber").value = userData.accountNumber
+    document.getElementById("ifsc").value = userData.ifsc
+    document.getElementById("swift").value = userData.swift
+    let canvas = document.getElementById('canv1');
+    let ctx = canvas.getContext('2d');
+    let img = new Image();
+    img.src = userData.imageURL;
+    img.onload = function() {
+    canvas.width = img.width;
+    canvas.height = img.height;
+    ctx.drawImage(img, 0, 0);
+    };
+ }
  function getProfileDetails() {
-    const profileImageObject = document.getElementById("albumImage").files[0]
-    let albumValues = {
-      title: $('input[name="title"]').val(),
-      subTitle: $('input[name="version"]').val(),
-      albumImage: profileImageObject,
-      primaryArtist: $('input[name="primary_artist"]').val(),
-      actor: $('input[name="actor"]').val(),
-      genre: $('select[name="genre"]').children("option:selected").val(),
-      subGenre: $('select[name="subgenre"]').children("option:selected").val(),
-      labelID: $('select[name="lable_name"]').children("option:selected").val(),
-      format: $('select[name="format"]').children("option:selected").val(),
-      originalReleaseDate: $('input[name="physical_release_date"]').val(),
-      productionYear: $('select[name="production_year"]').children("option:selected").val(),
-      producerNumber : $('input[name="producer_catalogue_number"]').val(),
-      publisherLine :$('input[name="line1"]').val(),
-      copyrightLine : $('input[name="line2"]').val(),
+
+    const profileImageObject = document.getElementById("profileImage").files[0]
+    let userDetails = {
+      firstName: $('input[name="firstName"]').val(),
+      lastName: $('input[name="lastName"]').val(),
+      profile_image: profileImageObject,
+      contact: $('input[name="contact"]').val(),
+      email: $('input[name="email"]').val(),
+      address: $('input[name="address"]').val(),
+      upi: $('input[name="upi"]').val(),
+      accountNumber: $('input[name="accountNumber"]').val(),
+      ifsc:$('input[name="ifsc"]').val(),
+      swift: $('input[name="swift"]').val(),
     }
-    albumDataSaved = albumValues
-    return albumValues
+    return userDetails
+  }
+const updateDetails = async () => {
+    document.getElementById("updateButton").disabled = true
+    userDetails = getProfileDetails()
+    console.log(userDetails)
+    const formData = new FormData();
+    for (const key in userDetails) {
+      formData.append(key, userDetails[key]);
+    }
+    await fetch('/update-user', {
+      method: 'POST',
+      body: formData
+    }).then(response => {
+      if (response.ok) {
+        return response.json()
+      }
+    }).then(async (data) => {
+      if (data.userDetails) {
+        document.getElementById("updateDone").innerHTML ="<p>User Updated Successful<p>"
+        getUserDetails()
+      }
+    }).catch((error) => {
+      document.getElementById("updateDone").innerHTML ="Unable To Update User"
+      console.error(error)
+    });
+    document.getElementById("updateButton").disabled = false
+}
+ const getUserDetails = async () => {
+    await fetch('/user-details').then(response => {
+      if (response.ok) {
+        return response.json()
+      }
+    }).then(async (data) => {
+      if (data.user) {
+        userData = data.user;
+        updateUserDetails()
+        console.log("response data", userData)
+      }
+    }).catch((error) => {
+      console.error(error)
+    });
+  }
+getUserDetails()
+function upload() {
+    let imgcanvas = document.getElementById("canv1");
+    let fileinput = document.getElementById("profileImage");
+    console.log("size :",fileinput.files[0].size)
+    if(fileinput.files[0].size > 100*1024){
+      document.getElementById("imgError").innerHTML =  `image is too large`
+      sizeLimitExceed = true
+    }else{
+      document.getElementById("imgError").innerHTML =``
+      sizeLimitExceed = false
+    }
+    let image = new SimpleImage(fileinput);
+    image.drawTo(imgcanvas);
   }
 ///update-user
 </script>

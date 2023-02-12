@@ -105,34 +105,7 @@
             <th>Priority</th>
           </tr>
           </thead>
-          <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-            <tr class="text-gray-700 dark:text-gray-400">
-              <td class="px-4 py-3">
-                <div class="flex items-center text-sm">
-                  <!-- Avatar with inset shadow -->
-                  <div class="relative hidden w-8 h-8 mr-3 rounded-full md:block">
-                    <img class="object-cover w-full h-full rounded-full"
-                      src="https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
-                      alt="" loading="lazy" />
-                    <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
-                  </div>
-                  <div>
-                    <p class="font-semibold">Music Dashboard</p>
-                    <p class="text-xs text-gray-600 dark:text-gray-400">
-                      Ready To Use
-                    </p>
-                  </div>
-                </div>
-              </td>
-              <td class="px-4 py-3 text-xs">
-                <span
-                  class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
-                  high
-                  <a href="/" style="color:#7e3af2;margin-left: 18px;font-size: small;">View &#8594</a>
-                </span>
-
-              </td>
-            </tr>
+          <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800" id ="showNews">
           </tbody>
         </table>
       </div>
@@ -209,6 +182,7 @@
 
 <script>
   let DraftArray = []
+  let news = []
   let userData ={}
   function cleanNullValues() {
     for (let i = 0; i < DraftArray.length; i++) {
@@ -271,6 +245,37 @@
             </tr>`
     }
   }
+  function updateNews(){
+    for(let i =0;i<news.length;i++){
+    document.getElementById("showNews").innerHTML +=
+      `<tr class="text-gray-700 dark:text-gray-400">
+              <td class="px-4 py-3">
+                <div class="flex items-center text-sm">
+                  <!-- Avatar with inset shadow -->
+                  <div class="relative hidden w-8 h-8 mr-3 rounded-full md:block">
+                    <img class="object-cover w-full h-full rounded-full"
+                      src="https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
+                      alt="" loading="lazy" />
+                    <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
+                  </div>
+                  <div>
+                    <p class="font-semibold"> ${news[i].title}</p>
+                    <p class="text-xs text-gray-600 dark:text-gray-400">
+                      ${news[i].description}
+                    </p>
+                  </div>
+                </div>
+              </td>
+              <td class="px-4 py-3 text-xs">
+                <span
+                  class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
+                    ${news[i].priority}
+                  <a href="/" style="color:#7e3af2;margin-left: 18px;font-size: small;">View &#8594</a>
+                </span>
+              </td>
+            </tr>`
+    }
+  }
   function updateAlbumData(){
       document.getElementById("processed-album").innerText = userData.processed
       document.getElementById("final-album").innerText = userData.final
@@ -309,7 +314,22 @@
       console.error(error)
     });
   }
+  const getNews = async () => {
+    await fetch('/get-news').then(response => {
+      if (response.ok) {
+        return response.json()
+      }
+    }).then(async (data) => {
+      if (data.news) {
+        news = data.news;
+        updateNews()
+        console.log("response data", news)
+      }
+    }).catch((error) => {
+      console.error(error)
+    });
+  }
 getUserAlbumDetails()
 getAllDrafts()
-
+getNews()
 </script>

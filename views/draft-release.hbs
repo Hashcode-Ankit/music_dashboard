@@ -416,18 +416,28 @@
   }
 #storesIcon.grid-container {
   display: grid;
-  column-gap: 20px;
-  row-gap: 20px;
-  grid-template-columns: auto auto auto auto auto;
+  column-gap: 10px;
+  row-gap: 10px;
+  grid-template-columns: auto auto auto auto auto auto auto;
   padding: 10px;
 }
 
 #storesIcon.grid-container .grid-item {
   background-color: rgba(255, 255, 255, 0.8);
-  border: 1px solid rgba(0, 0, 0, 0.8);
   padding: 20px;
   font-size: 30px;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+.store-image{
+    width: 50px;
+    height: 50px;
+}
+.store-input{
+  height :15px;
+  margin-left: 10px;
 }
 .pointer{
   cursor:pointer;
@@ -1676,7 +1686,7 @@ const getAllDrafts=async(draftId)=>{
     let imgcanvas = document.getElementById("canv1");
     let fileinput = document.getElementById("albumImage");
     console.log("size :",fileinput.files[0].size)
-    if(fileinput.files[0].size > 100*1024){
+    if(fileinput.files[0].size > 10**10241024){
       document.getElementById("imgError").innerHTML =  `image is too large`
       sizeLimitExceed = true
     }else{
@@ -1912,10 +1922,10 @@ var getAllStores=async()=>{
         document.getElementById("storesIcon").innerHTML =``
         for(let i = 0;i<stores.length;i++){
         document.getElementById("storesIcon").innerHTML += `
-                        <div class="grid-item"> <img
+                        <div class="grid-item"> <img class ="store-image"
                           src="${stores[i].img}"
                           alt="${stores[i].name}">
-                        <input  type="checkbox" id="store-${i}" style = "height :20px" value="${stores[i].name}">
+                        <input  type="checkbox" id="store-${i}" class ="store-input" value="${stores[i].name}">
                       </div>`
         }
       }

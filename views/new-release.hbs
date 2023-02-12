@@ -424,18 +424,28 @@ main .loader {
   }
 #storesIcon.grid-container {
   display: grid;
-  column-gap: 20px;
-  row-gap: 20px;
-  grid-template-columns: auto auto auto auto auto;
+  column-gap: 10px;
+  row-gap: 10px;
+  grid-template-columns: auto auto auto auto auto auto auto;
   padding: 10px;
 }
 
 #storesIcon.grid-container .grid-item {
   background-color: rgba(255, 255, 255, 0.8);
-  border: 1px solid rgba(0, 0, 0, 0.8);
   padding: 20px;
   font-size: 30px;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+.store-image{
+    width: 50px;
+    height: 50px;
+}
+.store-input{
+  height :15px;
+  margin-left: 10px;
 }
 .pointer{
   cursor:pointer;
@@ -1332,7 +1342,6 @@ function updateSongData(idx){
     }
     let image = new SimpleImage(fileinput);
     image.drawTo(imgcanvas);
-
   }
   function priviewimg() {
     let imgcanvas2 = document.getElementById("canv2");
@@ -1585,10 +1594,10 @@ var getAllStores=async()=>{
         document.getElementById("storesIcon").innerHTML =``
         for(let i = 0;i<stores.length;i++){
         document.getElementById("storesIcon").innerHTML += `
-                        <div class="grid-item"> <img
+                        <div class="grid-item"> <img class ="store-image"
                           src="${stores[i].img}"
                           alt="${stores[i].name}">
-                        <input  type="checkbox" id="store-${i}" style = "height :20px" value="${stores[i].name}">
+                        <input  type="checkbox" id="store-${i}" class ="store-input" value="${stores[i].name}">
                       </div>`
         }
       }

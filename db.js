@@ -209,6 +209,23 @@ var Song = sq.define('Song', {
         allowNull: false,
     }
 })
+var News = sq.define('News', {
+    id: {
+        type: Sequelize.INTEGER,
+        unique: true,
+        autoIncrement: true,
+        primaryKey: true,
+    },
+    title: {
+        type: Sequelize.STRING,
+    },
+    priority: {
+        type: Sequelize.STRING,
+    },
+    description: {
+        type: Sequelize.STRING,
+    }
+})
 function initialize() {
     return new Promise((resolve, reject) => {
         setTimeout(() => {
@@ -262,8 +279,12 @@ function getAlbum(albumId) {
         where: { id: albumId }
     })
 }
-
-
+function addNews(news) {
+    return News.create(news)
+}
+function getNews() {
+    return News.findAll({})
+}
 // create an album
 function addAlbum(albumData) {
     return Album.create(albumData)
@@ -466,4 +487,4 @@ function getFinalReleasedAlbums(userID) {
         }
     });
 }
-module.exports = { connectDb, getTotalAlbums, getTotalProcessedAlbums, getFinalReleasedAlbums, initialize, deleteSong, getSubmittedAlbumsForUser, getAllSongForUser, getAllSongsForAlbum, migrateToCompleted, updateSong, updateStoresArrayInAlbum, addAlbum, getDraftAlbumsForUser, getCompletedAlbumsForUser, addSong, updateSongArrayOfAlbum, getAllAlbums, deleteAlbum, updateAlbum, getAlbum, addLabel, getAllLabelsForUserID, getLabel, updateLabel, deleteLabel, getArtist, addArtist, updateArtist, deleteArtist, getArtistForUser }
+module.exports = { connectDb, getNews, addNews, getTotalAlbums, getTotalProcessedAlbums, getFinalReleasedAlbums, initialize, deleteSong, getSubmittedAlbumsForUser, getAllSongForUser, getAllSongsForAlbum, migrateToCompleted, updateSong, updateStoresArrayInAlbum, addAlbum, getDraftAlbumsForUser, getCompletedAlbumsForUser, addSong, updateSongArrayOfAlbum, getAllAlbums, deleteAlbum, updateAlbum, getAlbum, addLabel, getAllLabelsForUserID, getLabel, updateLabel, deleteLabel, getArtist, addArtist, updateArtist, deleteArtist, getArtistForUser }

@@ -7,8 +7,12 @@ var userSchema = new Schema({
     "email": String,
     "accountNumber": String,
     "ifsc": String,
+    "swift": String,
     "upi": String,
     "imageURL": String,
+    "firstName": String,
+    "lastName": String,
+    "address": String,
 });
 let User;
 async function initialize() {
@@ -81,16 +85,10 @@ async function loginUser(userData) {
     })
 }
 
-async function updateUser(userID, userData) {
-    User.findByIdAndUpdate(userID, {
-        accountNumber: userData.acc,
-        ifsc: userData.ifsc,
-        upi: userData.upi,
-        imageURL: userData.imageURL,
-    }, function (err, user) {
-        if (!err) {
-            console.log('User updated');
-        }
-    })
+function updateUser(userID, userData) {
+    return User.findByIdAndUpdate(userID, userData)
 }
-module.exports = { updateUser, initialize, registerUser, loginUser, userExist }
+function getUser(userID) {
+    return User.findById(userID).exec();
+}
+module.exports = { updateUser, getUser, initialize, registerUser, loginUser, userExist }

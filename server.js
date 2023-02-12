@@ -588,14 +588,53 @@ app.post('/register', (req, res, next) => {
         res.status(503).json({ error: err });
     }
 });
-app.post('/update-user', ensureLogin, ensureLogin, multer({ storage: userProfilePicture }).single('userImage'), (req, res, next) => {
+app.post('/update-user', ensureLogin, ensureLogin, multer({ storage: userProfilePicture }).single('profile_image'), (req, res, next) => {
     try {
         if (req.file) req.body.imageURL = `./uploads/${req.session.user.email}/${req.file.originalname}`
-        api.updateUserDetails(req.session.user.userID, req.body).then(() => {
-            res.render(path.join(__dirname, "/views/register.hbs"), { successMessage: "Registration Successful click for login " });
+        api.updateUserDetails(req.session.user.userID, req.body).then((updateUser) => {
+            res.status(200).json({ userDetails: updateUser });
         }).catch((err) => {
             console.error(err)
-            res.render(path.join(__dirname, "/views/register.hbs"), { errorMessage: err, userName: req.body.email });
+            res.status(503).json({ message: "err: user nore updated" });
+        })
+    } catch (err) {
+        console.log(err)
+        res.status(503).json({ error: err });
+    }
+});
+app.get("/get-news", ensureLogin, async function (req, res) {
+    try {
+        api.getNews().then((news) => {
+            res.status(200).json({ news: news });
+        }).catch((err) => {
+            console.log(err)
+            res.status(503).json({ message: "no news found" });
+        })
+    } catch (err) {
+        console.log(err)
+        res.status(503).json({ error: err });
+    }
+});
+app.get("/add-news", ensureLogin, async function (req, res) {
+    try {
+        api.addNews(req.body()).then(() => {
+            res.status(200).json({ message: "News Added Success" });
+        }).catch((err) => {
+            console.log(err)
+            res.status(503).json({ message: "News Not Added" });
+        })
+    } catch (err) {
+        console.log(err)
+        res.status(503).json({ error: err });
+    }
+});
+app.get("/user-details", ensureLogin, async function (req, res) {
+    try {
+        api.getUserDetails(req.session.user.userID).then((userDetails) => {
+            res.status(200).json({ user: userDetails });
+        }).catch((err) => {
+            console.log(err)
+            res.status(503).json({ message: "no user found" });
         })
     } catch (err) {
         console.log(err)
@@ -611,7 +650,6 @@ app.post('/login', (req, res, next) => {
         req.session.user = {
             userID: userData._id,
             email: userData.email,
-
         }
         res.redirect('/');
     }).catch((err) => {

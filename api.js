@@ -72,9 +72,11 @@ function getCompletedAlbumsForUser(userID) {
     return db.getCompletedAlbumsForUser(userID)
 }
 function getNews() {
-
+    return db.getNews()
 }
-
+function addNews() {
+    return db.addNews()
+}
 function getSubmittedAlbumsForUser(userID) {
     return db.getSubmittedAlbumsForUser(userID)
 }
@@ -350,6 +352,9 @@ function login(userData) {
 function updateUserDetails(userID, userData) {
     return mongo.updateUser(userID, userData)
 }
+function getUserDetails(userID) {
+    return mongo.getUser(userID)
+}
 async function getUserData(userID) {
     let User = {}
     await db.getTotalProcessedAlbums(userID).then((count) => {
@@ -374,4 +379,4 @@ async function getUserData(userID) {
         resolve(User)
     })
 }
-module.exports = { getGenre, updateUserDetails, connectWithDB, deleteSong, getUserData, getSubmittedAlbumsForUser, getAlbumWithId, getAllSongsForUser, getSongsForAlbum, initializeDatabase, updateLabel, deleteAlbum, updateToCompletedAlbum, updateStoresArrayInAlbum, getStores, updateSongData, updateSongsArrayInAlbum, getCompletedAlbumsForUser, saveSongData, updateArtist, deleteArtist, getAllAlbumsForUser, getAllSongsForAlbum, getDraftAlbumsForUser, getNonApprovedAlbums, getPrimaryArtistForUserID, registerUser, deleteLabel, albumApproved, removeDraft, login, addLabelForUserWithID, saveArtist, getAllLabelsForUserIDForUser, saveAlbum, connectMongoDB, getAllArtistsWithUserID, addSongForUser, updateAlbum }
+module.exports = { getGenre, getNews, addNews, updateUserDetails, getUserDetails, connectWithDB, deleteSong, getUserData, getSubmittedAlbumsForUser, getAlbumWithId, getAllSongsForUser, getSongsForAlbum, initializeDatabase, updateLabel, deleteAlbum, updateToCompletedAlbum, updateStoresArrayInAlbum, getStores, updateSongData, updateSongsArrayInAlbum, getCompletedAlbumsForUser, saveSongData, updateArtist, deleteArtist, getAllAlbumsForUser, getAllSongsForAlbum, getDraftAlbumsForUser, getNonApprovedAlbums, getPrimaryArtistForUserID, registerUser, deleteLabel, albumApproved, removeDraft, login, addLabelForUserWithID, saveArtist, getAllLabelsForUserIDForUser, saveAlbum, connectMongoDB, getAllArtistsWithUserID, addSongForUser, updateAlbum }
