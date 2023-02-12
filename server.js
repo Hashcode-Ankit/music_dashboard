@@ -18,8 +18,8 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(clientSessions({
     cookieName: "session", // this is the object name that will be added to 'req'
     secret: "dashboard_user_details", // this should be a long un-guessable string.
-    duration: 30 * 60 * 1000, // duration of the session in milliseconds (2 minutes)
-    activeDuration: 1000 * 60 // the session will be extended by this many ms each request (1 minute)
+    duration: 30 * 60 * 1000, // duration of the session in milliseconds (30 minutes)
+    activeDuration: 1000 * 60 * 30// the session will be extended by this many ms each request (30 minute)
 }));
 // setup a 'route' to listen on the default url path (http://localhost)
 app.use(express.static('public'));
