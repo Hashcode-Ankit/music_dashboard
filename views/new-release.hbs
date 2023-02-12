@@ -635,6 +635,10 @@ main .loader {
             Select Companies To Store
           </h4>
           <!-- Step 4 input fields -->
+             <input  autocomplete="on" type="button" onclick='selects()' style="width: 110px;background:#7e3af2;color:white;"
+              value="Select All" />
+            <input  autocomplete="on" type="button" onclick='deSelect()' style="width: 110px;background:#7e3af2;color:white;"
+              value="Deselect All" />
             <div class="grid-container" id ="storesIcon">
                 
             </div>
@@ -1365,20 +1369,6 @@ function updateSongData(idx){
     }
     return document.getElementById("result").innerHTML = "You have selected " + result + " Companies to Release";
   }
-  function selects() {
-    var ele = document.getElementsByClassName('lg');
-    for (var i = 0; i < ele.length; i++) {
-      if (ele[i].type == 'checkbox')
-        ele[i].checked = true;
-    }
-  }
-  function deSelect() {
-    var ele = document.getElementsByClassName('lg');
-    for (var i = 0; i < ele.length; i++) {
-      if (ele[i].type == 'checkbox')
-        ele[i].checked = false;
-    }
-  }
   function preview() {
     if(Object.keys(savedAlbum).length != 0){
     document.getElementById('previewData').innerHTML = ` 
@@ -1610,6 +1600,20 @@ function updateGenre(){
 }
 getAllLabels()
 getAllStores()
+function selects() {
+      for (var i = 0; i < stores.length; i++) {
+       var ele = document.getElementById(`store-${i}`);
+        if (ele.type == 'checkbox')
+          ele.checked = true;
+      }
+    }
+    function deSelect(){
+      for (var i = 0; i < stores.length; i++) {
+      var ele = document.getElementById(`store-${i}`);
+        if (ele.type == 'checkbox')
+          ele.checked = false;
+      }
+    }
 
 // disable three more days in calender
 let today = new Date();

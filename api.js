@@ -279,7 +279,12 @@ function updateToCompletedAlbum(album) {
 function updateStoresArrayInAlbum(storeArray) {
     return db.updateStoresArrayInAlbum(storeArray)
 }
-
+function addYoutubeReq() {
+    return db.addYoutubeReq()
+}
+function getYoutubeReq() {
+    return db.getYoutubeReq()
+}
 function deleteLabel(labelId, userID) {
     return db.deleteLabel(labelId, userID)
 }
@@ -379,4 +384,4 @@ async function getUserData(userID) {
         resolve(User)
     })
 }
-module.exports = { getGenre, getNews, addNews, updateUserDetails, getUserDetails, connectWithDB, deleteSong, getUserData, getSubmittedAlbumsForUser, getAlbumWithId, getAllSongsForUser, getSongsForAlbum, initializeDatabase, updateLabel, deleteAlbum, updateToCompletedAlbum, updateStoresArrayInAlbum, getStores, updateSongData, updateSongsArrayInAlbum, getCompletedAlbumsForUser, saveSongData, updateArtist, deleteArtist, getAllAlbumsForUser, getAllSongsForAlbum, getDraftAlbumsForUser, getNonApprovedAlbums, getPrimaryArtistForUserID, registerUser, deleteLabel, albumApproved, removeDraft, login, addLabelForUserWithID, saveArtist, getAllLabelsForUserIDForUser, saveAlbum, connectMongoDB, getAllArtistsWithUserID, addSongForUser, updateAlbum }
+module.exports = { getGenre, getNews, addYoutubeReq, getYoutubeReq, addNews, updateUserDetails, getUserDetails, connectWithDB, deleteSong, getUserData, getSubmittedAlbumsForUser, getAlbumWithId, getAllSongsForUser, getSongsForAlbum, initializeDatabase, updateLabel, deleteAlbum, updateToCompletedAlbum, updateStoresArrayInAlbum, getStores, updateSongData, updateSongsArrayInAlbum, getCompletedAlbumsForUser, saveSongData, updateArtist, deleteArtist, getAllAlbumsForUser, getAllSongsForAlbum, getDraftAlbumsForUser, getNonApprovedAlbums, getPrimaryArtistForUserID, registerUser, deleteLabel, albumApproved, removeDraft, login, addLabelForUserWithID, saveArtist, getAllLabelsForUserIDForUser, saveAlbum, connectMongoDB, getAllArtistsWithUserID, addSongForUser, updateAlbum }

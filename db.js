@@ -226,6 +226,23 @@ var News = sq.define('News', {
         type: Sequelize.STRING,
     }
 })
+var youtubeReq = sq.define('News', {
+    id: {
+        type: Sequelize.INTEGER,
+        unique: true,
+        autoIncrement: true,
+        primaryKey: true,
+    },
+    claimURL: {
+        type: Sequelize.STRING,
+    },
+    contentIDReqUPC: {
+        type: Sequelize.STRING,
+    },
+    userID: {
+        type: Sequelize.STRING,
+    }
+})
 function initialize() {
     return new Promise((resolve, reject) => {
         setTimeout(() => {
@@ -282,8 +299,15 @@ function getAlbum(albumId) {
 function addNews(news) {
     return News.create(news)
 }
+
+function addYoutubeReq(req) {
+    return youtubeReq.create(req)
+}
+function getYoutubeReq(req) {
+    return youtubeReq.findAll()
+}
 function getNews() {
-    return News.findAll({})
+    return News.findAll()
 }
 // create an album
 function addAlbum(albumData) {
@@ -487,4 +511,4 @@ function getFinalReleasedAlbums(userID) {
         }
     });
 }
-module.exports = { connectDb, getNews, addNews, getTotalAlbums, getTotalProcessedAlbums, getFinalReleasedAlbums, initialize, deleteSong, getSubmittedAlbumsForUser, getAllSongForUser, getAllSongsForAlbum, migrateToCompleted, updateSong, updateStoresArrayInAlbum, addAlbum, getDraftAlbumsForUser, getCompletedAlbumsForUser, addSong, updateSongArrayOfAlbum, getAllAlbums, deleteAlbum, updateAlbum, getAlbum, addLabel, getAllLabelsForUserID, getLabel, updateLabel, deleteLabel, getArtist, addArtist, updateArtist, deleteArtist, getArtistForUser }
+module.exports = { connectDb, getNews, addYoutubeReq, getYoutubeReq, addNews, getTotalAlbums, getTotalProcessedAlbums, getFinalReleasedAlbums, initialize, deleteSong, getSubmittedAlbumsForUser, getAllSongForUser, getAllSongsForAlbum, migrateToCompleted, updateSong, updateStoresArrayInAlbum, addAlbum, getDraftAlbumsForUser, getCompletedAlbumsForUser, addSong, updateSongArrayOfAlbum, getAllAlbums, deleteAlbum, updateAlbum, getAlbum, addLabel, getAllLabelsForUserID, getLabel, updateLabel, deleteLabel, getArtist, addArtist, updateArtist, deleteArtist, getArtistForUser }

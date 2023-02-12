@@ -615,7 +615,7 @@ app.get("/get-news", ensureLogin, async function (req, res) {
         res.status(503).json({ error: err });
     }
 });
-app.get("/add-news", ensureLogin, async function (req, res) {
+app.post("/add-news", ensureLogin, async function (req, res) {
     try {
         api.addNews(req.body()).then(() => {
             res.status(200).json({ message: "News Added Success" });
