@@ -14,7 +14,12 @@ var userSchema = new Schema({
     "lastName": String,
     "address": String,
 });
-let User;
+var adminSchema = new Schema({
+    "password": String,
+    "email": String,
+});
+let User
+let Admin
 async function initialize() {
     let db = mongoose.createConnection(`mongodb+srv://hashcode-ankit:pepcoder@cluster0.my9kvko.mongodb.net/?retryWrites=true&w=majority`);
     return new Promise((resolve, reject) => {
@@ -23,6 +28,7 @@ async function initialize() {
         });
         db.once('open', () => {
             User = db.model("users", userSchema);
+            Admin = db.model("admin", adminSchema)
             resolve("db1 success!");
         });
     })
@@ -32,8 +38,7 @@ async function registerUser(userData) {
     return new Promise((resolve, reject) => {
         bcrypt.hash(userData.password, 10).then((hash) => {
             userData.password = hash;
-            console.log("store", userToStore)
-            let newUser = new User(userToStore);
+            let newUser = new User(userData);
             newUser.save((err) => {
                 if (err) {
                     reject(userData.email + " already exist" + err)
@@ -84,11 +89,50 @@ async function loginUser(userData) {
             });
     })
 }
+function loginAdmin(adminData) {
+    return new Promise((resolve, reject) => {
+        console.log("finding", adminData)
+        Admin.find({ email: adminData.email }).exec().then((admin) => {
+            if (admin.length == 0) {
+                reject("no admin exist")
+            }
+            bcrypt.compare(adminData.password, admin[0].password).then((result) => {
+                if (!result) {
+                    reject("Incorrect Password for admin : " + adminData.email);
+                }
+                else {
+                    resolve(admin[0])
+                }
+            })
+        }).catch(function (error) {
+            reject("unable to find the user : " + adminData.email + error)
+        });
+    })
 
+}
+function registerAdmin(adminData) {
+    return new Promise((resolve, reject) => {
+        bcrypt.hash(adminData.password, 10).then((hash) => {
+            adminData.password = hash;
+            let admin = new Admin(adminData);
+            admin.save((err) => {
+                if (err) {
+                    reject(adminData.email + " already exist" + err)
+                }
+                else {
+                    resolve("registered");
+                }
+            })
+        }).catch((err) => {
+            reject("not able to decrypt pass") // Show any errors that occurred during the process
+        });
+
+    })
+}
 function updateUser(userID, userData) {
     return User.findByIdAndUpdate(userID, userData)
 }
 function getUser(userID) {
     return User.findById(userID).exec();
 }
-module.exports = { updateUser, getUser, initialize, registerUser, loginUser, userExist }
+module.exports = { updateUser, registerAdmin, loginAdmin, getUser, initialize, registerUser, loginUser, userExist }

@@ -209,6 +209,7 @@ var Song = sq.define('Song', {
         allowNull: false,
     }
 })
+
 var News = sq.define('News', {
     id: {
         type: Sequelize.INTEGER,
@@ -264,6 +265,7 @@ function getAllAlbums(userID) {
         }
     })
 }
+
 function getDraftAlbumsForUser(userID) {
     return Album.findAll({
         where: {
@@ -272,6 +274,7 @@ function getDraftAlbumsForUser(userID) {
         }
     })
 }
+
 function getCompletedAlbumsForUser(userID) {
     return Album.findAll({
         where: {
@@ -290,6 +293,26 @@ function getSubmittedAlbumsForUser(userID) {
         }
     })
 }
+
+function getPendingAlbumsForAdmin() {
+    return Album.findAll({
+        where: {
+            draft: false,
+            approved: false,
+        }
+    })
+}
+
+function getApprovedAlbumsForAdmin() {
+    return Album.findAll({
+        where: {
+            draft: false,
+            approved: true,
+        }
+    })
+}
+
+
 //get an Album
 function getAlbum(albumId) {
     return Album.findAll({
@@ -300,6 +323,17 @@ function addNews(news) {
     return News.create(news)
 }
 
+async function approveAlbum(albumId) {
+    await Album.update({ approved: true }, { where: { id: albumId } })
+    console.log("Approved Successfully")
+    console.log(await Album.findAll({
+        where: { id: albumId }
+    }))
+}
+
+async function rejectAlbum(albumId) {
+    return Album.update({ approved: false, draft: true }, { where: { id: albumId } })
+}
 function addYoutubeReq(req) {
     return youtubeReq.create(req)
 }
@@ -313,9 +347,11 @@ function getNews() {
 function addAlbum(albumData) {
     return Album.create(albumData)
 }
+
 function addSong(songData) {
     return Song.create(songData)
 }
+
 function updateSong(songData, songID) {
     return Song.update(songData, {
         where: {
@@ -332,6 +368,7 @@ function updateSongArrayOfAlbum(songArray) {
         }
     })
 }
+
 function updateStoresArrayInAlbum(storeArray) {
     return Album.update({ stores: storeArray.stores }, {
         where: {
@@ -346,6 +383,7 @@ function updateAlbum(albumId, updateInfo) {
         where: { id: albumId }
     })
 }
+
 function migrateToCompleted(album) {
     return Album.update({ draft: false, submitted: true }, {
         where: {
@@ -374,11 +412,13 @@ function deleteAlbum(albumId, userID) {
 function addLabel(labelData) {
     return Label.create(labelData)
 }
+
 function getAllSongForUser(userID) {
     return Song.findAll({
         where: { userID: userID }
     })
 }
+
 function getAllSongsForAlbum(albumID) {
     return Song.findAll({
         where: { albumId: albumID }
@@ -391,7 +431,16 @@ function getAllLabelsForUserID(userID) {
         where: { userID: userID }
     })
 }
-
+function getPendingLabels(){
+    return Label.findAll({
+        where: { approved: false }
+    })
+}
+function getApprovedLabels(){
+    return Label.findAll({
+        where: { approved: true }
+    })
+}
 //get a label
 function getLabel(labelId) {
     return Label.findAll({
@@ -404,16 +453,19 @@ function getLabel(labelId) {
 
 //update a label
 function updateLabel(labelId, updateInfo) {
-    return Label.update(updateInfo,
-        {
-            where: {
-                id: labelId,
-            }
+    return Label.update(updateInfo, {
+        where: {
+            id: labelId,
         }
-    )
+    })
 }
-
-
+function approveLabel(labelId){
+    return  Label.update({approved :true}, {
+        where: {
+            id: labelId,
+        }
+    })
+}
 //delete a label
 function deleteLabel(labelId, userID) {
     return Label.destroy({
@@ -511,4 +563,4 @@ function getFinalReleasedAlbums(userID) {
         }
     });
 }
-module.exports = { connectDb, getNews, addYoutubeReq, getYoutubeReq, addNews, getTotalAlbums, getTotalProcessedAlbums, getFinalReleasedAlbums, initialize, deleteSong, getSubmittedAlbumsForUser, getAllSongForUser, getAllSongsForAlbum, migrateToCompleted, updateSong, updateStoresArrayInAlbum, addAlbum, getDraftAlbumsForUser, getCompletedAlbumsForUser, addSong, updateSongArrayOfAlbum, getAllAlbums, deleteAlbum, updateAlbum, getAlbum, addLabel, getAllLabelsForUserID, getLabel, updateLabel, deleteLabel, getArtist, addArtist, updateArtist, deleteArtist, getArtistForUser }
+module.exports = { connectDb, getNews,approveLabel, addYoutubeReq,getApprovedLabels,getPendingLabels, getYoutubeReq, addNews, getTotalAlbums, getTotalProcessedAlbums, getFinalReleasedAlbums, initialize, deleteSong, getSubmittedAlbumsForUser, getAllSongForUser, getAllSongsForAlbum, migrateToCompleted, updateSong, updateStoresArrayInAlbum, addAlbum, getDraftAlbumsForUser, getCompletedAlbumsForUser, getPendingAlbumsForAdmin, getApprovedAlbumsForAdmin, addSong, updateSongArrayOfAlbum, getAllAlbums, deleteAlbum, updateAlbum, getAlbum, addLabel, getAllLabelsForUserID, getLabel, updateLabel, deleteLabel, getArtist, addArtist, updateArtist, deleteArtist, getArtistForUser, approveAlbum, rejectAlbum }

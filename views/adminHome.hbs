@@ -197,19 +197,41 @@ main label {
 #previewData{
   padding-inline:42px;
 }
+main ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: white;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  text-align: center;
+}
+
+main li {
+  float: left;
+  width: 50%;
+  font-weight: bold;
+}
+
+
 
   </style>
   <main class="h-full pb-16 overflow-y-auto">
+  <ul>
+  <li><a class="active" id="navpending"onclick="getAllPendings()">Pending Albums</a></li>
+  <li><a  id="navapproved"onclick="getAllApproved()">Approved Albums</a></li>
+  
+</ul>  
 
-  <div class="container px-6 mx-auto grid" id="completestable">
-    <h4 class="text-lg font-semibold text-gray-600 dark:text-gray-300 py-2">
-      Complete Albums
-    </h4>
-
-    <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for Complete Albums.." title="Type in a name">
+  <div class="container px-6 mx-auto grid" id="completestable" style="margin-top: 60px;">
+   
+    <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search By Title.." title="Type in a name">
 
     <div class="w-full overflow-hidden rounded-lg shadow-xs">
-      <div class="w-full overflow-x-auto">
+      <div class="w-full overflow-x-auto" style="overflow:scroll; height:350px;">
+        
         <table class="w-full whitespace-no-wrap" id="myTable">
           <thead>
             <tr
@@ -222,10 +244,17 @@ main label {
               <th class="px-4 py-3">Action</th>
             </tr>
           </thead>
-          <tbody id = "tableOfCompletes" class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-          
+      
+          <tbody id = "tableOfCompletes" class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800" style="overflow:scroll; height:400px;">
+          <div style="display: flex;
+    text-align: center;
+    justify-content: center;">
+      <b id="load">loading Please Wait...</b>
+      </div>
           </tbody>
+
         </table>
+        
         {{#if errorMessage}}
             <span
                   class="px-2 py-1 font-semibold leading-tight text-orange-700 bg-orange-100 rounded-full dark:text-white dark:bg-orange-600">
@@ -234,10 +263,13 @@ main label {
             {{/if}}
       </div>
       <div style="display: flex;
-    text-align: center;
-    justify-content: center;">
-      <div class="loader" id="load"></div>
-      </div>
+    justify-content: right;
+    margin-top: 20px;">
+      <a href="/logout"
+          class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+          LogOut
+        </a>
+        </div>
 </div>
 </div>
 
@@ -266,6 +298,8 @@ main label {
                               <th class="px-4 py-3">Writer</th>
                               <th class="px-4 py-3">Language</th>
                               <th class="px-4 py-3">File Name</th>
+                              <th class="px-4 py-3">Play</th>
+                              
                             </tr>
                           </thead>
                           <tbody id="previewTableRows" class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
@@ -275,13 +309,10 @@ main label {
                       </div>
         
                   </div>
-                  <div class="mt-3" style="display: flex; justify-content:center;">
-            <button
-               onclick="showpreview(null)"
-               class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
-                Back
-                </button>
-        </div>
+                  <div class="mt-3" id="actions" style="display: flex; justify-content:space-between;">
+            
+                </div>
+                 </div>
                 </div>
               
         </section>
@@ -292,7 +323,7 @@ main label {
 <script>
 let songsArray = []
 const getSongsWithAlbumID =async(albumID)=>{
-  await fetch(`/album-song/${albumID}`).then(response => {
+  await fetch(`/admin-album-song/${albumID}`).then(response => {
       if (response.ok) {
         return response.json()
       }
@@ -335,7 +366,7 @@ async function preview(albumDataSaved) {
                 </div>
                 <div class="selectionInput">
                 <label for="pet-select" style="margin-right: 23px;">SubGenre </label>
-                <input value = ${albumDataSaved.subGenre} disabled name="subgenre" id="pet-select">
+                <input value = ${albumDataSaved.subgenre} disabled name="subgenre" id="pet-select">
                 </input>
                 </div>
                 <div class="selectionInput">
@@ -358,13 +389,13 @@ async function preview(albumDataSaved) {
               </div>
               <div class="item ">
                 <label>Producer Catalogue Number </label>
-                <input value = ${albumDataSaved.producerCatalogueNumber} readonly autocomplete="on" placeholder="Producer Catalogue Number" type="" name="producer_catalogue_number"
+                <input value = ${albumDataSaved.producer} readonly autocomplete="on" placeholder="Producer Catalogue Number" type="" name="producer_catalogue_number"
                   oninput="this.className = ''">
                 <label>Phisical/Original release date </label><input value = ${albumDataSaved.originalReleaseDate} readonly id ="datepicker"
                   placeholder="Version/Subtitle" type="date" name="physical_release_date" oninput="this.className = ''">
-                <label>Line1&#8471; </label><input value = "${albumDataSaved.publisherCopyright}" readonly autocomplete="on" placeholder="Line" type="" name="line1"
+                <label>Line1 </label><input value = "${albumDataSaved.copyright}" readonly autocomplete="on" placeholder="Line" type="" name="line1"
                   oninput="this.className = ''">
-                <label>Line2&#169; </label><input value = ${albumDataSaved.copyright} readonly  autocomplete="on" placeholder="Line" type="" name="line2"
+                <label>Line2 </label><input value = ${albumDataSaved.copyright2} readonly  autocomplete="on" placeholder="Line" type="" name="line2"
                   oninput="this.className = ''">
                 <label>UPC/EAN </label><input value = "fill by admin" readonly autocomplete="on" placeholder="UPC/EAN" type="" name="upc"
                   oninput="this.className = ''">
@@ -389,11 +420,47 @@ async function preview(albumDataSaved) {
                      ${songsArray[i].language}
                    </td>
                   <td class="px-4 py-3 text-sm">
-                    ${songName}
-                   </td>`
+                    ${songName.slice(0,30)}...
+                   </td>
+                  <td class="px-4 py-3 text-sm">
+
+                  <div style="display:flex;justify-content:center;align-items:center;">
+                    <audio controls>
+  <source src=".${songsArray[i].filePath}" type="audio/mpeg">
+  
+</audio>
+
+                  </div>
+                    
+                   </td>
+
+                   `
        }
+       document.getElementById('actions').innerHTML =`
+       <button
+               onclick="showpreview(null)"
+               class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+                Back
+                </button>
+                <div>
+                <a
+               href="approve-album/${albumDataSaved.id}"
+               style="background:green;"
+               class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+                Approve
+                </a>
+                <a
+               href="reject-album/${albumDataSaved.id}"
+               style="background:red;"
+               class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+                Reject
+                </a>
+       `
+       
 
   }
+
+  
 
 function showpreview(index){
    var x = document.getElementById("previewdiv");
@@ -423,7 +490,7 @@ function showpreview(index){
       return a.id - b.id;
    });
    document.getElementById("tableOfCompletes").innerHTML=``
-   for (let i = 0; i < CompleteArray.length; i++) {
+   for (let i = (CompleteArray.length-1); i >= 0 ; i--) {
         document.getElementById("tableOfCompletes").innerHTML += `
         <tr class="text-gray-700 dark:text-gray-400">
               <td class="px-4 py-3">
@@ -469,21 +536,60 @@ function showpreview(index){
    }
         document.getElementById("load").style.display = "none";
   }
-  const getAllCompletes=async()=>{
-     await fetch('/album-completed').then(response => {
+  const getAllPendings=async()=>{
+     await fetch('/pending-albums').then(response => {
       if (response.ok) {
         return response.json()
       }
     }).then(async (data) => {
-      if (data.album) {
-        CompleteArray = data.album;
+      if (data.albums) {
+        CompleteArray = data.albums;
         updateTableData()
         console.log("response data", CompleteArray)
       }
     }).catch((error) => {
       console.error(error)
     });
+    document.getElementById('navpending').style = `display: block;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  background-color: #7e3af2;
+  color: white;`
+    document.getElementById('navapproved').style = `display: block;
+  color: black
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;`
   }
+
+  const getAllApproved=async()=>{
+     await fetch('/approved-albums').then(response => {
+      if (response.ok) {
+        return response.json()
+      }
+    }).then(async (data) => {
+      if (data.albums) {
+        CompleteArray = data.albums;
+        updateTableData()
+        console.log("response data", CompleteArray)
+      }
+    }).catch((error) => {
+      console.error(error)
+    });
+    document.getElementById('navapproved').style = `display: block;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  background-color: #7e3af2;
+  color: white;`
+    document.getElementById('navpending').style = `display: block;
+  color: black
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;`
+  }
+  
 
   function myFunction() {
     var input, filter, table, tr, td, i, txtValue;
@@ -503,7 +609,7 @@ function showpreview(index){
       }
     }
   }
-  getAllCompletes()
+  getAllPendings()
  
 </script>
 <script src="https://www.dukelearntoprogram.com/course1/common/js/image/SimpleImage.js"></script>

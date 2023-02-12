@@ -88,141 +88,160 @@
       padding: 12px 20px;
       border-radius: 4px;
     }
-    .error{
-      color:red
+
+    .error {
+      color: red
     }
   </style>
   <div class="container px-6 mx-auto grid">
     <button @click="openModal"
-      onclick ="updateSaveLabelButton()"
-      class="px-4 py-2  leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg  focus:outline-none focus:shadow-outline-purple my-6 text-xl font-semibold ">
+      onclick="updateSaveLabelButton()"
+      class="px-4 py-2 leading-5 text-white transition-colors duration-150
+      bg-purple-600 border border-transparent rounded-lg focus:outline-none
+      focus:shadow-outline-purple my-6 text-xl font-semibold ">
       Add Label +
     </button>
     <h4 class="text-lg font-semibold text-gray-600 dark:text-gray-300 py-2">
       Labels
     </h4>
 
-    <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for Title.." title="Type in a name">
+    <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search
+      for Title.." title="Type in a name">
 
     <div class="w-full overflow-hidden rounded-lg shadow-xs">
       <div class="w-full overflow-x-auto">
         <table class="w-full whitespace-no-wrap" id="myTable">
           <thead>
-            <tr
-              class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
+            <tr class="text-xs font-semibold tracking-wide text-left
+              text-gray-500
+              uppercase border-b dark:border-gray-700 bg-gray-50
+              dark:text-gray-400 dark:bg-gray-800">
               <th class="px-4 py-3">Title</th>
               <th class="px-4 py-3">YouTube</th>
               <th class="px-4 py-3">Status</th>
               <th class="px-4 py-3">Actions</th>
             </tr>
           </thead>
-          <tbody  id = "tableOfLabels" class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-          
+          <tbody id="tableOfLabels" class="bg-white divide-y
+            dark:divide-gray-700 dark:bg-gray-800">
+
           </tbody>
         </table>
         {{#if errorMessage}}
-            <span
-                  class="px-2 py-1 font-semibold leading-tight text-orange-700 bg-orange-100 rounded-full dark:text-white dark:bg-orange-600">
-                  {{errorMessage}}
-                </span>
-            {{/if}}
+        <span
+          class="px-2 py-1 font-semibold leading-tight text-orange-700
+          bg-orange-100 rounded-full dark:text-white dark:bg-orange-600">
+          {{errorMessage}}
+        </span>
+        {{/if}}
       </div>
-</main>
-<div x-show="isModalOpen" x-transition:enter="transition ease-out duration-150" x-transition:enter-start="opacity-0"
-  x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-150"
-  x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
-  class="fixed inset-0 z-30 flex items-end bg-black bg-opacity-50 sm:items-center sm:justify-center">
-  <!-- Modal -->
+    </main>
+    <div x-show="isModalOpen" x-transition:enter="transition ease-out duration-150" x-transition:enter-start="opacity-0"
+      x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-150"
+      x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
+      class="fixed inset-0 z-30 flex items-end bg-black bg-opacity-50
+      sm:items-center sm:justify-center">
+      <!-- Modal -->
   <div x-show="isModalOpen" x-transition:enter="transition ease-out duration-150"
     x-transition:enter-start="opacity-0 transform translate-y-1/2" x-transition:enter-end="opacity-100"
     x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100"
     x-transition:leave-end="opacity-0  transform translate-y-1/2" @click.away="closeModal" @keydown.escape="closeModal"
     class="w-full px-6 py-4 overflow-hidden bg-white rounded-t-lg dark:bg-gray-800 sm:rounded-lg sm:m-4 sm:max-w-xl"
-    role="dialog" id="modal">
-    <!-- Remove header if you don't want a close icon. Use modal body to place modal tile. -->
-    <header class="flex justify-end">
-      <button
+        role="dialog" id="modal">
+        <!-- Remove header if you don't want a close icon. Use modal body to place modal tile. -->
+        <header class="flex justify-end">
+          <button
         class="inline-flex items-center justify-center w-6 h-6 text-gray-400 transition-colors duration-150 rounded dark:hover:text-gray-200 hover: hover:text-gray-700"
-        aria-label="close" @click="closeModal">
+            aria-label="close" @click="closeModal">
         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" role="img" aria-hidden="true">
-          <path
+              <path
             d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-            clip-rule="evenodd" fill-rule="evenodd"></path>
-        </svg>
-      </button>
-    </header>
-    <!-- Modal body -->
-    <div class="mt-4 mb-6">
-      <h2 class="error" id ="errorModel"></h2>
-      <!-- Modal title -->
-      <h1 @click="closeModal" id ="closesModal" hidden></h1>
-      <p id="addLabel" class="font-semibold text-gray-700 dark:text-gray-300 my-6 text-xl font-semibold">
-        Add Label
-      </p>
-      <!-- Modal description -->
-      <div class="container2">
-        <div class="card">
-            <label class="block text-sm">
-              <span class="text-gray-700 dark:text-gray-400 my-6">Title</span>
-              <input name="title"
-                id ="title"
-                class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                placeholder="Arijit" required />
-            </label>
-            <label class="block text-sm">
-              <span class="text-gray-700 dark:text-gray-400 my-6">Youtube URL</span>
-              <input name="youtube"
-                id ="youtube"
-                class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                placeholder="https://youtube.com" required />
-            </label>
+                clip-rule="evenodd" fill-rule="evenodd"></path>
+            </svg>
+          </button>
+        </header>
+        <!-- Modal body -->
+        <div class="mt-4 mb-6">
+          <h2 class="error" id="errorModel"></h2>
+          <!-- Modal title -->
+          <h1 @click="closeModal" id="closesModal" hidden></h1>
+          <p id="addLabel" class="font-semibold text-gray-700 dark:text-gray-300
+            my-6 text-xl font-semibold">
+            Add Label
+          </p>
+          <!-- Modal description -->
+          <div class="container2">
+            <div class="card">
+              <label class="block text-sm">
+                <span class="text-gray-700 dark:text-gray-400 my-6">Title</span>
+                <input name="title"
+                  id="title"
+                  class="block w-full mt-1 text-sm dark:border-gray-600
+                  dark:bg-gray-700 focus:border-purple-400 focus:outline-none
+                  focus:shadow-outline-purple dark:text-gray-300
+                  dark:focus:shadow-outline-gray form-input"
+                  placeholder="Arijit" required />
+              </label>
+              <label class="block text-sm">
+                <span class="text-gray-700 dark:text-gray-400 my-6">Youtube URL</span>
+                <input name="youtube"
+                  id="youtube"
+                  class="block w-full mt-1 text-sm dark:border-gray-600
+                  dark:bg-gray-700 focus:border-purple-400 focus:outline-none
+                  focus:shadow-outline-purple dark:text-gray-300
+                  dark:focus:shadow-outline-gray form-input"
+                  placeholder="https://youtube.com" required />
+              </label>
 
-            <label class="text-gray-700 dark:text-gray-400">Upload NDA</label>
-            <div class="drop_box">
-              <header>
-                <h4>Select File here</h4>
-              </header>
-              <p>Files Supported: PDF, TEXT, DOC , DOCX</p>
-              <input required name="nda" type="file" class="form-control" hidden accept=".doc,.docx,.pdf" id="fileID" style="display:none;">
-              <button class="btn" type="button" >Choose File</button>
+              <label class="text-gray-700 dark:text-gray-400">Upload NDA</label>
+              <div class="drop_box">
+                <header>
+                  <h4>Select File here</h4>
+                </header>
+                <p>Files Supported: PDF, TEXT, DOC , DOCX</p>
+                <input required name="nda" type="file" class="form-control"
+                  hidden accept=".doc,.docx,.pdf" id="fileID"
+                  style="display:none;">
+                <button class="btn" type="button">Choose File</button>
+              </div>
+              <div id="recentFile" class="recent-file"></div>
+              <div><a href="../uploads/nda.odt" style="color:blue;" download>Download NDA
+                  Demo File</a></div>
             </div>
-            <div id = "recentFile" class="recent-file"></div>
-            <div><a href="#" style="color:blue;">Download NDA Demo File</a></div>
+          </div>
+        </div>
+        <div style="display:flex;justify-content:space-between">
+          <button @click="closeModal"
+      class="w-full px-5 py-3 text-sm font-medium leading-5 text-white text-gray-700 transition-colors duration-150 border border-gray-300 rounded-lg dark:text-gray-400 sm:px-4 sm:py-2 sm:w-auto active:bg-transparent hover:border-gray-500 focus:border-gray-500 active:text-gray-500 focus:outline-none focus:shadow-outline-gray">
+            Cancel
+          </button>
+          <button
+      id = "saveLabelButton"
+      class="w-full px-5 py-3 text-sm font-medium leading-5 text-white text-gray-700 transition-colors duration-150 border border-gray-300 rounded-lg dark:text-gray-400 sm:px-4 sm:py-2 sm:w-auto active:bg-transparent hover:border-gray-500 focus:border-gray-500 active:text-gray-500 focus:outline-none focus:shadow-outline-gray">
+            Save Label
+          </button>
         </div>
       </div>
     </div>
-     <div style="display:flex;justify-content:space-between">
-       <button @click="closeModal"
-      class="w-full px-5 py-3 text-sm font-medium leading-5 text-white text-gray-700 transition-colors duration-150 border border-gray-300 rounded-lg dark:text-gray-400 sm:px-4 sm:py-2 sm:w-auto active:bg-transparent hover:border-gray-500 focus:border-gray-500 active:text-gray-500 focus:outline-none focus:shadow-outline-gray">
-      Cancel
-    </button>
-    <button
-      id = "saveLabelButton"
-      class="w-full px-5 py-3 text-sm font-medium leading-5 text-white text-gray-700 transition-colors duration-150 border border-gray-300 rounded-lg dark:text-gray-400 sm:px-4 sm:py-2 sm:w-auto active:bg-transparent hover:border-gray-500 focus:border-gray-500 active:text-gray-500 focus:outline-none focus:shadow-outline-gray">
-      Save Label
-    </button>
-     </div>
-  </div>
-</div>
-<script>
-const dropArea = document.querySelector(".drop_box")
-const dropArea2 = document.querySelector(".recent-file"),
-button = dropArea.querySelector("button"),
-dragText = dropArea.querySelector("header"),
-input = dropArea.querySelector("input");
-let file;
-var filename;
+    <script>
+  const dropArea = document.querySelector(".drop_box")
+  const dropArea2 = document.querySelector(".recent-file"),
+    button = dropArea.querySelector("button"),
+    dragText = dropArea.querySelector("header"),
+    input = dropArea.querySelector("input");
+  let file;
+  var filename;
 
-button.onclick = () => {
-  input.click();
-};
+  button.onclick = () => {
+    input.click();
+  };
 
-input.addEventListener("change", function (e) {
-  var fileName = e.target.files[0].name;
-  let filedata = `
+  input.addEventListener("change", function (e) {
+    var fileName = e.target.files[0].name;
+    let filedata = `
     <h4> File Added : ${fileName}</h4>`;
-  dropArea2.innerHTML = filedata;
-});
+    dropArea2.innerHTML = filedata;
+  });
   function myFunction() {
     var input, filter, table, tr, td, i, txtValue;
     input = document.getElementById("myInput");
@@ -242,58 +261,59 @@ input.addEventListener("change", function (e) {
     }
   }
 </script>
-<!-- End of modal backdrop -->
+    <!-- End of modal backdrop -->
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-<script>
+    <script
+      src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script>
   let labelArray = []
-  function clearForm(){
+  function clearForm() {
     document.getElementById("youtube").value = ""
     document.getElementById("title").value = ""
     document.getElementById("fileID").value = ""
   }
-  function updateSaveLabelButton(){
+  function updateSaveLabelButton() {
     document.getElementById("addLabel").innerHTML = `Add Label`
     document.getElementById("saveLabelButton").disabled = false
     document.getElementById("saveLabelButton").onclick = saveLabel
     clearForm()
   }
-  function searchLabel(title){
-    for(let i=0;i<labelArray.length;i++){
-      if(title == labelArray[i].title) return true
+  function searchLabel(title) {
+    for (let i = 0; i < labelArray.length; i++) {
+      if (title == labelArray[i].title) return true
     }
     return false
   }
-  function saveLabel () {
+  function saveLabel() {
     document.getElementById("saveLabelButton").disabled = true
     let fileSelect = document.getElementById("fileID").files[0];
     const label = {
-      youtubeLink :  $(`input[name="youtube"]`).val(),
-      title:     $(`input[name="title"]`).val(),
+      youtubeLink: $(`input[name="youtube"]`).val(),
+      title: $(`input[name="title"]`).val(),
     }
-    if(searchLabel(label.title)){
+    if (searchLabel(label.title)) {
       document.getElementById("errorModel").innerHTML = `Label With Title ${label.title} Allready Exist`
       document.getElementById("saveLabelButton").disabled = false
       return
     }
     const formData = new FormData();
-    formData.append("youtube",label.youtubeLink);
-    formData.append("title",label.title);
-    formData.append("nda",fileSelect);
-    if(youtube == "" || title == "" || fileSelect === undefined){
-        document.getElementById("errorModel").innerHTML =`Please Fill All Details `
-        document.getElementById("saveLabelButton").disabled = false
-        return
-    }else{
+    formData.append("youtube", label.youtubeLink);
+    formData.append("title", label.title);
+    formData.append("nda", fileSelect);
+    if (youtube == "" || title == "" || fileSelect === undefined) {
+      document.getElementById("errorModel").innerHTML = `Please Fill All Details `
+      document.getElementById("saveLabelButton").disabled = false
+      return
+    } else {
       document.getElementById("errorModel").innerHTML = ``
     }
     fetch('/label-manage', {
-    method: 'POST',
-    body: formData
-    }).then((response)=>{
-        if(response.ok){
-          return response.json()
-        }
+      method: 'POST',
+      body: formData
+    }).then((response) => {
+      if (response.ok) {
+        return response.json()
+      }
     }).then((data) => {
       label.id = data.id
       labelArray.push(label)
@@ -301,17 +321,17 @@ input.addEventListener("change", function (e) {
       console.log("label added successfully")
       document.getElementById("closesModal").click()
     }).catch((error) => {
-      document.getElementById("errorModel").innerHTML =`error saving label ${title}`
+      document.getElementById("errorModel").innerHTML = `error saving label ${title}`
       console.error(error)
     });
   }
-  function updateTableData(){
-   labelArray.sort(function(a, b) {
+  function updateTableData() {
+    labelArray.sort(function (a, b) {
       return a.id - b.id;
-   });
-   document.getElementById("tableOfLabels").innerHTML=``
-   for (let i = 0; i < labelArray.length; i++) {
-        document.getElementById("tableOfLabels").innerHTML += `
+    });
+    document.getElementById("tableOfLabels").innerHTML = ``
+    for (let i = 0; i < labelArray.length; i++) {
+      document.getElementById("tableOfLabels").innerHTML += `
             <tr class="text-gray-700 dark:text-gray-400">
               <td class="px-4 py-3">
                ${labelArray[i].title}
@@ -350,16 +370,16 @@ input.addEventListener("change", function (e) {
                   </div>
                   </td>
                 </tr>`
-          if(labelArray[i].approved){
-            document.getElementById("approvedText").innerHTML = `<span
+      if (labelArray[i].approved) {
+        document.getElementById("approvedText").innerHTML = `<span
                   class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
                   Approved
                 </span>`
-          }
-        }
+      }
+    }
   }
-  const getAllLabels=async()=>{
-     await fetch('/label-manage/labels').then(response => {
+  const getAllLabels = async () => {
+    await fetch('/label-manage/labels').then(response => {
       if (response.ok) {
         return response.json()
       }
@@ -373,64 +393,64 @@ input.addEventListener("change", function (e) {
       console.error(error)
     });
   }
-  const deleteLabel = async(idx)=>{
-    console.log("deleting label :",labelArray[idx].name)
+  const deleteLabel = async (idx) => {
+    console.log("deleting label :", labelArray[idx].name)
     fetch(`/label-manage/${labelArray[idx].id}`, {
-    method: 'DELETE'
+      method: 'DELETE'
     })
-    .then(response => response.json())
-    .then(data => {
-      updateTableData()
-      console.log("after delete",data);
-    }).catch(error => console.error(error));
+      .then(response => response.json())
+      .then(data => {
+        updateTableData()
+        console.log("after delete", data);
+      }).catch(error => console.error(error));
     labelArray.splice(idx, 1);
     updateTableData()
   }
-  const updateLabel=async(idx)=>{
-      document.getElementById("saveLabelButton").disabled = true
-      let fileSelect = document.getElementById("fileID").files[0];
-      labelArray[idx].youtubeLink = $(`input[name="youtube"]`).val(),
+  const updateLabel = async (idx) => {
+    document.getElementById("saveLabelButton").disabled = true
+    let fileSelect = document.getElementById("fileID").files[0];
+    labelArray[idx].youtubeLink = $(`input[name="youtube"]`).val(),
       labelArray[idx].title = $(`input[name="title"]`).val()
-      if(fileSelect != undefined){
-         labelArray[idx].filename = fileSelect
-      }
-      youtube = $(`input[name="youtube"]`).val()
-      title = $(`input[name="title"]`).val()
-      if(youtube == "" || title == "" || fileSelect === undefined){
-        document.getElementById("errorModel").innerHTML =`Please Fill All Details `
-        document.getElementById("saveLabelButton").disabled = false
-        return
-      }else{
-        document.getElementById("errorModel").innerHTML = ``
-      }
-      const formData = new FormData();
-      formData.append("id",labelArray[idx].id);
-      formData.append("title",title);
-      formData.append("youtubeLink",youtube);
-      formData.append("nda",fileSelect);
-      
-      await fetch('/label-manage/update', {
+    if (fileSelect != undefined) {
+      labelArray[idx].filename = fileSelect
+    }
+    youtube = $(`input[name="youtube"]`).val()
+    title = $(`input[name="title"]`).val()
+    if (youtube == "" || title == "" || fileSelect === undefined) {
+      document.getElementById("errorModel").innerHTML = `Please Fill All Details `
+      document.getElementById("saveLabelButton").disabled = false
+      return
+    } else {
+      document.getElementById("errorModel").innerHTML = ``
+    }
+    const formData = new FormData();
+    formData.append("id", labelArray[idx].id);
+    formData.append("title", title);
+    formData.append("youtubeLink", youtube);
+    formData.append("nda", fileSelect);
+
+    await fetch('/label-manage/update', {
       method: 'POST',
       body: formData
-      }).then(response => response.json()).then(data => {
-        updateTableData()
-        document.getElementById("closesModal").click()
-        console.log("label updated successfully")
-      }).catch((error) => {
-        document.getElementById("errorModel").innerHTML =`Please Fill All Details`
-        console.error(error)
-      });
+    }).then(response => response.json()).then(data => {
+      updateTableData()
+      document.getElementById("closesModal").click()
+      console.log("label updated successfully")
+    }).catch((error) => {
+      document.getElementById("errorModel").innerHTML = `Please Fill All Details`
+      console.error(error)
+    });
   }
-  
-  function updateLabelData(idx){
+
+  function updateLabelData(idx) {
     document.getElementById("saveLabelButton").disabled = false
     document.getElementById("addLabel").innerHTML = `Edit Label`
     document.getElementById("youtube").value = labelArray[idx].youtubeLink
     document.getElementById("title").value = labelArray[idx].title
-    document.getElementById("saveLabelButton").onclick =(function(index) {
-        return function() {
-            updateLabel(index);
-        }
+    document.getElementById("saveLabelButton").onclick = (function (index) {
+      return function () {
+        updateLabel(index);
+      }
     })(idx);
   }
 
@@ -453,5 +473,5 @@ input.addEventListener("change", function (e) {
     }
   }
   getAllLabels()
- 
+
 </script>

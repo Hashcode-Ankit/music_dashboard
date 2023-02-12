@@ -1233,7 +1233,8 @@ function updateSongData(idx){
       }
       let text = `<p class ="err">Missing Fields :`
       for (const key in albumData) {
-        if (albumData[key] == "" || albumData[key] == undefined ) {
+        if(key == "subGenre" || key == "actor") continue
+        if (albumData[key] == "" || albumData[key] == undefined) {
           text = text + `${key}, `
           missingData = true
         }
@@ -1595,9 +1596,7 @@ var getAllStores=async()=>{
       console.error(error)
   });
 }
-function updateGenre(){
-  
-}
+
 getAllLabels()
 getAllStores()
 function selects() {

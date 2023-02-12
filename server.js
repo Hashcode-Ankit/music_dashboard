@@ -10,6 +10,8 @@ const multer = require('multer')
 const upload = multer()
 const fs = require('fs');
 const { resolve } = require("path");
+const adminUsername = "admin";
+const adminPassword = "1234";
 // To run on Different port too
 var HTTP_PORT = process.env.PORT || 8080;
 
@@ -58,7 +60,7 @@ const albumImageStorage = multer.diskStorage({
 const songFileStorage = multer.diskStorage({
     destination: (req, file, cb) => {
         // Choose the destination based on data in the request
-        const destination = `./assets/uploads/${req.session.user.email}/albums/${req.body.title}/Songs/`
+        const destination = `./assets/uploads/${req.session.user.email}/albums/${req.body.albumID}/Songs/`
         if (!fs.existsSync(destination)) {
             fs.mkdirSync(destination, { recursive: true, mode: 0o777 });
         }
@@ -97,11 +99,31 @@ const userProfilePicture = multer.diskStorage({
         cb(null, file.originalname);
     },
 });
+const dummyDataStore = multer.diskStorage({
+    destination: (req, file, cb) => {
+        // Choose the destination based on data in the request
+        const destination = `./assets/uploads/`;
+        if (!fs.existsSync(destination)) {
+            fs.mkdirSync(destination, { recursive: true, mode: 0o777 });
+        }
+        cb(null, destination);
+    },
+    filename: (req, file, cb) => {
+        // You can also set the filename here
+        cb(null, file.originalname);
+    },
+});
 app.use(function (req, res, next) {
     res.locals.session = req.session;
     next();
 });
-
+function ensureAdmin(req, res, next) {
+    if (!req.session.admin) {
+        res.redirect("/admin-login");
+    } else {
+        next();
+    }
+}
 function ensureLogin(req, res, next) {
     if (!req.session.user) {
         res.redirect("/login");
@@ -121,6 +143,121 @@ app.set('view engine', 'handlebars');
 
 
 // Routes play area
+
+
+app.get("/pending-albums", ensureAdmin, async function (req, res) {
+    try {
+        api.getPendingAlbumsForAdmin().then((data) => {
+            res.status(200).json({ albums: data });
+            console.log("Admin Albums")
+            console.log(data);
+        }).catch((err) => {
+            console.log(err)
+            res.status(503).json({ error: err });
+        })
+    } catch (err) {
+        console.log(err)
+        res.status(503).json({ error: err });
+    }
+
+});
+app.get("/approved-albums", ensureAdmin, async function (req, res) {
+    try {
+        api.getApprovedAlbumsForAdmin().then((data) => {
+            res.status(200).json({ albums: data });
+            console.log("Admin Albums")
+            console.log(data);
+        }).catch((err) => {
+            console.log(err)
+            res.status(503).json({ error: err });
+        })
+    } catch (err) {
+        console.log(err)
+        res.status(503).json({ error: err });
+    }
+});
+app.get("/admin-approved-labels", ensureAdmin, async function (req, res) {
+    try {
+        api.getAdminApprovedLabels().then((data) => {
+            res.status(200).json({ labels: data });
+        }).catch((err) => {
+            console.log(err)
+            res.status(503).json({ error: err });
+        })
+    } catch (err) {
+        console.log(err)
+        res.status(503).json({ error: err });
+    }
+});
+app.get("/admin-pending-labels", ensureAdmin, async function (req, res) {
+    try {
+        api.getAdminPendingLabels().then((data) => {
+            res.status(200).json({ labels: data });
+        }).catch((err) => {
+            console.log(err)
+            res.status(503).json({ error: err });
+        })
+    } catch (err) {
+        console.log(err)
+        res.status(503).json({ error: err });
+    }
+});
+app.get("/approve-album/:id", async function (req, res) {
+    try {
+        await api.ApproveAlbum(req.params.id)
+        res.render(path.join(__dirname, "/views/adminHome.hbs"))
+    } catch (err) {
+        console.log(err)
+        res.status(503).json({ error: err });
+    }
+
+});
+app.get("/approve-label/:id", async function (req, res) {
+    try {
+        api.approveLabel(req.params.id).then(()=>{
+            res.status(200).json({message : "label approved success"});
+        })
+    } catch (err) {
+        console.log(err)
+        res.status(503).json({ error: err });
+    }
+
+});
+
+app.get("/reject-album/:id", async function (req, res) {
+    try {
+        await api.RejectAlbum(req.params.id)
+        res.render(path.join(__dirname, "/views/adminHome.hbs"))
+    } catch (err) {
+        console.log(err)
+        res.status(503).json({ error: err });
+    }
+
+});
+app.get("/admin-album-song/:id", async function (req, res) {
+    try {
+        const id = req.params.id;
+        api.getSongsForAlbum(id).then((songData) => {
+            console.log("data send ", songData)
+            res.status(200).json({ songs: songData });
+        }).catch((err) => {
+            console.log(err)
+            res.status(503).json({ error: err });
+        })
+    } catch (err) {
+        console.log(err)
+        res.status(503).json({ error: err });
+    }
+})
+app.get('/logout', function (req, res) {
+    req.session.reset();
+    res.redirect("/login");
+});
+
+//Admin Area End
+
+
+
 // dashboard page
 app.get("/", ensureLogin, async function (req, res) {
     res.render(path.join(__dirname, "/views/overview.hbs"))
@@ -263,7 +400,7 @@ app.get("/album-song/:id", ensureLogin, async function (req, res) {
         res.status(503).json({ error: err });
     }
 })
-app.get("/albumStores", ensureLogin, async function (req, res) {
+app.get("/albumStores", async function (req, res) {
     try {
         api.getStores().then((stores) => {
             res.status(200).json({ stores: stores });
@@ -323,7 +460,7 @@ app.delete("/song-manage/:id", ensureLogin, async function (req, res) {
 // add song for album
 app.post("/album-manage/addSong", ensureLogin, multer({ storage: songFileStorage }).single('filePath'), async function (req, res) {
     try {
-        req.body.filePath = `./uploads/albums/${req.session.user.email}/${req.body.albumID}/Songs/${req.file.originalname}`
+        req.body.filePath = `./uploads/${req.session.user.email}/albums/${req.body.albumID}/Songs/${req.file.originalname}`
         req.body.userID = req.session.user.userID
         api.saveSongData(req.body).then((data) => {
             res.status(200).json({ songID: data });
@@ -338,9 +475,7 @@ app.post("/album-manage/addSong", ensureLogin, multer({ storage: songFileStorage
 });
 app.post("/album-manage/updateSong", ensureLogin, multer({ storage: songFileStorage }).array('filePath'), async function (req, res) {
     try {
-        if (req.file) {
-            req.body.filePath = `./uploads/albums/${req.session.user.email}/${req.body.albumID}/Songs/${req.file.originalname}`
-        }
+        req.body.filePath = `./uploads/albums/${req.session.user.email}/${req.body.albumID}/Songs/${req.file.originalname}`
         console.log("got data to update : ", req.body)
         req.body.userID = req.session.user.userID
         api.updateSongData(req.body).then(() => {
@@ -443,7 +578,8 @@ app.get("/label-manage/labels", ensureLogin, async function (req, res) {
 });
 app.post("/label-manage", ensureLogin, multer({ storage: ndaStorage }).single('nda'), async function (req, res) {
     try {
-        req.body.filename = `uploads/nda/${req.session.user.email}/${req.body.title}/${req.file.originalname}`
+        if(req.file)
+        req.body.filename = `./uploads/${req.session.user.email}/nda/Label-${req.body.title}/${req.file.filename}`
         api.addLabelForUserWithID(req.body, req.session.user.userID).then((label) => {
             res.status(200).json({ id: label.id });
         }).catch((err) => {
@@ -470,7 +606,8 @@ app.delete("/label-manage/:id", ensureLogin, async function (req, res) {
 });
 app.post("/label-manage/update", ensureLogin, multer({ storage: ndaStorage }).single('nda'), async function (req, res) {
     try {
-        req.body.filename = `uploads/nda/${req.session.user.email}/${req.body.title}/${req.file.originalname}`
+        if(req.file)
+        req.body.filename = `./uploads/${req.session.user.email}/nda/Label-${req.body.title}/${req.file.filename}`
         api.updateLabel(req.body).then(() => {
             res.status(200).json({ message: "success label update" });
         }).catch((err) => {
@@ -577,6 +714,7 @@ app.get('/register', function (req, res) {
 });
 app.post('/register', (req, res, next) => {
     try {
+        req.body.imageURL = "../img/user.png"
         api.registerUser(req.body).then(() => {
             res.render(path.join(__dirname, "/views/register.hbs"), { successMessage: "Registration Successful click for login " });
         }).catch((err) => {
@@ -642,24 +780,81 @@ app.get("/user-details", ensureLogin, async function (req, res) {
     }
 });
 app.post('/login', (req, res, next) => {
-    if (req.session.user) {
-        res.redirect("/logout");
-    }
-    req.body.userAgent = req.get('User-Agent');
-    api.login(req.body).then((userData) => {
-        req.session.user = {
-            userID: userData._id,
-            email: userData.email,
+    try {
+        if (req.session.user) {
+            res.redirect("/logout");
         }
-        res.redirect('/');
-    }).catch((err) => {
+        api.login(req.body).then((userData) => {
+            console.log("login user Data", userData)
+            req.session.user = {
+                userID: userData._id,
+                email: userData.email,
+                imageURL: userData.imageURL
+            }
+            res.redirect('/');
+        }).catch((err) => {
+            res.render(path.join(__dirname, "/views/login.hbs"), { errorMessage: err, userName: req.body.email });
+        })
+    } catch (err) {
         res.render(path.join(__dirname, "/views/login.hbs"), { errorMessage: err, userName: req.body.email });
-    })
+    }
 });
 app.get('/logout', function (req, res) {
     req.session.reset();
     res.redirect("/login");
 });
+// Admin Area Start
+app.get("/admin-login", async function (req, res) {
+    res.render(path.join(__dirname, "/views/adminLogin.hbs"))
+});
+app.get("/admin-album-correction", async function (req, res) {
+    res.render(path.join(__dirname, "/views/admin-album-correction.hbs"))
+});
+app.get("/admin-label-correction", async function (req, res) {
+    res.render(path.join(__dirname, "/views/admin-label-correction.hbs"))
+});
+
+app.post('/admin', async (req, res) => {
+    try {
+        if (req.session.user) {
+            res.redirect("/logout");
+        }
+        else if (req.session.admin) {
+            res.redirect("/logout");
+        }
+        console.log(req.body)
+        api.loginAdmin(req.body).then((adminData) => {
+            req.session.admin = {
+                adminEmail: adminData.email,
+                adminID: adminData._id
+            }
+            res.redirect("/admin-album-correction")
+        }).catch((err) => {
+            res.render(path.join(__dirname, "/views/adminLogin.hbs"), { errorMessage: err })
+        })
+    } catch (err) {
+        res.render(path.join(__dirname, "/views/adminLogin.hbs"), { errorMessage: err })
+    }
+})
+app.get('/register-admin', (req, res) => {
+    res.render(path.join(__dirname, "/views/adminRegister.hbs"))
+})
+app.post('/register-admin', (req, res) => {
+    try {
+        if (req.session.admin) {
+            res.redirect("/logout");
+        }
+        api.registerAdmin(req.body).then(() => {
+            console.log("registered", req.body)
+            res.redirect("/admin-login");
+        }).catch((err) => {
+            console.log(err)
+            res.redirect("/register-admin");
+        })
+    } catch (err) {
+        res.redirect("/register-admin");
+    }
+})
 app.get('*', function (req, res) {
     res.render(path.join(__dirname, "/views/404.hbs"))
 })
