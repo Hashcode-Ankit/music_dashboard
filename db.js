@@ -325,10 +325,9 @@ function addNews(news) {
 
 async function approveAlbum(albumId) {
     await Album.update({ approved: true }, { where: { id: albumId } })
-    console.log("Approved Successfully")
-    console.log(await Album.findAll({
+    await Album.findAll({
         where: { id: albumId }
-    }))
+    })
 }
 
 async function rejectAlbum(albumId) {
@@ -482,6 +481,9 @@ function getArtistForUser(userID) {
         where: { userID: userID }
     })
 }
+function getAllArtistForAdmin() {
+    return Artist.findAll()
+}
 
 
 //get a artist
@@ -563,4 +565,4 @@ function getFinalReleasedAlbums(userID) {
         }
     });
 }
-module.exports = { connectDb, getNews,approveLabel, addYoutubeReq,getApprovedLabels,getPendingLabels, getYoutubeReq, addNews, getTotalAlbums, getTotalProcessedAlbums, getFinalReleasedAlbums, initialize, deleteSong, getSubmittedAlbumsForUser, getAllSongForUser, getAllSongsForAlbum, migrateToCompleted, updateSong, updateStoresArrayInAlbum, addAlbum, getDraftAlbumsForUser, getCompletedAlbumsForUser, getPendingAlbumsForAdmin, getApprovedAlbumsForAdmin, addSong, updateSongArrayOfAlbum, getAllAlbums, deleteAlbum, updateAlbum, getAlbum, addLabel, getAllLabelsForUserID, getLabel, updateLabel, deleteLabel, getArtist, addArtist, updateArtist, deleteArtist, getArtistForUser, approveAlbum, rejectAlbum }
+module.exports = { connectDb, getNews,approveLabel,getAllArtistForAdmin, addYoutubeReq,getApprovedLabels,getPendingLabels, getYoutubeReq, addNews, getTotalAlbums, getTotalProcessedAlbums, getFinalReleasedAlbums, initialize, deleteSong, getSubmittedAlbumsForUser, getAllSongForUser, getAllSongsForAlbum, migrateToCompleted, updateSong, updateStoresArrayInAlbum, addAlbum, getDraftAlbumsForUser, getCompletedAlbumsForUser, getPendingAlbumsForAdmin, getApprovedAlbumsForAdmin, addSong, updateSongArrayOfAlbum, getAllAlbums, deleteAlbum, updateAlbum, getAlbum, addLabel, getAllLabelsForUserID, getLabel, updateLabel, deleteLabel, getArtist, addArtist, updateArtist, deleteArtist, getArtistForUser, approveAlbum, rejectAlbum }

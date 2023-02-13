@@ -115,8 +115,8 @@ function getStores() {
 function loginAdmin(data) {
     return mongo.loginAdmin(data)
 }
-function registerAdmin(data) {
-    return mongo.registerAdmin(data)
+function changeAdminCreds(email,data) {
+    return mongo.changeAdminCreds(email,data)
 }
 function getAdminPendingLabels(){
     return db.getPendingLabels()
@@ -205,7 +205,6 @@ function saveAlbum(albumData) {
                 "title": savedAlbumData.title
             }
             saveArtist(albumData.primaryArtist, albumData.userID).then((savedAlbumData) => {
-                console.log("all done till here")
                 resolve(response)
             }).catch((err) => {
                 reject(err)
@@ -250,7 +249,6 @@ function saveSongData(songData) {
         "tiktok": songData.tiktok,
         "filePath": songData.filePath
     }
-    console.log("data of song to store : ", song)
     return new Promise((resolve, reject) => {
         db.addSong(song).then((data) => {
             resolve(data.id)
@@ -275,7 +273,6 @@ function updateSongData(songData) {
         "tiktok": songData.tiktok,
         "filePath": songData.filePath
     }
-    console.log("data of song to update : ", song)
     return db.updateSong(song, songData.songIDInDB)
 }
 
@@ -373,6 +370,22 @@ function removeDraft(albumID) {
             })
     })
 }
+function getUsersForAdmin(){
+    return mongo.getAllUsersForAdmin()
+}
+function getAllArtistForAdmin(){
+    return db.getAllArtistForAdmin()
+}
+async function createFMDigitalLabel(userID) {
+    label = {
+        "title": "FM Digital",
+        "userID": userID,
+        "youtubeLink": "fmDigital",
+        "noObjectionFile": "no-file",
+        "approved" : true
+    }
+    await db.addLabel(label)
+}
 
 // register 
 function registerUser(userData) {
@@ -386,7 +399,8 @@ function registerUser(userData) {
                 "password": userData.pass1,
                 "contact": userData.mobile
             }
-            mongo.registerUser(userToStore).then(() => {
+            mongo.registerUser(userToStore).then((user) => {
+                createFMDigitalLabel(user._id)
                 resolve()
             }).catch((err) => {
                 reject(err)
@@ -440,4 +454,4 @@ async function getUserData(userID) {
         resolve(User)
     })
 }
-module.exports = { getGenre, ApproveAlbum,RejectAlbum,getNews,getAdminPendingLabels,approveLabel,getAdminApprovedLabels, registerAdmin, loginAdmin, addYoutubeReq, getPendingAlbumsForAdmin, getApprovedAlbumsForAdmin, getYoutubeReq, addNews, updateUserDetails, getUserDetails, connectWithDB, deleteSong, getUserData, getSubmittedAlbumsForUser, getAlbumWithId, getAllSongsForUser, getSongsForAlbum, initializeDatabase, updateLabel, deleteAlbum, updateToCompletedAlbum, updateStoresArrayInAlbum, getStores, updateSongData, updateSongsArrayInAlbum, getCompletedAlbumsForUser, saveSongData, updateArtist, deleteArtist, getAllAlbumsForUser, getAllSongsForAlbum, getDraftAlbumsForUser, getNonApprovedAlbums, getPrimaryArtistForUserID, registerUser, deleteLabel, albumApproved, removeDraft, login, addLabelForUserWithID, saveArtist, getAllLabelsForUserIDForUser, saveAlbum, connectMongoDB, getAllArtistsWithUserID, addSongForUser, updateAlbum }
+module.exports = { getGenre, getAllArtistForAdmin,getUsersForAdmin, ApproveAlbum,RejectAlbum,getNews,getAdminPendingLabels,approveLabel,getAdminApprovedLabels, changeAdminCreds, loginAdmin, addYoutubeReq, getPendingAlbumsForAdmin, getApprovedAlbumsForAdmin, getYoutubeReq, addNews, updateUserDetails, getUserDetails, connectWithDB, deleteSong, getUserData, getSubmittedAlbumsForUser, getAlbumWithId, getAllSongsForUser, getSongsForAlbum, initializeDatabase, updateLabel, deleteAlbum, updateToCompletedAlbum, updateStoresArrayInAlbum, getStores, updateSongData, updateSongsArrayInAlbum, getCompletedAlbumsForUser, saveSongData, updateArtist, deleteArtist, getAllAlbumsForUser, getAllSongsForAlbum, getDraftAlbumsForUser, getNonApprovedAlbums, getPrimaryArtistForUserID, registerUser, deleteLabel, albumApproved, removeDraft, login, addLabelForUserWithID, saveArtist, getAllLabelsForUserIDForUser, saveAlbum, connectMongoDB, getAllArtistsWithUserID, addSongForUser, updateAlbum }

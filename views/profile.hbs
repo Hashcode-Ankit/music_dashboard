@@ -546,7 +546,7 @@ function updateUserDetails(){
 const updateDetails = async () => {
     document.getElementById("updateButton").disabled = true
     userDetails = getProfileDetails()
-    console.log(userDetails)
+    
     const formData = new FormData();
     for (const key in userDetails) {
       formData.append(key, userDetails[key]);
@@ -578,7 +578,7 @@ const updateDetails = async () => {
       if (data.user) {
         userData = data.user;
         updateUserDetails()
-        console.log("response data", userData)
+        
       }
     }).catch((error) => {
       console.error(error)
@@ -588,7 +588,7 @@ getUserDetails()
 function upload() {
     let imgcanvas = document.getElementById("canv1");
     let fileinput = document.getElementById("profileImage");
-    console.log("size :",fileinput.files[0].size)
+    
     if(fileinput.files[0].size > 100*1024){
       document.getElementById("imgError").innerHTML =  `image is too large`
       sizeLimitExceed = true

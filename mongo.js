@@ -91,7 +91,6 @@ async function loginUser(userData) {
 }
 function loginAdmin(adminData) {
     return new Promise((resolve, reject) => {
-        console.log("finding", adminData)
         Admin.find({ email: adminData.email }).exec().then((admin) => {
             if (admin.length == 0) {
                 reject("no admin exist")
@@ -110,24 +109,64 @@ function loginAdmin(adminData) {
     })
 
 }
-function registerAdmin(adminData) {
+function verifyPass(email,pass){
     return new Promise((resolve, reject) => {
-        bcrypt.hash(adminData.password, 10).then((hash) => {
-            adminData.password = hash;
-            let admin = new Admin(adminData);
-            admin.save((err) => {
-                if (err) {
-                    reject(adminData.email + " already exist" + err)
+        Admin.find({ email: email }).exec().then((admin) => {
+            if (admin.length == 0) {
+                reject("no admin exist")
+            }
+            bcrypt.compare(pass, admin[0].password).then((result) => {
+                if (!result) {
+                    reject();
                 }
                 else {
-                    resolve("registered");
+                    resolve()
                 }
             })
-        }).catch((err) => {
-            reject("not able to decrypt pass") // Show any errors that occurred during the process
+        }).catch(function (error) {
+            reject()
         });
+    })
+}
+function changeAdminCreds(adminEmail,adminData) {
+    return new Promise((resolve, reject) => {
+       verifyPass(adminEmail,adminData.prevPassword).then(()=>{
+        bcrypt.hash(adminData.password, 10).then((hash) => {
+            Admin.findOneAndUpdate({email:adminEmail }, {$set: { email: adminData.email, password: hash }}).then(()=>{
+                resolve("creds changed")
+            }).catch((err)=>{
+                reject("something went wrong")
+            })
+        }).catch((err) => {
+            reject("not able to encrypt pass"+err) // Show any errors that occurred during the process
+        })
+       }).catch((err)=>{
+        reject("pass not match")
+       })
 
     })
+}
+// function changeAdminCreds(adminData) {
+//     return new Promise((resolve, reject) => {
+//         bcrypt.hash(adminData.password, 10).then((hash) => {
+//             adminData.password = hash;
+//             let admin = new Admin(adminData);
+//             admin.save((err) => {
+//                 if (err) {
+//                     reject(adminData.email + " already exist" + err)
+//                 }
+//                 else {
+//                     resolve("registered");
+//                 }
+//             })
+//         }).catch((err) => {
+//             reject("not able to decrypt pass") // Show any errors that occurred during the process
+//         });
+
+//     })
+// }
+function getAllUsersForAdmin(){
+   return User.find()
 }
 function updateUser(userID, userData) {
     return User.findByIdAndUpdate(userID, userData)
@@ -135,4 +174,4 @@ function updateUser(userID, userData) {
 function getUser(userID) {
     return User.findById(userID).exec();
 }
-module.exports = { updateUser, registerAdmin, loginAdmin, getUser, initialize, registerUser, loginUser, userExist }
+module.exports = { updateUser,getAllUsersForAdmin, changeAdminCreds, loginAdmin, getUser, initialize, registerUser, loginUser, userExist }

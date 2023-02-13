@@ -229,7 +229,6 @@
       if (data.album) {
         DraftArray = data.album;
         updateTableData()
-        console.log("response data", DraftArray)
       }
     }).catch((error) => {
       console.error(error)
@@ -252,7 +251,6 @@ const deleteAlbum = async(idx)=>{
     .then(response => response.json())
     .then(data => {
       updateTableData()
-      console.log("after delete",data);
     }).catch(error => console.error(error));
     DraftArray.splice(idx, 1);
     updateTableData()

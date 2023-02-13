@@ -149,8 +149,6 @@ app.get("/pending-albums", ensureAdmin, async function (req, res) {
     try {
         api.getPendingAlbumsForAdmin().then((data) => {
             res.status(200).json({ albums: data });
-            console.log("Admin Albums")
-            console.log(data);
         }).catch((err) => {
             console.log(err)
             res.status(503).json({ error: err });
@@ -165,7 +163,6 @@ app.get("/approved-albums", ensureAdmin, async function (req, res) {
     try {
         api.getApprovedAlbumsForAdmin().then((data) => {
             res.status(200).json({ albums: data });
-            console.log("Admin Albums")
             console.log(data);
         }).catch((err) => {
             console.log(err)
@@ -193,6 +190,19 @@ app.get("/admin-pending-labels", ensureAdmin, async function (req, res) {
     try {
         api.getAdminPendingLabels().then((data) => {
             res.status(200).json({ labels: data });
+        }).catch((err) => {
+            console.log(err)
+            res.status(503).json({ error: err });
+        })
+    } catch (err) {
+        console.log(err)
+        res.status(503).json({ error: err });
+    }
+});
+app.get("/users-manage/get-all-user", ensureAdmin, async function (req, res) {
+    try {
+        api.getUsersForAdmin().then((data) => {
+            res.status(200).json({ users: data });
         }).catch((err) => {
             console.log(err)
             res.status(503).json({ error: err });
@@ -238,7 +248,6 @@ app.get("/admin-album-song/:id", async function (req, res) {
     try {
         const id = req.params.id;
         api.getSongsForAlbum(id).then((songData) => {
-            console.log("data send ", songData)
             res.status(200).json({ songs: songData });
         }).catch((err) => {
             console.log(err)
@@ -265,7 +274,6 @@ app.get("/", ensureLogin, async function (req, res) {
 app.get("/album-manage/user-data", ensureLogin, async function (req, res) {
     try {
         api.getUserData(req.session.user.userID).then((data) => {
-            console.log("got user Data here :", data)
             res.status(200).json({ userData: data });
         }).catch((err) => {
             res.status(503).json({ err: err });
@@ -389,7 +397,6 @@ app.get("/album-song/:id", ensureLogin, async function (req, res) {
     try {
         const id = req.params.id;
         api.getSongsForAlbum(id).then((songData) => {
-            console.log("data send ", songData)
             res.status(200).json({ songs: songData });
         }).catch((err) => {
             console.log(err)
@@ -418,7 +425,6 @@ app.post("/album-manage/addAlbum", ensureLogin, multer({ storage: albumImageStor
         req.body.imageUrl = `./uploads/${req.session.user.email}/albums/${req.body.title}/${req.file.originalname}`
         req.body.userID = req.session.user.userID
         api.saveAlbum(req.body).then((album) => {
-            console.log("saved album with id : ", album)
             res.status(200).json({ album: album });
         }).catch((err) => {
             console.log("Error saving album data", err)
@@ -476,7 +482,6 @@ app.post("/album-manage/addSong", ensureLogin, multer({ storage: songFileStorage
 app.post("/album-manage/updateSong", ensureLogin, multer({ storage: songFileStorage }).array('filePath'), async function (req, res) {
     try {
         req.body.filePath = `./uploads/albums/${req.session.user.email}/${req.body.albumID}/Songs/${req.file.originalname}`
-        console.log("got data to update : ", req.body)
         req.body.userID = req.session.user.userID
         api.updateSongData(req.body).then(() => {
             res.status(200).json({ message: "song updated successfully" });
@@ -557,11 +562,13 @@ app.get("/music-catalog", ensureLogin, async function (req, res) {
 });
 // label management page
 app.get("/label-manage", ensureLogin, async function (req, res) {
-    api.getAllLabelsForUserIDForUser(req.session.user.userID).then((labelData) => {
+   try{ api.getAllLabelsForUserIDForUser(req.session.user.userID).then((labelData) => {
         res.render(path.join(__dirname, "/views/label-manage.hbs"))
     }).catch((err) => {
         res.render(path.join(__dirname, "/views/label-manage.hbs"), { errorMessage: "Unable to fetch Label for user " + req.session.user.email + err })
-    })
+    })}catch(err) {
+        res.render(path.join(__dirname, "/views/label-manage.hbs"), { errorMessage: "Unable to fetch Label for user " + req.session.user.email + err })
+    }
 });
 app.get("/label-manage/labels", ensureLogin, async function (req, res) {
     try {
@@ -644,6 +651,18 @@ app.get("/artist-manage", ensureLogin, async function (req, res) {
         res.status(503).json({ error: err });
     }
 });
+app.get("/artist-manage/get-all-artists", ensureAdmin, async function (req, res) {
+    try {
+        api.getAllArtistForAdmin().then((artist) => {
+            res.status(200).json({ artist: artist });
+        }).catch((err) => {
+            res.status(503).json({ err: err });
+        })
+    } catch (err) {
+        console.log(err)
+        res.status(503).json({ error: err });
+    }
+});
 app.get("/artist-manage/artists", ensureLogin, async function (req, res) {
     try {
         api.getAllArtistsWithUserID(req.session.user.userID).then((artist) => {
@@ -663,7 +682,6 @@ app.post("/artist-manage/update", ensureLogin, multer({ storage: artistDocumentS
         }).catch((err) => {
             console.log(err)
             res.status(503).json({ message: "update failed" })
-            console.log(req.body)
         })
     } catch (err) {
         console.log(err)
@@ -785,7 +803,6 @@ app.post('/login', (req, res, next) => {
             res.redirect("/logout");
         }
         api.login(req.body).then((userData) => {
-            console.log("login user Data", userData)
             req.session.user = {
                 userID: userData._id,
                 email: userData.email,
@@ -807,11 +824,17 @@ app.get('/logout', function (req, res) {
 app.get("/admin-login", async function (req, res) {
     res.render(path.join(__dirname, "/views/adminLogin.hbs"))
 });
-app.get("/admin-album-correction", async function (req, res) {
+app.get("/admin-album-correction",ensureAdmin, async function (req, res) {
     res.render(path.join(__dirname, "/views/admin-album-correction.hbs"))
 });
-app.get("/admin-label-correction", async function (req, res) {
+app.get("/admin-label-correction",ensureAdmin, async function (req, res) {
     res.render(path.join(__dirname, "/views/admin-label-correction.hbs"))
+});
+app.get("/admin-artist-manage", ensureAdmin, async function (req, res) {
+    res.render(path.join(__dirname, "/views/admin-artist-data.hbs"))
+});
+app.get("/admin-user-manage",ensureAdmin, async function (req, res) {
+    res.render(path.join(__dirname, "/views/admin-user-data.hbs"))
 });
 
 app.post('/admin', async (req, res) => {
@@ -822,7 +845,6 @@ app.post('/admin', async (req, res) => {
         else if (req.session.admin) {
             res.redirect("/logout");
         }
-        console.log(req.body)
         api.loginAdmin(req.body).then((adminData) => {
             req.session.admin = {
                 adminEmail: adminData.email,
@@ -836,23 +858,19 @@ app.post('/admin', async (req, res) => {
         res.render(path.join(__dirname, "/views/adminLogin.hbs"), { errorMessage: err })
     }
 })
-app.get('/register-admin', (req, res) => {
-    res.render(path.join(__dirname, "/views/adminRegister.hbs"))
+app.get('/pass-change-admin',ensureAdmin, (req, res) => {
+    res.render(path.join(__dirname, "/views/change-admin-pass.hbs"))
 })
-app.post('/register-admin', (req, res) => {
+app.post('/register-admin',ensureAdmin, (req, res) => {
     try {
-        if (req.session.admin) {
-            res.redirect("/logout");
-        }
-        api.registerAdmin(req.body).then(() => {
-            console.log("registered", req.body)
-            res.redirect("/admin-login");
+        api.changeAdminCreds(req.session.admin.adminEmail,req.body).then(() => {
+            res.render(path.join(__dirname, "/views/change-admin-pass.hbs"),{successMessage:"Update Success"})
         }).catch((err) => {
             console.log(err)
-            res.redirect("/register-admin");
+            res.render(path.join(__dirname, "/views/change-admin-pass.hbs"),{errorMessage:err})
         })
     } catch (err) {
-        res.redirect("/register-admin");
+        res.render(path.join(__dirname, "/views/change-admin-pass.hbs"),{errorMessage:err})
     }
 })
 app.get('*', function (req, res) {

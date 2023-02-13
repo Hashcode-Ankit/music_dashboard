@@ -299,14 +299,12 @@ const getSongsWithAlbumID =async(albumID)=>{
     }).then(async (data) => {
       if (data.songs) {
         songsArray = data.songs;
-        console.log("response data", songsArray)
       }
     }).catch((error) => {
       console.error(error)
     });
 }
 async function preview(albumDataSaved) {
-  console.log(albumDataSaved)
     document.getElementById('previewData').innerHTML = ` 
             <div class="container">
               <div class="item">
@@ -478,7 +476,6 @@ function showpreview(index){
       if (data.album) {
         CompleteArray = data.album;
         updateTableData()
-        console.log("response data", CompleteArray)
       }
     }).catch((error) => {
       console.error(error)

@@ -318,7 +318,6 @@
       label.id = data.id
       labelArray.push(label)
       updateTableData()
-      console.log("label added successfully")
       document.getElementById("closesModal").click()
     }).catch((error) => {
       document.getElementById("errorModel").innerHTML = `error saving label ${title}`
@@ -345,7 +344,7 @@
                   Pending
                 </span>
                  </td>
-                <td class="px-4 py-3">
+                <td class="px-4 py-3" id ="actionButtons">
                 <div class="flex items-center space-x-4 text-sm">
                   <button @click="openModal"
                     onclick = "updateLabelData(${i})"
@@ -357,7 +356,7 @@
                       </path>
                     </svg>
                   </button>
-                  <button
+                  <button 
                     onclick = "deleteLabel(${i})"
                     class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                     aria-label="Delete">
@@ -375,6 +374,17 @@
                   class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
                   Approved
                 </span>`
+        document.getElementById("approvedText").innerHTML = ` <button @click="openModal"
+                    onclick = "updateLabelData(${i})"
+                    class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                    aria-label="Edit">
+                    <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
+                      <path
+                        d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z">
+                      </path>
+                    </svg>
+                  </button>`
+          
       }
     }
   }
@@ -387,21 +397,18 @@
       if (data.labelData) {
         labelArray = data.labelData;
         updateTableData()
-        console.log("response data", labelArray)
       }
     }).catch((error) => {
       console.error(error)
     });
   }
   const deleteLabel = async (idx) => {
-    console.log("deleting label :", labelArray[idx].name)
     fetch(`/label-manage/${labelArray[idx].id}`, {
       method: 'DELETE'
     })
       .then(response => response.json())
       .then(data => {
         updateTableData()
-        console.log("after delete", data);
       }).catch(error => console.error(error));
     labelArray.splice(idx, 1);
     updateTableData()
@@ -435,7 +442,6 @@
     }).then(response => response.json()).then(data => {
       updateTableData()
       document.getElementById("closesModal").click()
-      console.log("label updated successfully")
     }).catch((error) => {
       document.getElementById("errorModel").innerHTML = `Please Fill All Details`
       console.error(error)

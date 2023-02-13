@@ -59,25 +59,6 @@
       color: #a3a3a3;
     }
 
-    .btn {
-      text-decoration: none;
-      background-color: #005af0;
-      color: #ffffff;
-      padding: 10px 20px;
-      border: none;
-      outline: none;
-      transition: 0.3s;
-    }
-
-    .btn:hover {
-      text-decoration: none;
-      background-color: #ffffff;
-      color: #005af0;
-      padding: 10px 20px;
-      border: none;
-      outline: 1px solid #010101;
-    }
-
     .form input {
       margin: 10px 0;
       width: 100%;
@@ -89,17 +70,6 @@
     }
     td{text-align: center;}
     th{text-align: center;}
-
-    .loader {
-  border: 7px solid #f3f3f3;
-  border-radius: 50%;
-  border-top: 7px solid #7e3af2;
-  width: 100px;
-  height: 100px;
-  -webkit-animation: spin 2s linear infinite; /* Safari */
-  animation: spin 2s linear infinite;
-  margin: 30 0px;
-}
 
 @keyframes spin {
   0% { transform: rotate(0deg); }
@@ -222,8 +192,8 @@ main li {
 
   <div class="container px-6 mx-auto grid" id="completestable" style="margin-top: 60px;">
     <div style="text-align: center;list-style:none; ">
-    <li><a class="active" id="navpending" onclick="getAllPendingsLabels()">Pending Albums</a></li>
-    <li><a  id="navapproved" onclick="getAllApprovedLabels()">Approved Albums</a></li>
+    <li><a class="active" id="navpending" onclick="getAllPendingsLabels()">Pending Labels</a></li>
+    <li><a  id="navapproved" onclick="getAllApprovedLabels()">Approved Labels</a></li>
     </div>  
 
     <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search By Title.." title="Type in a name">
@@ -243,12 +213,9 @@ main li {
               <th class="px-4 py-3">Reject</th>
             </tr>
           </thead>
-      
-          <tbody id = "tableOfCompletes" class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800" style="overflow:scroll; height:400px;">
-          <div style="display: flex;text-align: center;justify-content: center;">
-      </div>
+            <tbody id="tableOfCompletes" class="bg-white divide-y
+            dark:divide-gray-700 dark:bg-gray-800">
           </tbody>
-
         </table>
         
         {{#if errorMessage}}
@@ -281,40 +248,34 @@ main li {
    });
    document.getElementById("tableOfCompletes").innerHTML=``
    for (let i = (CompleteArray.length-1); i >= 0 ; i--) {
-    console.log(`file link: ${CompleteArray[i].noObjectionFile}`)
         document.getElementById("tableOfCompletes").innerHTML += `
          <tr class="text-gray-700 dark:text-gray-400">
-              <td class="px-4 py-3">
-               ${i + 1}
+             <td class="px-4 py-3">
+                ${i + 1}
               </td>
               <td class="px-4 py-3">
-                 ${CompleteArray[i].title}
+               ${CompleteArray[i].title}
               </td>
               <td class="px-4 py-3">
-                 ${CompleteArray[i].youtubeLink}
+                ${CompleteArray[i].youtubeLink}
               </td>
-              <td class="px-4 py-3">
+              <td class="px-4 py-3 text-xs" id ="approvedText">
                  <a href ="${CompleteArray[i].noObjectionFile}"" download><i class="fa fa-download" style="font-size:36px"></i></a>
               </td>
-              <td class="px-4 py-3">
-                 <button 
-                    onclick="approveLabel(${CompleteArray[i].id})"
-                    class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
-                    aria-Complete="Edit">
-                  <i class="fa fa-check-circle" style="font-size:36px"></i>
-                  </button>
-              </td>
-              <td class="px-4 py-3">
-                <div class="flex items-center space-x-4 text-sm" style="display:flex;justify-content: center">
-                  <button 
-                    onclick="rejectLabel(${i})"
-                    class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
-                    aria-Complete="Edit">
-                    <i class="fa fa-times-circle" style="font-size:36px"></i>
-                  </button>
-                </div>
-              </td>
-            </tr>`
+                <td class="px-4 py-3">
+                    <span style ="cursor:pointer;"  onclick = "approveLabel(${CompleteArray[i].id})"
+                     class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
+                     Approve
+                   </span>
+                  </td>
+                  <td class="px-4 py-3">
+                     <span  style ="cursor:pointer;"
+                      onclick = "rejectLabel(${CompleteArray[i].id})"
+                      class="px-2 py-1 font-semibold leading-tight text-orange-700 bg-orange-100 rounded-full dark:text-white dark:bg-orange-600">
+                      Reject
+                    </span>
+                  </td>
+                </tr>`
    }
   }
   function  getAllPendingsLabels(){
@@ -326,7 +287,6 @@ main li {
       if (data.labels) {
         CompleteArray = data.labels;
         updateTableData()
-        console.log("response data", CompleteArray)
       }
     }).catch((error) => {
       console.error(error)
@@ -353,7 +313,6 @@ main li {
       if (data.labels) {
         CompleteArray = data.labels;
         updateTableData()
-        console.log("response data", CompleteArray)
       }
     }).catch((error) => {
       console.error(error)
@@ -371,7 +330,6 @@ main li {
   text-decoration: none;`
   }
   function rejectLabel(id) {
-    console.log("function not activated")
   }
   function approveLabel(labelID){
          fetch(`/approve-label/${labelID}`).then(response => {

@@ -320,21 +320,18 @@
       if (data.artist) {
         artistArray = data.artist;
         updateTableData()
-        console.log("response data", artistArray)
       }
     }).catch((error) => {
       console.error(error)
     });
   }
   const deleteArtist = async(idx)=>{
-    console.log("deleting Artist :",artistArray[idx].name)
     fetch(`/artist-manage/${artistArray[idx].id}`, {
     method: 'DELETE'
     })
     .then(response => response.json())
     .then(data => {
       updateTableData()
-      console.log("after delete",data);
     }).catch(error => console.error(error));
     artistArray.splice(idx, 1);
     updateTableData()
@@ -355,22 +352,17 @@
       formData.append("facebookUrl",facebookUrl);
       formData.append("spotifyId",spotifyId);
       formData.append("appleId",appleId);
-      formData.forEach((value, key) => {
-        console.log(`${key}: ${value}`);
-      });
       await fetch('/artist-manage/update', {
       method: 'POST',
       body: formData
       }).then(response => response.json()).then(data => {
         updateTableData()
-        console.log("artist updated successfully")
       }).catch((error) => {
         console.error(error)
       });
   }
   
   function updateArtistData(idx){
-    console.log("updatingArtist :",artistArray[idx])
     document.getElementById("insta").value = artistArray[idx].instagramId
     document.getElementById("facebook").value = artistArray[idx].facebookUrl
     document.getElementById("spotify").value = artistArray[idx].spotifyId

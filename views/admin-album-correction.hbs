@@ -351,14 +351,12 @@ const getSongsWithAlbumID =async(albumID)=>{
     }).then(async (data) => {
       if (data.songs) {
         songsArray = data.songs;
-        console.log("response data", songsArray)
       }
     }).catch((error) => {
       console.error(error)
     });
 }
 async function preview(albumDataSaved) {
-  console.log(albumDataSaved)
     document.getElementById('previewData').innerHTML = ` 
             <div class="container">
               <div class="item">
@@ -387,7 +385,7 @@ async function preview(albumDataSaved) {
                 </div>
                 <div class="selectionInput">
                 <label for="pet-select" style="margin-right: 23px;">SubGenre </label>
-                <input value = ${albumDataSaved.subgenre} disabled name="subgenre" id="pet-select">
+                <input value = ${albumDataSaved.subGenre} disabled name="subgenre" id="pet-select">
                 </input>
                 </div>
                 <div class="selectionInput">
@@ -410,13 +408,13 @@ async function preview(albumDataSaved) {
               </div>
               <div class="item ">
                 <label>Producer Catalogue Number </label>
-                <input value = ${albumDataSaved.producer} readonly autocomplete="on" placeholder="Producer Catalogue Number" type="" name="producer_catalogue_number"
+                <input value = ${albumDataSaved.producerCatalogueNumber} readonly autocomplete="on" placeholder="Producer Catalogue Number" type="" name="producer_catalogue_number"
                   oninput="this.className = ''">
                 <label>Phisical/Original release date </label><input value = ${albumDataSaved.originalReleaseDate} readonly id ="datepicker"
                   placeholder="Version/Subtitle" type="date" name="physical_release_date" oninput="this.className = ''">
-                <label>Line1 </label><input value = "${albumDataSaved.copyright}" readonly autocomplete="on" placeholder="Line" type="" name="line1"
+                <label>Line1 </label><input value = "${albumDataSaved.publisherCopyright}" readonly autocomplete="on" placeholder="Line" type="" name="line1"
                   oninput="this.className = ''">
-                <label>Line2 </label><input value = ${albumDataSaved.copyright2} readonly  autocomplete="on" placeholder="Line" type="" name="line2"
+                <label>Line2 </label><input value = ${albumDataSaved.copyright} readonly  autocomplete="on" placeholder="Line" type="" name="line2"
                   oninput="this.className = ''">
                 <label>UPC/EAN </label><input value = "fill by admin" readonly autocomplete="on" placeholder="UPC/EAN" type="" name="upc"
                   oninput="this.className = ''">
@@ -566,7 +564,6 @@ function showpreview(index){
       if (data.albums) {
         CompleteArray = data.albums;
         updateTableData()
-        console.log("response data", CompleteArray)
       }
     }).catch((error) => {
       console.error(error)
@@ -593,7 +590,6 @@ function showpreview(index){
       if (data.albums) {
         CompleteArray = data.albums;
         updateTableData()
-        console.log("response data", CompleteArray)
       }
     }).catch((error) => {
       console.error(error)
@@ -639,7 +635,6 @@ function showpreview(index){
     }).then((data) => {
       if (data.stores) {
         stores = data.stores;
-        console.log(stores)
         document.getElementById("storesIcon").innerHTML =``
         for(let i = 0;i<albumData.stores.length;i++){
         document.getElementById("storesIcon").innerHTML += `
