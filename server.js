@@ -725,6 +725,12 @@ app.get('/profile', function (req, res) {
     res.render(path.join(__dirname, "/views/profile.hbs"))
 });
 app.get('/login', function (req, res) {
+    if (req.session.user) {
+        res.redirect("/logout");
+    }
+    else if (req.session.admin) {
+        res.redirect("/logout");
+    }
     res.render(path.join(__dirname, "/views/login.hbs"))
 });
 app.get('/register', function (req, res) {
@@ -802,6 +808,9 @@ app.post('/login', (req, res, next) => {
         if (req.session.user) {
             res.redirect("/logout");
         }
+        else if (req.session.admin) {
+            res.redirect("/logout");
+        }
         api.login(req.body).then((userData) => {
             req.session.user = {
                 userID: userData._id,
@@ -822,6 +831,12 @@ app.get('/logout', function (req, res) {
 });
 // Admin Area Start
 app.get("/admin-login", async function (req, res) {
+    if (req.session.user) {
+        res.redirect("/logout");
+    }
+    else if (req.session.admin) {
+        res.redirect("/logout");
+    }
     res.render(path.join(__dirname, "/views/adminLogin.hbs"))
 });
 app.get("/admin-album-correction",ensureAdmin, async function (req, res) {
