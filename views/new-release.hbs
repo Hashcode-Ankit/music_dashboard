@@ -1602,7 +1602,7 @@ function selects() {
 let today = new Date();
 // Add 3 days to today's date
 var disableUntil = new Date();
-disableUntil.setDate(today.getDate() + 3);
+disableUntil.setDate(today.getDate() + 4);
 // Set the min attribute of the datepicker to the date 3 days from now
 document.getElementById("datepicker").min = disableUntil.toISOString().slice(0,10);
 function loader() {
