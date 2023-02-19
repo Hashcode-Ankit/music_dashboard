@@ -2,151 +2,182 @@
     {
         "id": "1",
         "name": "facebook",
-        "img": "../stores/facebook.png"
+        "img": "../stores/facebook.png",
+        "catagory" :"music"
     },
     {
         "id": "2",
-        "name": "instagram",
-        "img": "../stores/instagram.png"
+        "name":"instagram",
+        "img": "../stores/instagram.png",
+        "catagory" :"music"
     },
     {
         "id": "3",
-        "name": "jio-savan",
-        "img": "../stores/jio-savan.png"
+        "name":"jio-savan",
+        "img": "../stores/jio-savan.png",
+        "catagory" :"music"
     },
     {
         "id": "4",
-        "name": "spotify",
-        "img": "../stores/spotify.png"
+        "name":"spotify",
+        "img": "../stores/spotify.png",
+        "catagory" :"music"
     },
     {
         "id": "5",
         "name": "amazone-music",
-        "img": "../stores/amazon-music.png"
+        "img": "../stores/amazon-music.png",
+        "catagory" :"music"
     },
     {
         "id": "6",
         "name": "wynk",
-        "img": "../stores/wynk-music.png"
+        "img": "../stores/wynk-music.png",
+        "catagory" :"music"
     },
     {
         "id": "6",
         "name": "hungama",
-        "img": "../stores/hungama.png"
+        "img": "../stores/hungama.png",
+        "catagory" :"music"
     },
     {
         "id": "7",
         "name": "youtube-music",
-        "img": "../stores/youtube-music.png"
+        "img": "../stores/youtube-music.png",
+        "catagory" :"music"
     },
     {
         "id": "8",
         "name": "youtube-content",
-        "img": "../stores/youtube-content.png"
+        "img": "../stores/youtube-content.png",
+        "catagory" :"music"
     },
     {
         "id": "9",
         "name": "resso",
-        "img": "../stores/resso.png"
+        "img": "../stores/resso.png",
+        "catagory" :"music"
     },
     {
         "id": "10",
         "name": "triller",
-        "img": "../stores/triller.png"
+        "img": "../stores/triller.png",
+        "catagory" :"music"
     },
     {
-        "id": "snapchat",
-        "name": "spotify",
-        "img": "../stores/snapchat.png"
+        "id": "11",
+        "name": "snapchat",
+        "img": "../stores/snapchat.png",
+        "catagory" :"music"
     },
     {
         "id": "12",
         "name": "i-tunes",
-        "img": "../stores/i-tune.png"
+        "img": "../stores/i-tune.png",
+        "catagory" :"music"
     },
     {
         "id": "13",
         "name": "soundcloud",
-        "img": "../stores/soundcloud.png"
+        "img": "../stores/soundcloud.png",
+        "catagory" :"music"
     },
     {
         "id": "14",
         "name": "tiktok",
-        "img": "../stores/tiktok.png"
+        "img": "../stores/tiktok.png",
+        "catagory" :"music"
     },
     {
         "id": "15",
         "name": "boomplay",
-        "img": "../stores/boomplay.png"
+        "img": "../stores/boomplay.png",
+        "catagory" :"music"
     },
     {
         "id": "16",
         "name": "jaxsta",
-        "img": "../stores/jaxsta.png"
+        "img": "../stores/jaxsta.png",
+        "catagory" :"music"
     },
     {
         "id": "17",
         "name": "pandora",
-        "img": "../stores/pandora.png"
+        "img": "../stores/pandora.png",
+        "catagory" :"music"
     },
     {
         "id": "18",
         "name": "tridal",
-        "img": "../stores/tridal.png"
+        "img": "../stores/tridal.png",
+        "catagory" :"music"
     },
     {
         "id": "19",
         "name": "deezer",
-        "img": "../stores/deezer.png"
+        "img": "../stores/deezer.png",
+        "catagory" :"music"
     },
     {
         "id": "20",
         "name": "i-heart",
-        "img": "../stores/i-heart.png"
+        "img": "../stores/i-heart.png",
+        "catagory" :"music"
     },
     {
         "id": "21",
         "name": "mixcloud",
-        "img": "../stores/mixcloud.png"
+        "img": "../stores/mixcloud.png",
+        "catagory" :"music"
     },
     {
         "id": "23",
         "name": "netease",
-        "img": "../stores/netease.png"
+        "img": "../stores/netease.png",
+        "catagory" :"music"
     },
     {
         "id": "24",
         "name": "musixmatch",
-        "img": "../stores/musixmatch.png"
+        "img": "../stores/musixmatch.png",
+         "catagory" :"music"
     },
     {
         "id": "25",
         "name": "acr-cloud",
-        "img": "../stores/acr-cloud.png"
+        "img": "../stores/acr-cloud.png",
+        "catagory" :"music"
     },
     {
         "id": "26",
         "name": "kk-box",
-        "img": "../stores/kk-box.png"
+        "img": "../stores/kk-box.png",
+        "catagory" :"music"
     },
     {
         "id": "27",
         "name": "napster",
-        "img": "../stores/napster.png"
+        "img": "../stores/napster.png",
+        "catagory" :"music"
     },
     {
         "id": "28",
         "name": "7-digital",
-        "img": "../stores/7-digital.png"
+        "img": "../stores/7-digital.png",
+        "catagory" :"music"
     },
     {
         "id": "29",
         "name": "touch-tunes",
-        "img": "../stores/touch-tunes.png"
+        "img": "../stores/touch-tunes.png",
+        "catagory" :"music"
     },
     {
         "id": "30",
         "name": "anghami",
-        "img": "../stores/anghamai.png"
+        "img": "../stores/anghamai.png",
+        "catagory" :"music"
     }
+
 ]

@@ -524,10 +524,10 @@ main .loader {
               </div>
               <div class="item">
                 <label for="">Name</label>
-                <input required autocomplete="on" placeholder="ABC Track" type="" name="title" oninput="this.className = ''">
+                <input required autocomplete="on" placeholder="Song Name" type="" name="title" oninput="this.className = ''">
                 <label>Version/Subtitle </label><input required autocomplete="on" placeholder="Version/Subtitle" type="version_subtitle"
                   name="version" oninput="this.className = ''">
-                <label>Primary Artist </label><input  required autocomplete="on" placeholder="" type="" name="primary_artist"
+                <label>Primary Artist </label><input  required autocomplete="on" placeholder="Artist Name" type="" name="primary_artist"
                   oninput="this.className = ''">
                 <p>
               </div>
@@ -574,13 +574,13 @@ main .loader {
               </div>
               <div class="item ">
                 <label>Producer Catalogue Number </label>
-                <input  autocomplete="on" placeholder="Producer Catalogue Number" type="" name="producer_catalogue_number"
+                <input  autocomplete="on" placeholder="FM00" type="" name="producer_catalogue_number"
                   oninput="this.className = ''">
                 <label>Phisical/Original release date </label><input id ="datepicker"
                   placeholder="Version/Subtitle" type="date" name="physical_release_date" oninput="this.className = ''">
-                <label>Line1&#8471;</label><input  autocomplete="on" placeholder="Line" type="" name="line1"
+                <label>Line1&#8471;</label><input  autocomplete="on" placeholder="Publisher" type="" name="line1"
                   oninput="this.className = ''">
-                <label>Line2&#169; </label><input  autocomplete="on" placeholder="Line" type="" name="line2"
+                <label>Line2&#169; </label><input  autocomplete="on" placeholder="Copyright" type="" name="line2"
                   oninput="this.className = ''">
                 <label>UPC/EAN </label><input  autocomplete="on" placeholder="UPC/EAN" type="" name="upc"
                   oninput="this.className = ''" readonly>
@@ -799,7 +799,7 @@ main .loader {
   <div x-show="isModalOpen" x-transition:enter="transition ease-out duration-150"
     x-transition:enter-start="opacity-0 transform translate-y-1/2" x-transition:enter-end="opacity-100"
     x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100"
-    x-transition:leave-end="opacity-0  transform translate-y-1/2" @click.away="closeModal" @keydown.escape="closeModal"
+    x-transition:leave-end="opacity-0  transform translate-y-1/2"  @keydown.escape="closeModal"
     class="w-full px-6 py-4 overflow-hidden bg-white rounded-t-lg dark:bg-gray-800 sm:rounded-lg sm:m-4 sm:max-w-xl"
     role="dialog" id="modal">
     <!-- Remove header if you don't want a close icon. Use modal body to place modal tile. -->
@@ -823,6 +823,13 @@ main .loader {
       <!-- Modal description -->
       <div class="container2">
         <div class="card">
+          <label class="block text-sm">
+            <span class="text-gray-700 dark:text-gray-400 my-6"> Singer </span>
+            <input  autocomplete="on" name="isrc"
+             id ="songISRC"
+              class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+              placeholder="fill by admin" required />
+          </label>
           <label class="block text-sm">
             <span class="text-gray-700 dark:text-gray-400 my-6">Writer</span>
             <input  autocomplete="on" name="writer"
@@ -852,18 +859,11 @@ main .loader {
               placeholder="Musical Doctor" required />
           </label>
           <label class="block text-sm">
-            <span class="text-gray-700 dark:text-gray-400 my-6"> ISRC </span>
-            <input  autocomplete="on" name="isrc"
-             id ="songISRC"
-              class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-              placeholder="fill by admin" readonly />
-          </label>
-          <label class="block text-sm">
             <span class="text-gray-700 dark:text-gray-400 my-6"> Parental Advisory </span>
             <input  autocomplete="on" name="parent"
              id ="songParent"
               class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-              placeholder="T-Series" required />
+              placeholder="Yes/No" required />
           </label>
           <label class="block text-sm">
             <span class="text-gray-700 dark:text-gray-400 my-6"> Track Language </span>
@@ -1217,7 +1217,7 @@ function updateSongData(idx){
       }
       let text = `<p class ="err">Missing Fields :`
       for (const key in albumData) {
-        if(key == "subGenre" || key == "actor") continue
+        if(key == "subGenre" || key == "actor" || key == "subTitle") continue
         if (albumData[key] == "" || albumData[key] == undefined) {
           text = text + `${key}, `
           missingData = true
@@ -1367,8 +1367,8 @@ function updateSongData(idx){
               <div class="item">
                 <label for="">Name</label>
                 <input value = ${albumDataSaved.title}  readonly autocomplete="on" placeholder="ABC Track" type="" name="title" oninput="this.className = ''">
-                <label>Version/Subtitle </label><input value = ${albumDataSaved.subTitle} readonly autocomplete="on" placeholder="Version/Subtitle" type="version_subtitle"
-                  name="version" oninput="this.className = ''">
+                <label>Version/Subtitle </label><input  autocomplete="on" placeholder="Version/Subtitle" type="version_subtitle"
+                  name="version" readonly oninput="this.className = ''" value = ${albumDataSaved.subTitle} >
                 <label>Primary Artist </label><input value = ${albumDataSaved.primaryArtist} readonly  autocomplete="on" placeholder="" type="" name="primary_artist"
                   oninput="this.className = ''">
                 <p>
@@ -1383,7 +1383,7 @@ function updateSongData(idx){
                 </div>
                 <div class="selectionInput">
                 <label  style="margin-right: 23px;">SubGenre </label>
-                <input value = ${albumDataSaved.subGenre} disabled name="subgenre" >
+                <input  disabled name="subgenre" value = ${albumDataSaved.subGenre}>
                 </input>
                 </div>
                 <div class="selectionInput">
@@ -1401,8 +1401,8 @@ function updateSongData(idx){
                 <input value = ${albumDataSaved.productionYear} disabled name="production_year" >
                 </input> 
                 </div>
-                 <label>Actor </label><input  value = ${albumDataSaved.actor} readonly autocomplete="on" style="margin-bottom: 29px;" placeholder="Featuring" type="" name="actor"
-                  oninput="this.className = ''">
+                 <label>Actor </label><input    autocomplete="on" style="margin-bottom: 29px;" placeholder="Featuring" type="" name="actor"
+                  readonly oninput="this.className = ''" value = ${albumDataSaved.actor}>
               </div>
               <div class="item ">
                 <label>Producer Catalogue Number </label>

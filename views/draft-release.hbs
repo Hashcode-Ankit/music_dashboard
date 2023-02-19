@@ -726,6 +726,8 @@
                             Select Companies To Store
                         </h4>
                         <!-- Step 4 input fields -->
+                        <input  autocomplete="on" type="button" onclick='selects()' style="width: 110px;background:#7e3af2;color:white;"
+                         value="Select All" />
                         <div class="grid-container" id="storesIcon">
 
                         </div>
@@ -1731,8 +1733,8 @@ const getAllDrafts=async(draftId)=>{
               <div class="item">
                 <label for="">Name</label>
                 <input value = ${albumDataSaved.title}  readonly autocomplete="on" placeholder="ABC Track" type="" name="title" oninput="this.className = ''">
-                <label>Version/Subtitle </label><input value = ${albumDataSaved.subTitle} readonly autocomplete="on" placeholder="Version/Subtitle" type="version_subtitle"
-                  name="version" oninput="this.className = ''">
+                <label>Version/Subtitle </label><input  readonly autocomplete="on" placeholder="Version/Subtitle" type="version_subtitle"
+                  name="version" oninput="this.className = ''" value = ${albumDataSaved.subTitle}>
                 <label>Primary Artist </label><input value = ${albumDataSaved.primaryArtist} readonly  autocomplete="on" placeholder="" type="" name="primary_artist"
                   oninput="this.className = ''">
                 <p>
@@ -1747,7 +1749,7 @@ const getAllDrafts=async(draftId)=>{
                 </div>
                 <div class="selectionInput">
                 <label for="pet-select" style="margin-right: 23px;">SubGenre </label>
-                <input value = ${albumDataSaved.subGenre} disabled name="subgenre" id="pet-select">
+                <input  disabled name="subgenre" id="pet-select" value = ${albumDataSaved.subGenre}>
                 </input>
                 </div>
                 <div class="selectionInput">
@@ -1765,8 +1767,8 @@ const getAllDrafts=async(draftId)=>{
                 <input value = ${albumDataSaved.productionYear} disabled name="production_year" id="pet-select">
                 </input> 
                 </div>
-                 <label>Actor </label><input  value = ${albumDataSaved.actor} readonly autocomplete="on" style="margin-bottom: 29px;" placeholder="Featuring" type="" name="actor"
-                  oninput="this.className = ''">
+                 <label>Actor </label><input   readonly autocomplete="on" style="margin-bottom: 29px;" placeholder="Featuring" type="" name="actor"
+                  oninput="this.className = ''" value = ${albumDataSaved.actor}>
               </div>
               <div class="item ">
                 <label>Producer Catalogue Number </label>
@@ -1941,5 +1943,12 @@ function loader() {
     x.style.display = "none";
   }
 }
+function selects() {
+      for (var i = 0; i < stores.length; i++) {
+       var ele = document.getElementById(`store-${i}`);
+        if (ele.type == 'checkbox')
+          ele.checked = true;
+      }
+    }
 loader();
 </script>

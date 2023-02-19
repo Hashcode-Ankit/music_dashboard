@@ -310,11 +310,16 @@ main li {
                           <thead>
                             <tr class="header text-xs font-semibold tracking-wide text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                               <th class="px-4 py-3">Id</th>
+                              <th class="px-4 py-3">Singer</th>
                               <th class="px-4 py-3">Writer</th>
+                              <th class="px-4 py-3">Composer</th>
+                              <th class="px-4 py-3">Music Director</th>
+                              <th class="px-4 py-3">Producer</th>
+                              <th class="px-4 py-3">Parental Advisory</th>
                               <th class="px-4 py-3">Language</th>
+                              <th class="px-4 py-3">TikTok Preview</th>
                               <th class="px-4 py-3">File Name</th>
                               <th class="px-4 py-3">Play</th>
-                              
                             </tr>
                           </thead>
                           <tbody id="previewTableRows" class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
@@ -363,14 +368,14 @@ async function preview(albumDataSaved) {
                 <p style="width: 195px;">
                    Album Thumbnail:
                 </p>
-            <img style="border:solid;width:140;height:140px;margin-top:8px;" src='.${albumDataSaved.imageUrl}' id="imagefile">
-
+            <img style="border:solid;width:140;height:140px;margin-top:8px;" src='.${albumDataSaved.imageUrl}' id="imagefile" >
+              <a href ="${albumDataSaved.imageUrl}" download>download</a>
               </div>
               <div class="item">
                 <label for="">Name</label>
                 <input value = ${albumDataSaved.title}  readonly autocomplete="on" placeholder="ABC Track" type="" name="title" oninput="this.className = ''">
-                <label>Version/Subtitle </label><input value = ${albumDataSaved.subTitle} readonly autocomplete="on" placeholder="Version/Subtitle" type="version_subtitle"
-                  name="version" oninput="this.className = ''">
+                <label>Version/Subtitle </label><input value =  readonly autocomplete="on" placeholder="Version/Subtitle" type="version_subtitle"
+                  name="version" oninput="this.className = ''" ${albumDataSaved.subTitle}>
                 <label>Primary Artist </label><input value = ${albumDataSaved.primaryArtist} readonly  autocomplete="on" placeholder="" type="" name="primary_artist"
                   oninput="this.className = ''">
                 <p>
@@ -385,7 +390,7 @@ async function preview(albumDataSaved) {
                 </div>
                 <div class="selectionInput">
                 <label for="pet-select" style="margin-right: 23px;">SubGenre </label>
-                <input value = ${albumDataSaved.subGenre} disabled name="subgenre" id="pet-select">
+                <input  disabled name="subgenre" id="pet-select" value = ${albumDataSaved.subGenre}>
                 </input>
                 </div>
                 <div class="selectionInput">
@@ -403,8 +408,8 @@ async function preview(albumDataSaved) {
                 <input value = ${albumDataSaved.productionYear} disabled name="production_year" id="pet-select">
                 </input> 
                 </div>
-                 <label>Actor </label><input  value = ${albumDataSaved.actor} readonly autocomplete="on" style="margin-bottom: 29px;" placeholder="Featuring" type="" name="actor"
-                  oninput="this.className = ''">
+                 <label>Actor </label><input  readonly autocomplete="on" style="margin-bottom: 29px;" placeholder="Featuring" type="" name="actor"
+                  oninput="this.className = ''"  value = ${albumDataSaved.actor}>
               </div>
               <div class="item ">
                 <label>Producer Catalogue Number </label>
@@ -433,10 +438,28 @@ async function preview(albumDataSaved) {
                        ${i + 1}
                   </td>
                    <td class="px-4 py-3 text-sm">
-                    ${songsArray[i].writer}
+                    ${songsArray[i].isrc}
                   </td>
                    <td class="px-4 py-3 text-sm">
+                     ${songsArray[i].writer}
+                   </td>
+                   <td class="px-4 py-3 text-sm">
+                     ${songsArray[i].composer}
+                   </td>
+                   <td class="px-4 py-3 text-sm">
+                     ${songsArray[i].director}
+                   </td>
+                   <td class="px-4 py-3 text-sm">
+                     ${songsArray[i].producer}
+                   </td>
+                   <td class="px-4 py-3 text-sm">
+                     ${songsArray[i].parent}
+                   </td>
+                    <td class="px-4 py-3 text-sm">
                      ${songsArray[i].language}
+                   </td>
+                    <td class="px-4 py-3 text-sm">
+                     ${songsArray[i].tiktok}
                    </td>
                   <td class="px-4 py-3 text-sm">
                     ${songName.slice(0,30)}...
@@ -445,9 +468,9 @@ async function preview(albumDataSaved) {
 
                   <div style="display:flex;justify-content:center;align-items:center;">
                     <audio controls>
-  <source src=".${songsArray[i].filePath}" type="audio/mpeg">
-  
-</audio>
+                      <source src=".${songsArray[i].filePath}" type="audio/mpeg">
+                      
+                    </audio>
 
                   </div>
                     

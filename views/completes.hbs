@@ -19,7 +19,31 @@
       justify-content: center;
       background-color: #fcfcfc;
     }
+    #storesIcon.grid-container {
+  display: grid;
+  column-gap: 10px;
+  row-gap: 10px;
+  grid-template-columns: auto auto auto auto auto auto auto;
+  padding: 10px;
+}
 
+    #storesIcon.grid-container .grid-item {
+      background-color: rgba(255, 255, 255, 0.8);
+      padding: 20px;
+      font-size: 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .store-image{
+    width: 50px;
+    height: 50px;
+    }
+    .store-input{
+      height :15px;
+      margin-left: 10px;
+    }
     .card {
       border-radius: 10px;
       box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.3);
@@ -275,8 +299,13 @@ main label {
                       </div>
         
                   </div>
+                  <h4 class="text-lg font-semibold text-gray-600 dark:text-gray-300"
+                            style="font-size: 20px;text-align:center;margin-top: 21px;">
+                             Stores
+                        </h4>
+                  <div class="grid-container" id ="storesIcon"></div>
                   <div class="mt-3" style="display: flex; justify-content:center;">
-            <button
+               <button
                onclick="showpreview(null)"
                class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
                 Back
@@ -311,7 +340,7 @@ async function preview(albumDataSaved) {
                 <p style="width: 195px;">
                    Album Thumbnail:
                 </p>
-            <img style="border:solid;width:140;height:140px;margin-top:8px;" src='.${albumDataSaved.imageUrl}' id="imagefile">
+              <img style="border:solid;width:140;height:140px;margin-top:8px;" src='.${albumDataSaved.imageUrl}' id="imagefile">
 
               </div>
               <div class="item">
@@ -388,7 +417,8 @@ async function preview(albumDataSaved) {
                    </td>
                   <td class="px-4 py-3 text-sm">
                     ${songName}
-                   </td>`
+                   </td>`   
+       getAllStores(albumDataSaved)      
        }
 
   }
@@ -501,7 +531,27 @@ function showpreview(index){
     }
   }
   getAllCompletes()
- 
+  var getAllStores=async(albumData)=>{
+  await fetch('/albumStores').then(response => {
+      if (response.ok) {
+        return response.json()
+      }
+    }).then((data) => {
+      if (data.stores) {
+        stores = data.stores;
+        document.getElementById("storesIcon").innerHTML =``
+        for(let i = 0;i<albumData.stores.length;i++){
+        document.getElementById("storesIcon").innerHTML += `
+                        <div class="grid-item"> <img class ="store-image"
+                          src="${stores[albumData.stores[i]-1].img}"
+                          alt="${stores[albumData.stores[i]-1].name}">
+                      </div>`
+        }
+      }
+    }).catch((error) => {
+      console.error(error)
+  });
+}
 </script>
 <script src="https://www.dukelearntoprogram.com/course1/common/js/image/SimpleImage.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">

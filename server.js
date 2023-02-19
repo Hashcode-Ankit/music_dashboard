@@ -99,6 +99,20 @@ const userProfilePicture = multer.diskStorage({
         cb(null, file.originalname);
     },
 });
+const ticketImageStorage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        // Choose the destination based on data in the request
+        const destination = `./assets/uploads/${req.session.user.email}/tickets/`;
+        if (!fs.existsSync(destination)) {
+            fs.mkdirSync(destination, { recursive: true, mode: 0o777 });
+        }
+        cb(null, destination);
+    },
+    filename: (req, file, cb) => {
+        // You can also set the filename here
+        cb(null, file.originalname);
+    },
+});
 const dummyDataStore = multer.diskStorage({
     destination: (req, file, cb) => {
         // Choose the destination based on data in the request
@@ -220,7 +234,6 @@ app.get("/approve-album/:id", async function (req, res) {
         console.log(err)
         res.status(503).json({ error: err });
     }
-
 });
 app.get("/approve-label/:id", async function (req, res) {
     try {
@@ -311,6 +324,9 @@ app.get("/drafts", ensureLogin, async function (req, res) {
 //Completes Page
 app.get("/completes", ensureLogin, async function (req, res) {
     res.render(path.join(__dirname, "/views/completes.hbs"))
+});
+app.get("/ticket", ensureLogin, async function (req, res) {
+    res.render(path.join(__dirname, "/views/ticket.hbs"))
 });
 app.get("/genre", ensureLogin, async function (req, res) {
     try {
@@ -420,6 +436,7 @@ app.get("/albumStores", async function (req, res) {
         res.status(503).json({ error: err });
     }
 });
+
 app.post("/album-manage/addAlbum", ensureLogin, multer({ storage: albumImageStorage }).single('albumImage'), async function (req, res) {
     try {
         req.body.imageUrl = `./uploads/${req.session.user.email}/albums/${req.body.title}/${req.file.originalname}`
@@ -429,6 +446,76 @@ app.post("/album-manage/addAlbum", ensureLogin, multer({ storage: albumImageStor
         }).catch((err) => {
             console.log("Error saving album data", err)
             res.status(503).json({ error: err });
+        })
+    } catch (err) {
+        console.log(err)
+        res.status(503).json({ error: err });
+    }
+});
+app.get("/tickets", ensureAdmin, async function (req, res) {
+    try {
+        api.getTicketsForAdmin().then((tickets) => {
+            res.status(200).json({ tickets: tickets });
+        }).catch((err) => {
+            console.log(err)
+            res.status(503).json({ error: err });
+        })
+    } catch (err) {
+        console.log(err)
+        res.status(503).json({ error: err });
+    }
+});
+app.get("/ticket-manage/tickets", ensureLogin, async function (req, res) {
+    try {
+        api.getTicketForUser(req.session.user.userID).then((tickets) => {
+            res.status(200).json({ tickets: tickets });
+        }).catch((err) => {
+            console.log(err)
+            res.status(503).json({ error: err });
+        })
+    } catch (err) {
+        console.log(err)
+        res.status(503).json({ error: err });
+    }
+});
+app.post("/ticket-manage", ensureLogin, multer({ storage: ticketImageStorage }).single('file'), async function (req, res) {
+    try {
+        if(req.file)
+         req.body.fileURL =`./uploads/${req.session.user.email}/tickets/${req.file.originalname}`
+        req.body.userID = req.session.user.userID
+        api.addTicket(req.body).then((ticket) => {
+            res.status(200).json({ ticket: ticket });
+        }).catch((err) => {
+            console.log("Error saving album data", err)
+            res.status(503).json({ error: err });
+        })
+    } catch (err) {
+        console.log(err)
+        res.status(503).json({ error: err });
+    }
+});
+app.delete("/ticket-manage/:id", ensureLogin, async function (req, res) {
+    try {
+        const id = req.params.id;
+        api.deleteTicket(id).then(() => {
+            res.status(200).json({ message: "delete success" });
+        }).catch((err) => {
+            console.log(err)
+            res.status(503).json({ error: "delete failed" })
+        })
+    } catch (err) {
+        console.log(err)
+        res.status(503).json({ error: err });
+    }
+});
+app.post("/ticket-manage/update/:id", ensureAdmin, multer({ storage: albumImageStorage }).single('albumImage'), async function (req, res) {
+    try {
+        const id = req.params.id;
+        api.updateTicketStatus(id).then(() => {
+            res.status(200).json({ message: "update success" });
+        }).catch((err) => {
+            console.log(err)
+            res.status(503).json({ error: "update failed" })
         })
     } catch (err) {
         console.log(err)
@@ -847,6 +934,9 @@ app.get("/admin-label-correction",ensureAdmin, async function (req, res) {
 });
 app.get("/admin-artist-manage", ensureAdmin, async function (req, res) {
     res.render(path.join(__dirname, "/views/admin-artist-data.hbs"))
+});
+app.get("/admin-ticket", ensureAdmin, async function (req, res) {
+    res.render(path.join(__dirname, "/views/admin-ticket.hbs"))
 });
 app.get("/admin-user-manage",ensureAdmin, async function (req, res) {
     res.render(path.join(__dirname, "/views/admin-user-data.hbs"))

@@ -233,6 +233,22 @@ function updateArtist(artist) {
 function deleteArtist(id) {
     return db.deleteArtist(id)
 }
+function addTicket(data){
+    data.status = false
+    return db.saveTicket(data)
+}
+function getTicketForUser(userID){
+    return db.getTicketForUser(userID)
+}
+function getTicketsForAdmin(){
+    return db.getAllTickets()
+}
+function deleteTicket(ticketID){
+    return db.deleteTicket(ticketID)
+}
+function updateTicketStatus(ticketID){
+    return db.updateTicketStatus(ticketID)
+}
 
 function saveSongData(songData) {
     var song = {
@@ -400,7 +416,7 @@ function registerUser(userData) {
                 "contact": userData.mobile
             }
             mongo.registerUser(userToStore).then((user) => {
-                createFMDigitalLabel(user._id)
+                // createFMDigitalLabel(user._id)
                 resolve()
             }).catch((err) => {
                 reject(err)
@@ -454,4 +470,4 @@ async function getUserData(userID) {
         resolve(User)
     })
 }
-module.exports = { getGenre, getAllArtistForAdmin,getUsersForAdmin, ApproveAlbum,RejectAlbum,getNews,getAdminPendingLabels,approveLabel,getAdminApprovedLabels, changeAdminCreds, loginAdmin, addYoutubeReq, getPendingAlbumsForAdmin, getApprovedAlbumsForAdmin, getYoutubeReq, addNews, updateUserDetails, getUserDetails, connectWithDB, deleteSong, getUserData, getSubmittedAlbumsForUser, getAlbumWithId, getAllSongsForUser, getSongsForAlbum, initializeDatabase, updateLabel, deleteAlbum, updateToCompletedAlbum, updateStoresArrayInAlbum, getStores, updateSongData, updateSongsArrayInAlbum, getCompletedAlbumsForUser, saveSongData, updateArtist, deleteArtist, getAllAlbumsForUser, getAllSongsForAlbum, getDraftAlbumsForUser, getNonApprovedAlbums, getPrimaryArtistForUserID, registerUser, deleteLabel, albumApproved, removeDraft, login, addLabelForUserWithID, saveArtist, getAllLabelsForUserIDForUser, saveAlbum, connectMongoDB, getAllArtistsWithUserID, addSongForUser, updateAlbum }
+module.exports = { getGenre,addTicket,getTicketForUser,updateTicketStatus, deleteTicket,getTicketsForAdmin, getAllArtistForAdmin,getUsersForAdmin, ApproveAlbum,RejectAlbum,getNews,getAdminPendingLabels,approveLabel,getAdminApprovedLabels, changeAdminCreds, loginAdmin, addYoutubeReq, getPendingAlbumsForAdmin, getApprovedAlbumsForAdmin, getYoutubeReq, addNews, updateUserDetails, getUserDetails, connectWithDB, deleteSong, getUserData, getSubmittedAlbumsForUser, getAlbumWithId, getAllSongsForUser, getSongsForAlbum, initializeDatabase, updateLabel, deleteAlbum, updateToCompletedAlbum, updateStoresArrayInAlbum, getStores, updateSongData, updateSongsArrayInAlbum, getCompletedAlbumsForUser, saveSongData, updateArtist, deleteArtist, getAllAlbumsForUser, getAllSongsForAlbum, getDraftAlbumsForUser, getNonApprovedAlbums, getPrimaryArtistForUserID, registerUser, deleteLabel, albumApproved, removeDraft, login, addLabelForUserWithID, saveArtist, getAllLabelsForUserIDForUser, saveAlbum, connectMongoDB, getAllArtistsWithUserID, addSongForUser, updateAlbum }

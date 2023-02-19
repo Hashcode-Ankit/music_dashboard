@@ -227,21 +227,27 @@ var News = sq.define('News', {
         type: Sequelize.STRING,
     }
 })
-var youtubeReq = sq.define('News', {
+var Ticket = sq.define('Ticket', {
     id: {
         type: Sequelize.INTEGER,
         unique: true,
         autoIncrement: true,
         primaryKey: true,
     },
-    claimURL: {
+    title: {
         type: Sequelize.STRING,
     },
-    contentIDReqUPC: {
+    description: {
+        type: Sequelize.TEXT,
+    },
+    fileURL:{
         type: Sequelize.STRING,
     },
     userID: {
         type: Sequelize.STRING,
+    },
+    status: {
+        type: Sequelize.BOOLEAN,
     }
 })
 function initialize() {
@@ -333,11 +339,32 @@ async function approveAlbum(albumId) {
 async function rejectAlbum(albumId) {
     return Album.update({ approved: false, draft: true }, { where: { id: albumId } })
 }
-function addYoutubeReq(req) {
-    return youtubeReq.create(req)
+function saveTicket(ticket) {
+    return Ticket.create(ticket)
 }
-function getYoutubeReq(req) {
-    return youtubeReq.findAll()
+function getTicketForUser(userID) {
+    return Ticket.findAll(
+        {where: { userID: userID }}
+    )
+}
+function getAllTickets(){
+    return Ticket.findAll({
+        where :{
+            status : false
+        }
+    })
+}
+function deleteTicket(ticketID){
+    return Ticket.destroy({
+        where: { id: ticketID}
+    })
+}
+function updateTicketStatus(ticketID){
+    return Ticket.update({ status: true }, {
+        where: {
+            id: ticketID
+        }
+    })
 }
 function getNews() {
     return News.findAll()
@@ -565,4 +592,4 @@ function getFinalReleasedAlbums(userID) {
         }
     });
 }
-module.exports = { connectDb, getNews,approveLabel,getAllArtistForAdmin, addYoutubeReq,getApprovedLabels,getPendingLabels, getYoutubeReq, addNews, getTotalAlbums, getTotalProcessedAlbums, getFinalReleasedAlbums, initialize, deleteSong, getSubmittedAlbumsForUser, getAllSongForUser, getAllSongsForAlbum, migrateToCompleted, updateSong, updateStoresArrayInAlbum, addAlbum, getDraftAlbumsForUser, getCompletedAlbumsForUser, getPendingAlbumsForAdmin, getApprovedAlbumsForAdmin, addSong, updateSongArrayOfAlbum, getAllAlbums, deleteAlbum, updateAlbum, getAlbum, addLabel, getAllLabelsForUserID, getLabel, updateLabel, deleteLabel, getArtist, addArtist, updateArtist, deleteArtist, getArtistForUser, approveAlbum, rejectAlbum }
+module.exports = { connectDb, getNews,updateTicketStatus,approveLabel,deleteTicket,getAllTickets,getAllArtistForAdmin,getTicketForUser, saveTicket,getApprovedLabels,getPendingLabels, addNews, getTotalAlbums, getTotalProcessedAlbums, getFinalReleasedAlbums, initialize, deleteSong, getSubmittedAlbumsForUser, getAllSongForUser, getAllSongsForAlbum, migrateToCompleted, updateSong, updateStoresArrayInAlbum, addAlbum, getDraftAlbumsForUser, getCompletedAlbumsForUser, getPendingAlbumsForAdmin, getApprovedAlbumsForAdmin, addSong, updateSongArrayOfAlbum, getAllAlbums, deleteAlbum, updateAlbum, getAlbum, addLabel, getAllLabelsForUserID, getLabel, updateLabel, deleteLabel, getArtist, addArtist, updateArtist, deleteArtist, getArtistForUser, approveAlbum, rejectAlbum }
